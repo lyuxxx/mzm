@@ -14,6 +14,8 @@
 #import "ProfileViewController.h"
 #import "LoadingView.h"
 #import "ChapterDirectoryViewController.h"
+#import "UserInfoResponseModel.h"
+#import <UIButton+WebCache.h>
 
 @interface BooksViewController () <UICollectionViewDelegate, UICollectionViewDataSource>
 @property (nonatomic, strong) UIButton *profileBtn;
@@ -24,9 +26,18 @@
 @property (nonatomic, strong) UIButton *enterBtn;
 
 @property (nonatomic, strong) NSMutableArray<Book *> *dataSource;
+
+@property (nonatomic, strong) User *user;
 @end
 
 @implementation BooksViewController
+
+#pragma mark - setter -
+
+- (void)setUser:(User *)user {
+    _user = user;
+    [self.profileBtn sd_setImageWithURL:[NSURL URLWithString:_user.image] forState:UIControlStateNormal];
+}
 
 #pragma mark - life cycle -
 
@@ -35,6 +46,10 @@
     
     [self setupUI];
     [self registerGesture];
+    [self pullUserInfo];
+}
+
+- (void)viewWillAppear:(BOOL)animated {
     [self pullData];
 }
 
@@ -64,6 +79,8 @@
 
 - (void)setupBarButton {
     self.profileBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+    self.profileBtn.layer.cornerRadius = 14;
+    self.profileBtn.layer.masksToBounds = YES;
     self.profileBtn.adjustsImageWhenHighlighted = NO;
     [self.profileBtn setImage:[UIImage imageNamed:@"bookshelf_icon_persal"] forState:UIControlStateNormal];
     [self.profileBtn addTarget:self action:@selector(btnClick:) forControlEvents:UIControlEventTouchUpInside];
@@ -124,7 +141,7 @@
 - (void)btnClick:(UIButton *)sender {
     if (sender == self.profileBtn) {
         ProfileViewController *vc = [[ProfileViewController alloc] init];
-        vc.user = self.loginResponse.model.user;
+        vc.user = self.user;
         
         CWLateralSlideConfiguration *conf = [CWLateralSlideConfiguration defaultConfiguration];
         conf.direction = CWDrawerTransitionFromLeft;
@@ -139,6 +156,25 @@
         ChapterDirectoryViewController *vc = [[ChapterDirectoryViewController alloc] init];
         [self.navigationController pushViewController:vc animated:YES];
     }
+}
+
+- (void)pullUserInfo {
+    AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
+    manager.requestSerializer = [AFJSONRequestSerializer serializer];
+    manager.requestSerializer.timeoutInterval = 30.0;
+    manager.responseSerializer = [AFJSONResponseSerializer serializer];
+    
+    NSDictionary *paras = @{
+                            @"token": [[NSUserDefaults standardUserDefaults] stringForKey:@"token"]
+                            };
+    
+    NSString *url = @"https://www.qingoo.cn/api/user/get";
+    [manager GET:url parameters:paras progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+        UserInfoResponseModel *responseModel = [UserInfoResponseModel yy_modelWithDictionary:responseObject];
+        self.user = responseModel.model.data;
+    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+        
+    }];
 }
 
 - (void)pullData {

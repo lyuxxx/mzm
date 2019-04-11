@@ -134,7 +134,6 @@
                 [[NSUserDefaults standardUserDefaults] synchronize];
                 dispatch_async(dispatch_get_main_queue(), ^{
                     BooksViewController *bookVC = [[BooksViewController alloc] init];
-                    bookVC.loginResponse = loginResponse;
                     NavigationController *navc = [[NavigationController alloc] initWithRootViewController:bookVC];
                     [UIApplication sharedApplication].delegate.window.rootViewController = navc;
                 });

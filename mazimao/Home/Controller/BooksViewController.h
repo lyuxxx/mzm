@@ -12,7 +12,7 @@
 NS_ASSUME_NONNULL_BEGIN
 
 @interface BooksViewController : BaseViewController
-@property (nonatomic, strong) LoginResponseModel *loginResponse;
+
 @end
 
 NS_ASSUME_NONNULL_END

@@ -8,25 +8,6 @@
 
 #import "LoginResponseModel.h"
 
-@implementation FullAddress
-@end
-
-
-@implementation FullBankAddress
-@end
-
-
-@implementation User
-
-+ (NSDictionary<NSString *,id> *)modelCustomPropertyMapper {
-    return @{
-             @"userid": @"id"
-             };
-}
-
-@end
-
-
 @implementation LoginModel
 @end
 

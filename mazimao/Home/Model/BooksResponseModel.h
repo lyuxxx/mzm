@@ -7,7 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "LoginResponseModel.h"
+#import "UserInfoResponseModel.h"
 
 NS_ASSUME_NONNULL_BEGIN
 

@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		32304BFF225F212D00DB602C /* LoadingView.m in Sources */ = {isa = PBXBuildFile; fileRef = 32304BFE225F212D00DB602C /* LoadingView.m */; };
 		32304C02225F26B700DB602C /* ChapterDirectoryViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 32304C01225F26B700DB602C /* ChapterDirectoryViewController.m */; };
+		32304C08225F340300DB602C /* UserInfoResponseModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 32304C07225F340300DB602C /* UserInfoResponseModel.m */; };
 		3283F561225ED39E00D0931F /* UIControl+YYAdd.m in Sources */ = {isa = PBXBuildFile; fileRef = 3283F52C225ED39900D0931F /* UIControl+YYAdd.m */; };
 		3283F562225ED39E00D0931F /* UITableView+YYAdd.m in Sources */ = {isa = PBXBuildFile; fileRef = 3283F52F225ED39900D0931F /* UITableView+YYAdd.m */; };
 		3283F563225ED39E00D0931F /* UIDevice+YYAdd.m in Sources */ = {isa = PBXBuildFile; fileRef = 3283F530225ED39900D0931F /* UIDevice+YYAdd.m */; };
@@ -62,6 +63,8 @@
 		32304BFE225F212D00DB602C /* LoadingView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = LoadingView.m; sourceTree = "<group>"; };
 		32304C00225F26B700DB602C /* ChapterDirectoryViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ChapterDirectoryViewController.h; sourceTree = "<group>"; };
 		32304C01225F26B700DB602C /* ChapterDirectoryViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ChapterDirectoryViewController.m; sourceTree = "<group>"; };
+		32304C06225F340300DB602C /* UserInfoResponseModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = UserInfoResponseModel.h; sourceTree = "<group>"; };
+		32304C07225F340300DB602C /* UserInfoResponseModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = UserInfoResponseModel.m; sourceTree = "<group>"; };
 		3283F527225DFED300D0931F /* PrefixHeader.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PrefixHeader.pch; sourceTree = "<group>"; };
 		3283F52C225ED39900D0931F /* UIControl+YYAdd.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIControl+YYAdd.m"; sourceTree = "<group>"; };
 		3283F52D225ED39900D0931F /* UIDevice+YYAdd.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIDevice+YYAdd.h"; sourceTree = "<group>"; };
@@ -314,6 +317,8 @@
 			children = (
 				3283F589225ED69800D0931F /* BooksResponseModel.h */,
 				3283F58A225ED69800D0931F /* BooksResponseModel.m */,
+				32304C06225F340300DB602C /* UserInfoResponseModel.h */,
+				32304C07225F340300DB602C /* UserInfoResponseModel.m */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -513,6 +518,7 @@
 				3283F579225ED39E00D0931F /* NSTimer+YYAdd.m in Sources */,
 				3283F578225ED39E00D0931F /* NSKeyedUnarchiver+YYAdd.m in Sources */,
 				3283F56D225ED39E00D0931F /* UIFont+YYAdd.m in Sources */,
+				32304C08225F340300DB602C /* UserInfoResponseModel.m in Sources */,
 				3293F8EF225B5361004F5872 /* AppDelegate.m in Sources */,
 				3283F591225EE22F00D0931F /* BooksViewController.m in Sources */,
 				3283F563225ED39E00D0931F /* UIDevice+YYAdd.m in Sources */,

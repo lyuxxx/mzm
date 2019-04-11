@@ -29,6 +29,8 @@
 
 - (void)setupUI {
     [self.view addSubview:self.avatarImgV];
+    self.avatarImgV.layer.cornerRadius = 25;
+    self.avatarImgV.layer.masksToBounds = YES;
     [self.avatarImgV makeConstraints:^(MASConstraintMaker *make) {
         make.width.height.equalTo(50);
         make.top.equalTo(kStatusBarHeight + 44);
@@ -67,7 +69,7 @@
 }
 
 - (void)configContent {
-    self.avatarImgV.image = [UIImage imageNamed:@"bookshelf_icon_persal_big"];
+    [self.avatarImgV sd_setImageWithURL:[NSURL URLWithString:self.user.image] placeholderImage:[UIImage imageNamed:@"bookshelf_icon_persal_big"]];
     self.pennameLabel.text = self.user.penname;
     self.idLabel.text = [NSString stringWithFormat:@"账号: %@",self.user.mobilenumber];
 }
