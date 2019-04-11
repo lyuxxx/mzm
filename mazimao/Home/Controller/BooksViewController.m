@@ -154,6 +154,7 @@
     }
     if (sender == self.enterBtn) {
         ChapterDirectoryViewController *vc = [[ChapterDirectoryViewController alloc] init];
+        vc.book = self.dataSource[self.pageControl.currentPage];
         [self.navigationController pushViewController:vc animated:YES];
     }
 }

@@ -10,6 +10,8 @@
 		32304BFF225F212D00DB602C /* LoadingView.m in Sources */ = {isa = PBXBuildFile; fileRef = 32304BFE225F212D00DB602C /* LoadingView.m */; };
 		32304C02225F26B700DB602C /* ChapterDirectoryViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 32304C01225F26B700DB602C /* ChapterDirectoryViewController.m */; };
 		32304C08225F340300DB602C /* UserInfoResponseModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 32304C07225F340300DB602C /* UserInfoResponseModel.m */; };
+		3279F7B0225F463500518B7B /* ChaptersResponseModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 3279F7AF225F463500518B7B /* ChaptersResponseModel.m */; };
+		3279F7B3225F48F200518B7B /* NullSafe.m in Sources */ = {isa = PBXBuildFile; fileRef = 3279F7B2225F48F200518B7B /* NullSafe.m */; };
 		3283F561225ED39E00D0931F /* UIControl+YYAdd.m in Sources */ = {isa = PBXBuildFile; fileRef = 3283F52C225ED39900D0931F /* UIControl+YYAdd.m */; };
 		3283F562225ED39E00D0931F /* UITableView+YYAdd.m in Sources */ = {isa = PBXBuildFile; fileRef = 3283F52F225ED39900D0931F /* UITableView+YYAdd.m */; };
 		3283F563225ED39E00D0931F /* UIDevice+YYAdd.m in Sources */ = {isa = PBXBuildFile; fileRef = 3283F530225ED39900D0931F /* UIDevice+YYAdd.m */; };
@@ -65,6 +67,9 @@
 		32304C01225F26B700DB602C /* ChapterDirectoryViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ChapterDirectoryViewController.m; sourceTree = "<group>"; };
 		32304C06225F340300DB602C /* UserInfoResponseModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = UserInfoResponseModel.h; sourceTree = "<group>"; };
 		32304C07225F340300DB602C /* UserInfoResponseModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = UserInfoResponseModel.m; sourceTree = "<group>"; };
+		3279F7AE225F463500518B7B /* ChaptersResponseModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ChaptersResponseModel.h; sourceTree = "<group>"; };
+		3279F7AF225F463500518B7B /* ChaptersResponseModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ChaptersResponseModel.m; sourceTree = "<group>"; };
+		3279F7B2225F48F200518B7B /* NullSafe.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NullSafe.m; sourceTree = "<group>"; };
 		3283F527225DFED300D0931F /* PrefixHeader.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PrefixHeader.pch; sourceTree = "<group>"; };
 		3283F52C225ED39900D0931F /* UIControl+YYAdd.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIControl+YYAdd.m"; sourceTree = "<group>"; };
 		3283F52D225ED39900D0931F /* UIDevice+YYAdd.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIDevice+YYAdd.h"; sourceTree = "<group>"; };
@@ -179,6 +184,14 @@
 			path = LoadingView;
 			sourceTree = "<group>";
 		};
+		3279F7B1225F48A700518B7B /* NullSafe */ = {
+			isa = PBXGroup;
+			children = (
+				3279F7B2225F48F200518B7B /* NullSafe.m */,
+			);
+			path = NullSafe;
+			sourceTree = "<group>";
+		};
 		3283F528225DFF0200D0931F /* Login */ = {
 			isa = PBXGroup;
 			children = (
@@ -201,6 +214,7 @@
 		3283F52A225ED30900D0931F /* Libraries */ = {
 			isa = PBXGroup;
 			children = (
+				3279F7B1225F48A700518B7B /* NullSafe */,
 				32304BFC225F210300DB602C /* LoadingView */,
 				3283F57B225ED3F700D0931F /* EllipsePageControl */,
 				3283F52B225ED38E00D0931F /* YYCategoriesSub */,
@@ -319,6 +333,8 @@
 				3283F58A225ED69800D0931F /* BooksResponseModel.m */,
 				32304C06225F340300DB602C /* UserInfoResponseModel.h */,
 				32304C07225F340300DB602C /* UserInfoResponseModel.m */,
+				3279F7AE225F463500518B7B /* ChaptersResponseModel.h */,
+				3279F7AF225F463500518B7B /* ChaptersResponseModel.m */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -508,6 +524,7 @@
 				3283F56A225ED39E00D0931F /* NSData+YYAdd.m in Sources */,
 				3283F568225ED39E00D0931F /* UIView+YYAdd.m in Sources */,
 				3283F576225ED39E00D0931F /* UIBarButtonItem+YYAdd.m in Sources */,
+				3279F7B0225F463500518B7B /* ChaptersResponseModel.m in Sources */,
 				3293F8FD225B5361004F5872 /* main.m in Sources */,
 				3283F56F225ED39E00D0931F /* NSString+YYAdd.m in Sources */,
 				3283F562225ED39E00D0931F /* UITableView+YYAdd.m in Sources */,
@@ -533,6 +550,7 @@
 				32304C02225F26B700DB602C /* ChapterDirectoryViewController.m in Sources */,
 				3283F581225ED44A00D0931F /* Const.m in Sources */,
 				3283F57E225ED40500D0931F /* EllipsePageControl.m in Sources */,
+				3279F7B3225F48F200518B7B /* NullSafe.m in Sources */,
 				3283F58B225ED69800D0931F /* BooksResponseModel.m in Sources */,
 				3283F595225EE7D800D0931F /* BookCell.m in Sources */,
 				3283F59B225EF2F400D0931F /* ProfileViewController.m in Sources */,

@@ -8,10 +8,11 @@
 
 #import "ChapterDirectoryViewController.h"
 #import <YBPopupMenu.h>
+#import "ChaptersResponseModel.h"
 
 @interface ChapterDirectoryViewController () <UITableViewDelegate, UITableViewDataSource, YBPopupMenuDelegate>
 @property (nonatomic, strong) UITableView *tableView;
-@property (nonatomic, strong) NSMutableArray *dataSource;
+@property (nonatomic, strong) NSMutableArray<ChapterInfo *> *dataSource;
 
 @property (nonatomic, strong) UIButton *syncBtn;
 @property (nonatomic, strong) UIButton *moreBtn;
@@ -23,6 +24,7 @@
 
 - (void)viewDidLoad {
     [self setupUI];
+    [self pullChapters];
 }
 
 #pragma mark - private func -
@@ -73,6 +75,30 @@
                            ];
         [YBPopupMenu showRelyOnView:self.moreBtn titles:titles icons:icons menuWidth:126 delegate:self];
     }
+}
+
+- (void)pullChapters {
+    AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
+    manager.requestSerializer = [AFJSONRequestSerializer serializer];
+    manager.requestSerializer.timeoutInterval = 30.0;
+    manager.responseSerializer = [AFJSONResponseSerializer serializer];
+    
+    NSDictionary *paras = @{
+                            @"token": [[NSUserDefaults standardUserDefaults] stringForKey:@"token"],
+                            @"source": @"mazimao",
+                            @"id": self.book.bookid,
+                            @"cpage": @"1"
+                            };
+    
+    NSString *url = @"https://www.qingoo.cn/api/book/chapterlist";
+    [manager GET:url parameters:paras progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+        ChaptersResponseModel *chaptersReponseModel = [ChaptersResponseModel yy_modelWithDictionary:responseObject];
+        [self.dataSource removeAllObjects];
+        [self.dataSource addObjectsFromArray:chaptersReponseModel.model.data];
+        [self.tableView reloadData];
+    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+        
+    }];
 }
 
 #pragma mark - YBPopupMenuDelegate -
