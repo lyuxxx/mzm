@@ -1,0 +1,51 @@
+//
+//  PrefixHeader.pch
+//  mazimao
+//
+//  Created by wuhan006 on 2019/4/10.
+//  Copyright © 2019 intelligent. All rights reserved.
+//
+
+#ifndef PrefixHeader_pch
+#define PrefixHeader_pch
+
+// Include any system framework and library headers here that should be included in all compilation units.
+// You will also need to set the Prefix Header build setting of one or more of your targets to reference this file.
+
+#define MAS_SHORTHAND
+#define MAS_SHORTHAND_GLOBALS
+#import "Masonry.h"
+#import "YYCategories.h"
+#import <UIImageView+WebCache.h>
+#import "NSObject+YYModel.h"
+#import <AFNetworking.h>
+#import "UIScrollView+EmptyDataSet.h"
+
+//定义了一个__weak的self_weak_变量
+#define weakifySelf  \
+__weak __typeof(&*self)weakSelf = self;
+
+//局域定义了一个__strong的self指针指向self_weak
+#define strongifySelf \
+__strong __typeof(&*weakSelf)self = weakSelf;
+
+#define Is_Iphone (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone)
+
+#define Is_Iphone_X()\
+({\
+BOOL iPhoneX = NO;\
+if (@available(iOS 11.0, *)) {\
+if ([UIDevice currentDevice].userInterfaceIdiom == UIUserInterfaceIdiomPhone && [UIApplication sharedApplication].delegate.window.safeAreaInsets.bottom > 0.0) {\
+iPhoneX = YES;\
+}\
+}\
+(iPhoneX);\
+})
+
+#define kStatusBarHeight ([UIApplication sharedApplication].statusBarFrame.size.height)
+#define kNaviHeight (Is_Iphone_X() ? 88 : 64)
+#define kSensorHeight (Is_Iphone_X() ? 32 : 0)
+#define kTabbarHeight (Is_Iphone_X() ? 83 : 49)
+#define kBottomHeight (Is_Iphone_X() ? 34 : 0)
+
+#endif /* PrefixHeader_pch */
