@@ -8,7 +8,7 @@
 
 #import "BaseViewController.h"
 
-@interface BaseViewController ()
+@interface BaseViewController () <UIGestureRecognizerDelegate>
 
 @end
 
@@ -18,17 +18,13 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     self.view.backgroundColor = [UIColor whiteColor];
-    self.navigationItem.backBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@" " style:UIBarButtonItemStylePlain target:nil action:nil];
+    UIBarButtonItem *backItem = [[UIBarButtonItem alloc] initWithTitle:@" " style:UIBarButtonItemStylePlain target:nil action:nil];
+    //主要是以下两个图片设置
+    self.navigationController.navigationBar.backIndicatorImage = [UIImage imageNamed:@"set_icon_back"];
+    self.navigationController.navigationBar.backIndicatorTransitionMaskImage = [UIImage imageNamed:@"set_icon_back"];
+    self.navigationItem.backBarButtonItem = backItem;
+    
+    self.navigationController.interactivePopGestureRecognizer.delegate = self;
 }
-
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
 
 @end

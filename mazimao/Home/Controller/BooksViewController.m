@@ -150,6 +150,7 @@
     }
     if (sender == self.downloadedBtn) {
         UIViewController *vc = [[NSClassFromString(@"DownloadBooksViewController") alloc] init];
+//        UIViewController *vc = [[NSClassFromString(@"WriterViewController") alloc] init];
         [self.navigationController pushViewController:vc animated:YES];
     }
     if (sender == self.enterBtn) {

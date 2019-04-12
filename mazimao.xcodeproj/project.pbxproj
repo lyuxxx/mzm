@@ -10,6 +10,9 @@
 		32304BFF225F212D00DB602C /* LoadingView.m in Sources */ = {isa = PBXBuildFile; fileRef = 32304BFE225F212D00DB602C /* LoadingView.m */; };
 		32304C02225F26B700DB602C /* ChapterDirectoryViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 32304C01225F26B700DB602C /* ChapterDirectoryViewController.m */; };
 		32304C08225F340300DB602C /* UserInfoResponseModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 32304C07225F340300DB602C /* UserInfoResponseModel.m */; };
+		3262461C225F511400558868 /* ChapterInfoCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 3262461B225F511400558868 /* ChapterInfoCell.m */; };
+		3262461F2260764600558868 /* WriterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3262461E2260764600558868 /* WriterViewController.m */; };
+		326246222260805B00558868 /* WriterCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 326246212260805B00558868 /* WriterCell.m */; };
 		3279F7B0225F463500518B7B /* ChaptersResponseModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 3279F7AF225F463500518B7B /* ChaptersResponseModel.m */; };
 		3279F7B3225F48F200518B7B /* NullSafe.m in Sources */ = {isa = PBXBuildFile; fileRef = 3279F7B2225F48F200518B7B /* NullSafe.m */; };
 		3283F561225ED39E00D0931F /* UIControl+YYAdd.m in Sources */ = {isa = PBXBuildFile; fileRef = 3283F52C225ED39900D0931F /* UIControl+YYAdd.m */; };
@@ -67,6 +70,12 @@
 		32304C01225F26B700DB602C /* ChapterDirectoryViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ChapterDirectoryViewController.m; sourceTree = "<group>"; };
 		32304C06225F340300DB602C /* UserInfoResponseModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = UserInfoResponseModel.h; sourceTree = "<group>"; };
 		32304C07225F340300DB602C /* UserInfoResponseModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = UserInfoResponseModel.m; sourceTree = "<group>"; };
+		3262461A225F511400558868 /* ChapterInfoCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ChapterInfoCell.h; sourceTree = "<group>"; };
+		3262461B225F511400558868 /* ChapterInfoCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ChapterInfoCell.m; sourceTree = "<group>"; };
+		3262461D2260764600558868 /* WriterViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WriterViewController.h; sourceTree = "<group>"; };
+		3262461E2260764600558868 /* WriterViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WriterViewController.m; sourceTree = "<group>"; };
+		326246202260805B00558868 /* WriterCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WriterCell.h; sourceTree = "<group>"; };
+		326246212260805B00558868 /* WriterCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WriterCell.m; sourceTree = "<group>"; };
 		3279F7AE225F463500518B7B /* ChaptersResponseModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ChaptersResponseModel.h; sourceTree = "<group>"; };
 		3279F7AF225F463500518B7B /* ChaptersResponseModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ChaptersResponseModel.m; sourceTree = "<group>"; };
 		3279F7B2225F48F200518B7B /* NullSafe.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NullSafe.m; sourceTree = "<group>"; };
@@ -322,6 +331,8 @@
 				3283F5A4225F1D5B00D0931F /* DownloadBooksViewController.m */,
 				32304C00225F26B700DB602C /* ChapterDirectoryViewController.h */,
 				32304C01225F26B700DB602C /* ChapterDirectoryViewController.m */,
+				3262461D2260764600558868 /* WriterViewController.h */,
+				3262461E2260764600558868 /* WriterViewController.m */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -346,6 +357,10 @@
 				3283F594225EE7D800D0931F /* BookCell.m */,
 				3283F596225EE83000D0931F /* BookViewLayout.h */,
 				3283F597225EE83000D0931F /* BookViewLayout.m */,
+				3262461A225F511400558868 /* ChapterInfoCell.h */,
+				3262461B225F511400558868 /* ChapterInfoCell.m */,
+				326246202260805B00558868 /* WriterCell.h */,
+				326246212260805B00558868 /* WriterCell.m */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -528,6 +543,7 @@
 				3293F8FD225B5361004F5872 /* main.m in Sources */,
 				3283F56F225ED39E00D0931F /* NSString+YYAdd.m in Sources */,
 				3283F562225ED39E00D0931F /* UITableView+YYAdd.m in Sources */,
+				3262461C225F511400558868 /* ChapterInfoCell.m in Sources */,
 				3283F56B225ED39E00D0931F /* NSObject+YYAdd.m in Sources */,
 				3283F588225ED58200D0931F /* LoginResponseModel.m in Sources */,
 				3283F561225ED39E00D0931F /* UIControl+YYAdd.m in Sources */,
@@ -538,7 +554,9 @@
 				32304C08225F340300DB602C /* UserInfoResponseModel.m in Sources */,
 				3293F8EF225B5361004F5872 /* AppDelegate.m in Sources */,
 				3283F591225EE22F00D0931F /* BooksViewController.m in Sources */,
+				326246222260805B00558868 /* WriterCell.m in Sources */,
 				3283F563225ED39E00D0931F /* UIDevice+YYAdd.m in Sources */,
+				3262461F2260764600558868 /* WriterViewController.m in Sources */,
 				3283F598225EE83000D0931F /* BookViewLayout.m in Sources */,
 				3283F57A225ED39E00D0931F /* UIScrollView+YYAdd.m in Sources */,
 				3283F577225ED39E00D0931F /* UITextField+YYAdd.m in Sources */,
