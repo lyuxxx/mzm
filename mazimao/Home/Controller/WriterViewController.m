@@ -8,11 +8,30 @@
 
 #import "WriterViewController.h"
 #import "WriterCell.h"
+#import <UITextView+Placeholder.h>
 
-@interface WriterViewController () <UICollectionViewDelegate, UICollectionViewDataSource>
+@interface CreateButton : UIButton
+
+@end
+
+@implementation CreateButton
+
+- (CGRect)imageRectForContentRect:(CGRect)contentRect {
+    return CGRectMake(14.0 / 44.0 * contentRect.size.width, 8.0 / 48.0 * contentRect.size.height, 16.0 / 44.0 * contentRect.size.width, 18.0 / 48.0 * contentRect.size.height);
+}
+
+- (CGRect)titleRectForContentRect:(CGRect)contentRect {
+    return CGRectMake(10.0 / 44.0 * contentRect.size.width, 26.0 / 48.0 * contentRect.size.height, 24.0 / 44.0 * contentRect.size.width, 18.0 / 48.0 * contentRect.size.height);
+}
+
+@end
+
+@interface WriterViewController () <UICollectionViewDelegate, UICollectionViewDataSource, UITextViewDelegate>
 
 @property (nonatomic, strong) UIButton *publishBtn;
 @property (nonatomic, strong) UIButton *syncBtn;
+
+@property (nonatomic, strong) UILabel *nameLabel;
 
 @property (nonatomic, strong) UITextView *textView;
 
@@ -20,7 +39,7 @@
 
 @property (nonatomic, strong) UICollectionView *collectionView;
 
-@property (nonatomic, strong) UIButton *createButton;
+@property (nonatomic, strong) CreateButton *createButton;
 @property (nonatomic, strong) UIButton *keyboardBtn;
 
 @property (nonatomic, strong) NSArray<NSString *> *editorIcons;
@@ -32,9 +51,17 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    
+    [self.view addSubview:self.nameLabel];
+    [self.nameLabel makeConstraints:^(MASConstraintMaker *make) {
+        make.left.equalTo(24);
+        make.top.equalTo(16);
+        make.height.equalTo(25);
+    }];
+    
     [self.view addSubview:self.textView];
     [self.textView makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(53);
+        make.top.equalTo(self.nameLabel.bottom).offset(12);
         make.left.equalTo(24);
         make.right.equalTo(-24);
         make.bottom.equalTo(-kBottomHeight);
@@ -75,17 +102,27 @@
         make.left.top.bottom.equalTo(self.inputAccessoryView);
     }];
     
+    [self.inputAccessoryView addSubview:self.collectionView];
+    [self.collectionView makeConstraints:^(MASConstraintMaker *make) {
+        make.top.bottom.equalTo(self.inputAccessoryView);
+        make.left.equalTo(self.createButton.right);
+        make.right.equalTo(-44);
+    }];
+    
     [self.inputAccessoryView addSubview:self.keyboardBtn];
     [self.keyboardBtn makeConstraints:^(MASConstraintMaker *make) {
         make.width.equalTo(44);
         make.right.top.bottom.equalTo(self.inputAccessoryView);
     }];
     
-    [self.inputAccessoryView addSubview:self.collectionView];
-    [self.collectionView makeConstraints:^(MASConstraintMaker *make) {
-        make.top.bottom.equalTo(self.inputAccessoryView);
-        make.left.equalTo(self.createButton.right);
-        make.right.equalTo(self.keyboardBtn.left);
+    UIView *verticalLine = [[UIView alloc] init];
+    verticalLine.backgroundColor = [UIColor colorWithHexString:@"e9e9e9"];
+    [self.inputAccessoryView addSubview:verticalLine];
+    [verticalLine makeConstraints:^(MASConstraintMaker *make) {
+        make.width.equalTo(0.5);
+        make.height.equalTo(26);
+        make.right.equalTo(self.createButton.right);
+        make.centerY.equalTo(self.createButton);
     }];
     
 }
@@ -132,9 +169,21 @@
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
     NSString *str = self.editorStrs[indexPath.item];
     self.textView.text = [NSString stringWithFormat:@"%@%@",self.textView.text,str];
+    if (indexPath.row == 3) {//双引号
+        [self.textView setSelectedRange:NSMakeRange(self.textView.text.length - 1, 0)];
+    }
 }
 
 #pragma mark - lazy load -
+
+- (UILabel *)nameLabel {
+    if (!_nameLabel) {
+        _nameLabel = [[UILabel alloc] init];
+        _nameLabel.font = [UIFont systemFontOfSize:18];
+        _nameLabel.textColor = [UIColor colorWithHexString:@"222222"];
+    }
+    return _nameLabel;
+}
 
 - (UITextView *)textView {
     if (!_textView) {
@@ -142,6 +191,8 @@
         _textView.font = [UIFont systemFontOfSize:16];
         _textView.textColor = [UIColor colorWithHexString:@"404040"];
         _textView.inputAccessoryView = self.inputAccessoryView;
+        _textView.tintColor = [UIColor colorWithHexString:@"ffc627"];
+        _textView.attributedPlaceholder = [[NSAttributedString alloc] initWithString:NSLocalizedString(@"请输入章节内容", nil) attributes:@{NSForegroundColorAttributeName:[UIColor colorWithHexString:@"919191"],NSFontAttributeName:[UIFont systemFontOfSize:16]}];
     }
     return _textView;
 }
@@ -161,8 +212,12 @@
 
 - (UIButton *)createButton {
     if (!_createButton) {
-        _createButton = [UIButton buttonWithType:UIButtonTypeCustom];
+        _createButton = [CreateButton buttonWithType:UIButtonTypeCustom];
         [_createButton setImage:[UIImage imageNamed:@"editor_icon_new_section"] forState:UIControlStateNormal];
+        [_createButton setTitle:NSLocalizedString(@"新建", nil) forState:UIControlStateNormal];
+        [_createButton setTitleColor:[UIColor colorWithHexString:@"222222"] forState:UIControlStateNormal];
+        _createButton.titleLabel.textAlignment = NSTextAlignmentCenter;
+        _createButton.titleLabel.adjustsFontSizeToFitWidth = YES;
         [_createButton addTarget:self action:@selector(btnClick:) forControlEvents:UIControlEventTouchUpInside];
     }
     return _createButton;
@@ -171,8 +226,14 @@
 - (UIButton *)keyboardBtn {
     if (!_keyboardBtn) {
         _keyboardBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+        _keyboardBtn.backgroundColor = [UIColor whiteColor];
         [_keyboardBtn setImage:[UIImage imageNamed:@"content_icon_retract"] forState:UIControlStateNormal];
         [_keyboardBtn addTarget:self action:@selector(btnClick:) forControlEvents:UIControlEventTouchUpInside];
+        
+        _keyboardBtn.layer.shadowOffset = CGSizeMake(-5, 0);
+        _keyboardBtn.layer.shadowColor = [UIColor colorWithHexString:@"919191"].CGColor;
+        _keyboardBtn.layer.shadowRadius = 3;
+        _keyboardBtn.layer.shadowOpacity = 0.1;
     }
     return _keyboardBtn;
 }
@@ -184,7 +245,7 @@
         flowLayout.minimumInteritemSpacing = 10;
         flowLayout.minimumLineSpacing = 10;
         flowLayout.itemSize = CGSizeMake(28, 28);
-        flowLayout.sectionInset = UIEdgeInsetsMake(10, 0, 10, 0);
+        flowLayout.sectionInset = UIEdgeInsetsMake(10, 10, 10, 10);
         
         _collectionView = [[UICollectionView alloc] initWithFrame:CGRectZero collectionViewLayout:flowLayout];
         _collectionView.alwaysBounceHorizontal = YES;

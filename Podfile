@@ -13,5 +13,6 @@ target 'mazimao' do
   pod 'SDWebImage'
   pod 'CWLateralSlide'
   pod 'YBPopupMenu'
+  pod 'UITextView+Placeholder'
 
 end

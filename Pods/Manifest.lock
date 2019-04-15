@@ -20,6 +20,7 @@ PODS:
   - SDWebImage (5.0.0):
     - SDWebImage/Core (= 5.0.0)
   - SDWebImage/Core (5.0.0)
+  - "UITextView+Placeholder (1.2.1)"
   - YBPopupMenu (1.1.2)
   - YYModel (1.0.4)
 
@@ -29,6 +30,7 @@ DEPENDENCIES:
   - DZNEmptyDataSet
   - Masonry
   - SDWebImage
+  - "UITextView+Placeholder"
   - YBPopupMenu
   - YYModel
 
@@ -39,6 +41,7 @@ SPEC REPOS:
     - DZNEmptyDataSet
     - Masonry
     - SDWebImage
+    - "UITextView+Placeholder"
     - YBPopupMenu
     - YYModel
 
@@ -48,9 +51,10 @@ SPEC CHECKSUMS:
   DZNEmptyDataSet: 9525833b9e68ac21c30253e1d3d7076cc828eaa7
   Masonry: 678fab65091a9290e40e2832a55e7ab731aad201
   SDWebImage: 5de80a0302de9e377e62f47d2fa1304efff0e55f
+  "UITextView+Placeholder": 0c3efd97f37ea64bde7f34cc6e90fe02e87b3909
   YBPopupMenu: 6efb286385d95ba5f97c58b8464ec873645e8764
   YYModel: 2a7fdd96aaa4b86a824e26d0c517de8928c04b30
 
-PODFILE CHECKSUM: 3671e8b07935fe0ae368b0a182233a72dfbab380
+PODFILE CHECKSUM: 1f3bf2e97034c467ee8418101066f83135c126b0
 
 COCOAPODS: 1.6.1
