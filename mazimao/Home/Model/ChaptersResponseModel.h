@@ -7,23 +7,11 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "BooksResponseModel.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface ChapterInfo : NSObject <YYModel>
-@property (nonatomic , copy) NSString              * chapterid;
-@property (nonatomic , copy) NSString              * name;
-@property (nonatomic , assign) NSInteger              sn;
-@property (nonatomic , copy) NSString              * content;
-@property (nonatomic , copy) NSString              * status;
-@property (nonatomic , copy) NSString              *create_time;
-@property (nonatomic , copy) NSString              *update_time;
-@property (nonatomic , assign) NSInteger              word_count;
-@property (nonatomic , copy) NSString              * checkStatus;
-@property (nonatomic , copy) NSString              * checkMessage;
-@property (nonatomic , copy) NSString              * authorTalk;
 
-@end
 
 
 @interface Book_Id :NSObject

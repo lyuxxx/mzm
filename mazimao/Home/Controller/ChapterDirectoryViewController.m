@@ -10,6 +10,7 @@
 #import <YBPopupMenu.h>
 #import "ChaptersResponseModel.h"
 #import "ChapterInfoCell.h"
+#import "WriterViewController.h"
 
 @interface NavigationItemCustomView: UIButton
 @property (nonatomic, assign) UIEdgeInsets alignmentRectInsetsOverride;
@@ -27,7 +28,8 @@
 
 @end
 
-@interface ChapterDirectoryViewController () <UITableViewDelegate, UITableViewDataSource, YBPopupMenuDelegate>
+@interface ChapterDirectoryViewController () <UITableViewDelegate, UITableViewDataSource, YBPopupMenuDelegate, ChapterInfoCellDelegate>
+
 @property (nonatomic, strong) UITableView *tableView;
 @property (nonatomic, strong) NSMutableArray<ChapterInfo *> *dataSource;
 @property (nonatomic, strong) NSMutableArray<ChapterInfo *> *selectedDatas;
@@ -38,6 +40,8 @@
 @property (nonatomic, strong) UIButton *allBtn;
 @property (nonatomic, strong) UIButton *cancelBtn;
 @property (nonatomic, strong) UIButton *deleteBtn;
+
+@property (nonatomic, strong) NSMutableArray<NSAttributedString *> *infoMenuDataSource;
 
 @end
 
@@ -85,6 +89,8 @@
 }
 
 - (void)setupBarButton {
+    
+    self.navigationItem.backBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@" " style:UIBarButtonItemStylePlain target:nil action:nil];
     
     //https://juejin.im/post/5a52d4316fb9a01c9657f93d 解决leftItem偏移
     CGFloat offset = 25;
@@ -314,14 +320,75 @@
         [self.dataSource removeAllObjects];
         [self.dataSource addObjectsFromArray:chaptersReponseModel.model.data];
         [self.tableView reloadData];
+        
+        for (NSInteger i = 0; i < self.dataSource.count; i++) {
+            [self pullChapterContentWithChapterInfo:self.dataSource[i]];
+        }
+        
     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
         
     }];
 }
 
+- (void)pullChapterContentWithChapterInfo:(ChapterInfo *)info {
+    
+    AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
+    manager.requestSerializer = [AFJSONRequestSerializer serializer];
+    manager.requestSerializer.timeoutInterval = 30.0;
+    manager.responseSerializer = [AFJSONResponseSerializer serializer];
+    
+    NSDictionary *paras = @{
+                            @"token": [[NSUserDefaults standardUserDefaults] stringForKey:@"token"],
+                            @"source": @"mazimao",
+                            @"id": info.chapterid
+                            };
+    
+    NSString *url = @"https://www.qingoo.cn/api/chapter/getchapter";
+    [manager GET:url parameters:paras progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+        ChapterInfo *output = [ChapterInfo yy_modelWithDictionary:[(NSDictionary *)responseObject objectForKey:@"model"]];
+        info.content = output.content;
+    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+        
+    }];
+}
+
+- (void)generateInfoMenuDataSourceWithChapterInfo:(ChapterInfo *)chapterInfo {
+    
+    NSMutableArray *arr = [NSMutableArray arrayWithCapacity:5];
+    
+    UIImage *image = [UIImage imageNamed:@"catalog_icon_audit_failure"];
+    NSTextAttachment *attach = [[NSTextAttachment alloc] init];
+    attach.image = image;
+    attach.bounds = CGRectMake(0, 0, 14, 14);
+    NSAttributedString *attachStr = [NSAttributedString attributedStringWithAttachment:attach];
+    
+    NSMutableAttributedString *attr0 = [[NSMutableAttributedString alloc] initWithString:@"审核状态:未过审 "];
+    [attr0 insertAttributedString:attachStr atIndex:[@"审核状态:未过审 " length]];
+    
+    NSMutableAttributedString *attr1 = [[NSMutableAttributedString alloc] initWithString:[NSString localizedStringWithFormat:NSLocalizedString(@"审核结果:%@", nil),chapterInfo.checkMessage] attributes:@{NSForegroundColorAttributeName:[UIColor colorWithHexString:@"5a5a5a"],NSFontAttributeName:[UIFont systemFontOfSize:14]}];
+    
+    NSMutableAttributedString *attr2 = [[NSMutableAttributedString alloc] initWithString:[NSString localizedStringWithFormat:NSLocalizedString(@"本章字数:%ld", nil),chapterInfo.word_count] attributes:@{NSForegroundColorAttributeName:[UIColor colorWithHexString:@"5a5a5a"],NSFontAttributeName:[UIFont systemFontOfSize:14]}];
+    
+    NSMutableAttributedString *attr3 = [[NSMutableAttributedString alloc] initWithString:[NSString localizedStringWithFormat:NSLocalizedString(@"上架状态:%@", nil),chapterInfo.status] attributes:@{NSForegroundColorAttributeName:[UIColor colorWithHexString:@"5a5a5a"],NSFontAttributeName:[UIFont systemFontOfSize:14]}];
+    
+    NSMutableAttributedString *attr4 = [[NSMutableAttributedString alloc] initWithString:[NSString localizedStringWithFormat:NSLocalizedString(@"更新时间:%@", nil),chapterInfo.update_time] attributes:@{NSForegroundColorAttributeName:[UIColor colorWithHexString:@"5a5a5a"],NSFontAttributeName:[UIFont systemFontOfSize:14]}];
+    
+    [arr addObject:attr0];
+    [arr addObject:attr1];
+    [arr addObject:attr2];
+    [arr addObject:attr3];
+    [arr addObject:attr4];
+    
+    [self.infoMenuDataSource removeAllObjects];
+    self.infoMenuDataSource = arr;
+}
+
 #pragma mark - YBPopupMenuDelegate -
 
 - (void)ybPopupMenu:(YBPopupMenu *)ybPopupMenu didSelectedAtIndex:(NSInteger)index {
+    if (ybPopupMenu.tag == 111) {
+        return;
+    }
     if (index == 0) {//编辑
         if (self.dataSource.count == 0) {
             return;
@@ -334,6 +401,37 @@
         [self showDeleteButton];
         self.navigationItem.title = NSLocalizedString(@"编辑章节", nil);
     }
+}
+
+- (UITableViewCell *)ybPopupMenu:(YBPopupMenu *)ybPopupMenu cellForRowAtIndex:(NSInteger)index {
+    if (ybPopupMenu.tag != 111) {
+        return nil;
+    }
+    static NSString *cellId = @"menuCellId";
+    UITableViewCell *cell = [ybPopupMenu.tableView dequeueReusableCellWithIdentifier:cellId];
+    if (!cell) {
+        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellId];
+    }
+    cell.textLabel.attributedText = self.infoMenuDataSource[index];
+    cell.selectionStyle = UITableViewCellSelectionStyleNone;
+    return cell;
+}
+
+#pragma mark - ChapterInfoCellDelegate -
+
+- (void)chapterInfoCell:(ChapterInfoCell *)cell didClickInfoBtn:(UIButton *)sender {
+    NSIndexPath *indexPath = [self. tableView indexPathForCell:cell];
+    [self generateInfoMenuDataSourceWithChapterInfo:self.dataSource[indexPath.row]];
+    [YBPopupMenu showRelyOnView:sender titles:@[@"",@"",@"",@"",@""] icons:nil menuWidth:235 otherSettings:^(YBPopupMenu *popupMenu) {
+        popupMenu.delegate = self;
+        popupMenu.showMaskView = NO;
+        popupMenu.priorityDirection = YBPopupMenuPriorityDirectionRight;
+        popupMenu.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
+        popupMenu.arrowDirection = YBPopupMenuArrowDirectionRight;
+        popupMenu.arrowPosition = 20;
+        popupMenu.itemHeight = 30;
+        popupMenu.tag = 111;
+    }];
 }
 
 #pragma mark - UITableViewDataSource -
@@ -351,6 +449,7 @@
     if (!cell) {
         cell = [[ChapterInfoCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:[ChapterInfoCell reuseIdentifier]];
     }
+    cell.delegate = self;
     [cell configWithChapterInfo:self.dataSource[indexPath.row]];
     return cell;
 }
@@ -364,6 +463,8 @@
         [self indexPathsForSelectedRowsCountDidChange:tableView.indexPathsForSelectedRows];
     } else {
         [tableView deselectRowAtIndexPath:indexPath animated:NO];
+        WriterViewController *vc = [[WriterViewController alloc] initWithChapter:self.dataSource[indexPath.row]];
+        [self.navigationController pushViewController:vc animated:YES];
     }
 }
 

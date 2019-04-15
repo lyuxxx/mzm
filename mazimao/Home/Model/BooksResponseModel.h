@@ -11,23 +11,18 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface Author :NSObject <YYModel>
-@property (nonatomic , copy) NSString              * authorid;
-@property (nonatomic , copy) NSString              * mobilenumber;
-@property (nonatomic , copy) NSString              * penname;
-@property (nonatomic , copy) NSString              * email;
-@property (nonatomic , copy) NSString              * qq;
-@property (nonatomic , strong) FullAddress              * fullAddress;
-@property (nonatomic , strong) FullBankAddress              * fullBankAddress;
-
-@end
-
-
-@interface Chapter :NSObject
+@interface ChapterInfo : NSObject <YYModel>
+@property (nonatomic , copy) NSString              * chapterid;
+@property (nonatomic , copy) NSString              * name;
 @property (nonatomic , assign) NSInteger              sn;
-@property (nonatomic , assign) NSInteger              create_time;
-@property (nonatomic , assign) NSInteger              update_time;
+@property (nonatomic , copy) NSString              * content;
+@property (nonatomic , copy) NSString              * status;
+@property (nonatomic , copy) NSString              *create_time;
+@property (nonatomic , copy) NSString              *update_time;
 @property (nonatomic , assign) NSInteger              word_count;
+@property (nonatomic , copy) NSString              * checkStatus;
+@property (nonatomic , copy) NSString              * checkMessage;
+@property (nonatomic , copy) NSString              * authorTalk;
 
 @end
 
@@ -51,13 +46,27 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic , assign) NSInteger              follow_count;
 @property (nonatomic , assign) NSInteger              flush_count;
 @property (nonatomic , assign) NSInteger              update_time;
-@property (nonatomic , strong) Author              * author;
-@property (nonatomic , strong) Chapter              * chapter;
+@property (nonatomic, copy) NSString *authorTalk;
+@property (nonatomic, copy) NSString *bigGodUser;
+@property (nonatomic, copy) NSString *bannerImage;
+@property (nonatomic, copy) NSString *reviewState;
+@property (nonatomic, copy) NSString *reviewMessage;
+@property (nonatomic, copy) NSString *signType;
+@property (nonatomic, copy) NSString *outline;
+@property (nonatomic, copy) NSString *signStatus;
+@property (nonatomic , strong) User              * author;
+@property (nonatomic , strong) ChapterInfo              * chapter;
 @property (nonatomic , assign) NSInteger              pricePerKword;
 @property (nonatomic , copy) NSString              * shareImageUrl;
 @property (nonatomic , copy) NSString              * shareUrl;
 @property (nonatomic , copy) NSString              * genre;
 @property (nonatomic , copy) NSString              * subGenre;
+@property (nonatomic, copy) NSString *leadIdentity;
+@property (nonatomic, copy) NSString *leadImage;
+@property (nonatomic, copy) NSString *storySchool;
+@property (nonatomic, copy) NSString *storyElement;
+@property (nonatomic, copy) NSString *defTag;
+@property (nonatomic, copy) NSString *signVersion;
 
 @end
 
@@ -71,7 +80,7 @@ NS_ASSUME_NONNULL_BEGIN
 @interface BooksResponseModel :NSObject
 @property (nonatomic , assign) NSInteger              code;
 @property (nonatomic , strong) BooksModel              * model;
-
+@property (nonatomic, copy) NSString *message;
 @end
 
 NS_ASSUME_NONNULL_END

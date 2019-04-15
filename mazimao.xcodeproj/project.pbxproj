@@ -712,7 +712,7 @@
 			baseConfigurationReference = 0B2E7B3F3EEC85B60B3E8B9E /* Pods-mazimao.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_STYLE = Automatic;
+				CODE_SIGN_STYLE = Manual;
 				DEVELOPMENT_TEAM = SHBQ7KZ695;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "${SRCROOT}/mazimao/PrefixHeader.pch";
@@ -721,8 +721,9 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.intelligent.mazimao;
+				PRODUCT_BUNDLE_IDENTIFIER = com.intelligent.writer;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = mazimaodevelop;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
@@ -732,7 +733,7 @@
 			baseConfigurationReference = EE4F57E353FC1C41382C69DE /* Pods-mazimao.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_STYLE = Automatic;
+				CODE_SIGN_STYLE = Manual;
 				DEVELOPMENT_TEAM = SHBQ7KZ695;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "${SRCROOT}/mazimao/PrefixHeader.pch";
@@ -741,8 +742,9 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.intelligent.mazimao;
+				PRODUCT_BUNDLE_IDENTIFIER = com.intelligent.writer;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = mazimaodevelop;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;

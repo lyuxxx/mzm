@@ -28,6 +28,8 @@
 
 @interface WriterViewController () <UICollectionViewDelegate, UICollectionViewDataSource, UITextViewDelegate>
 
+@property (nonatomic, strong) ChapterInfo *chapter;
+
 @property (nonatomic, strong) UIButton *publishBtn;
 @property (nonatomic, strong) UIButton *syncBtn;
 
@@ -48,6 +50,14 @@
 @end
 
 @implementation WriterViewController
+
+- (instancetype)initWithChapter:(ChapterInfo *)chapter {
+    self = [super init];
+    if (self) {
+        self.chapter = chapter;
+    }
+    return self;
+}
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -70,6 +80,9 @@
     [self configBarButton];
     [self configInputAccessory];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillChangeFrame:) name:UIKeyboardWillChangeFrameNotification object:nil];
+    
+    self.nameLabel.text = self.chapter.name;
+    self.textView.text = self.chapter.content;
 }
 
 - (void)btnClick:(UIButton *)sender {

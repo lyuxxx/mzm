@@ -7,10 +7,13 @@
 //
 
 #import "BaseViewController.h"
+#import "BooksResponseModel.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
 @interface WriterViewController : BaseViewController
+
+- (instancetype)initWithChapter:(ChapterInfo *)chapter;
 
 @end
 

@@ -59,6 +59,13 @@
         make.height.equalTo(20);
         make.centerY.equalTo(self.timeLabel);
     }];
+    
+    [self.contentView addSubview:self.infoBtn];
+    [self.infoBtn makeConstraints:^(MASConstraintMaker *make) {
+        make.right.equalTo(-16);
+        make.width.height.equalTo(20);
+        make.centerY.equalTo(0);
+    }];
 }
 
 - (void)configWithChapterInfo:(ChapterInfo *)chapterInfo {
@@ -68,7 +75,9 @@
 }
 
 - (void)btnClick:(UIButton *)sender {
-    
+    if (self.delegate && [self.delegate respondsToSelector:@selector(chapterInfoCell:didClickInfoBtn:)]) {
+        [self.delegate chapterInfoCell:self didClickInfoBtn:sender];
+    }
 }
 
 - (void)resetColor {

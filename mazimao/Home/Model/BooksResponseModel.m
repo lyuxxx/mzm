@@ -8,16 +8,32 @@
 
 #import "BooksResponseModel.h"
 
-@implementation Author
+
+@implementation ChapterInfo
 + (NSDictionary<NSString *,id> *)modelCustomPropertyMapper {
     return @{
-             @"authorid": @"id"
+             @"chapterid": @"id"
              };
 }
-@end
+
+- (BOOL)modelCustomTransformFromDictionary:(NSDictionary *)dic {
+    
+    NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+    formatter.dateFormat = @"yyyy-MM-dd HH:mm:ss";
+    formatter.timeZone = [NSTimeZone localTimeZone];
+    
+    NSTimeInterval createTS = ((NSNumber *)dic[@"create_time"]).floatValue / 1000.0;
+    NSDate *createTime = [NSDate dateWithTimeIntervalSince1970:createTS];
+    _create_time = [formatter stringFromDate:createTime];
+    
+    NSTimeInterval updateTS = ((NSNumber *)dic[@"update_time"]).floatValue / 1000.0;
+    NSDate *updateTime = [NSDate dateWithTimeIntervalSince1970:updateTS];
+    _update_time = [formatter stringFromDate:updateTime];
+    
+    return YES;
+}
 
 
-@implementation Chapter
 @end
 
 
