@@ -10,6 +10,7 @@
 		32304BFF225F212D00DB602C /* LoadingView.m in Sources */ = {isa = PBXBuildFile; fileRef = 32304BFE225F212D00DB602C /* LoadingView.m */; };
 		32304C02225F26B700DB602C /* ChapterDirectoryViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 32304C01225F26B700DB602C /* ChapterDirectoryViewController.m */; };
 		32304C08225F340300DB602C /* UserInfoResponseModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 32304C07225F340300DB602C /* UserInfoResponseModel.m */; };
+		323EE7DB226497380013589D /* RecycleBinViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 323EE7DA226497380013589D /* RecycleBinViewController.m */; };
 		3262461C225F511400558868 /* ChapterInfoCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 3262461B225F511400558868 /* ChapterInfoCell.m */; };
 		3262461F2260764600558868 /* WriterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3262461E2260764600558868 /* WriterViewController.m */; };
 		326246222260805B00558868 /* WriterCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 326246212260805B00558868 /* WriterCell.m */; };
@@ -70,6 +71,8 @@
 		32304C01225F26B700DB602C /* ChapterDirectoryViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ChapterDirectoryViewController.m; sourceTree = "<group>"; };
 		32304C06225F340300DB602C /* UserInfoResponseModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = UserInfoResponseModel.h; sourceTree = "<group>"; };
 		32304C07225F340300DB602C /* UserInfoResponseModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = UserInfoResponseModel.m; sourceTree = "<group>"; };
+		323EE7D9226497380013589D /* RecycleBinViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RecycleBinViewController.h; sourceTree = "<group>"; };
+		323EE7DA226497380013589D /* RecycleBinViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = RecycleBinViewController.m; sourceTree = "<group>"; };
 		3262461A225F511400558868 /* ChapterInfoCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ChapterInfoCell.h; sourceTree = "<group>"; };
 		3262461B225F511400558868 /* ChapterInfoCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ChapterInfoCell.m; sourceTree = "<group>"; };
 		3262461D2260764600558868 /* WriterViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WriterViewController.h; sourceTree = "<group>"; };
@@ -333,6 +336,8 @@
 				32304C01225F26B700DB602C /* ChapterDirectoryViewController.m */,
 				3262461D2260764600558868 /* WriterViewController.h */,
 				3262461E2260764600558868 /* WriterViewController.m */,
+				323EE7D9226497380013589D /* RecycleBinViewController.h */,
+				323EE7DA226497380013589D /* RecycleBinViewController.m */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -531,6 +536,7 @@
 				3293F991225DFE25004F5872 /* NavigationController.m in Sources */,
 				3283F570225ED39E00D0931F /* UIImage+YYAdd.m in Sources */,
 				32304BFF225F212D00DB602C /* LoadingView.m in Sources */,
+				323EE7DB226497380013589D /* RecycleBinViewController.m in Sources */,
 				3293F994225DFE36004F5872 /* BaseViewController.m in Sources */,
 				3283F56E225ED39E00D0931F /* ReplaceMe.m in Sources */,
 				3283F564225ED39E00D0931F /* UIColor+YYAdd.m in Sources */,

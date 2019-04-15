@@ -401,6 +401,10 @@
         [self showDeleteButton];
         self.navigationItem.title = NSLocalizedString(@"编辑章节", nil);
     }
+    if (index == 2) {
+        UIViewController *binVC = [[NSClassFromString(@"RecycleBinViewController") alloc] init];
+        [self.navigationController pushViewController:binVC animated:YES];
+    }
 }
 
 - (UITableViewCell *)ybPopupMenu:(YBPopupMenu *)ybPopupMenu cellForRowAtIndex:(NSInteger)index {
