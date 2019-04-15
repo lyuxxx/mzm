@@ -10,18 +10,18 @@
 #import "EllipsePageControl.h"
 #import <UIViewController+CWLateralSlide.h>
 #import "BookCell.h"
-#import "BookViewLayout.h"
 #import "ProfileViewController.h"
 #import "LoadingView.h"
 #import "ChapterDirectoryViewController.h"
 #import "UserInfoResponseModel.h"
 #import <UIButton+WebCache.h>
+#import <SDCycleScrollView.h>
 
-@interface BooksViewController () <UICollectionViewDelegate, UICollectionViewDataSource>
+@interface BooksViewController () <SDCycleScrollViewDelegate>
 @property (nonatomic, strong) UIButton *profileBtn;
 @property (nonatomic, strong) UIButton *downloadedBtn;
 @property (nonatomic, strong) UIButton *syncBtn;
-@property (nonatomic, strong) UICollectionView *collectionView;
+@property (nonatomic, strong) SDCycleScrollView *cycleView;
 @property (nonatomic, strong) EllipsePageControl *pageControl;
 @property (nonatomic, strong) UIButton *enterBtn;
 
@@ -62,8 +62,8 @@
 - (void)setupUI {
     self.navigationItem.title = NSLocalizedString(@"书籍", nil);
     [self setupBarButton];
-    [self.view addSubview:self.collectionView];
-    [self.collectionView makeConstraints:^(MASConstraintMaker *make) {
+    [self.view addSubview:self.cycleView];
+    [self.cycleView makeConstraints:^(MASConstraintMaker *make) {
         make.top.left.right.equalTo(self.view);
         make.bottom.equalTo(-150);
     }];
@@ -73,7 +73,7 @@
         make.width.equalTo(156);
         make.height.equalTo(40);
         make.centerX.equalTo(0);
-        make.top.equalTo(self.collectionView.bottom).offset(48);
+        make.top.equalTo(self.cycleView.bottom).offset(48);
     }];
 }
 
@@ -115,7 +115,7 @@
 - (void)setupPageControl {
     [self.pageControl removeFromSuperview];
     self.pageControl.frame = CGRectMake(0, 0, (6 + 5) * self.dataSource.count + 6 - 5, 6);
-    self.pageControl.center = CGPointMake(kScreenWidth * 0.5, self.collectionView.frame.origin.y + self.collectionView.frame.size.height);
+    self.pageControl.center = CGPointMake(kScreenWidth * 0.5, self.cycleView.frame.origin.y + self.cycleView.frame.size.height);
     [self.view addSubview:self.pageControl];
      self.pageControl.numberOfPages = self.dataSource.count;
     if (self.dataSource.count > 1) {
@@ -196,7 +196,11 @@
         BooksResponseModel *booksResponse = [BooksResponseModel yy_modelWithDictionary:responseObject];
         [self.dataSource removeAllObjects];
         [self.dataSource addObjectsFromArray:booksResponse.model.data];
-        [self.collectionView reloadData];
+        NSMutableArray *tmp = [NSMutableArray arrayWithCapacity:self.dataSource.count];
+        for (NSInteger i = 0; i < self.dataSource.count; i++) {
+            [tmp addObject:@""];
+        }
+        self.cycleView.imageURLStringsGroup = tmp;
         [self setupPageControl];
     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
         
@@ -204,50 +208,40 @@
     
 }
 
-#pragma mark - UICollectionViewDataSource -
+#pragma mark - SDCycleScrollViewDelegate -
 
-- (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
-    return self.dataSource.count;
+- (void)cycleScrollView:(SDCycleScrollView *)cycleScrollView didSelectItemAtIndex:(NSInteger)index {
+    ChapterDirectoryViewController *vc = [[ChapterDirectoryViewController alloc] init];
+    vc.book = self.dataSource[index];
+    [self.navigationController pushViewController:vc animated:YES];
 }
 
-- (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
-    BookCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:[BookCell reuseIdentifier] forIndexPath:indexPath];
-    [cell configWithBook:self.dataSource[indexPath.item]];
-    return cell;
+- (void)cycleScrollView:(SDCycleScrollView *)cycleScrollView didScrollToIndex:(NSInteger)index {
+    if (self.pageControl.currentPage != index) {
+        self.pageControl.currentPage = index;
+    }
 }
 
-#pragma mark - UIScrollViewDelegate -
+- (Class)customCollectionViewCellClassForCycleScrollView:(SDCycleScrollView *)view {
+    return [BookCell class];
+}
 
-- (void)scrollViewWillEndDragging:(UIScrollView *)scrollView withVelocity:(CGPoint)velocity targetContentOffset:(inout CGPoint *)targetContentOffset {
-    //1.根据偏移量判断一下应该显示第几个item
-    CGFloat offSetX = targetContentOffset->x;
-    
-    CGFloat itemWidth = self.collectionView.bounds.size.width * 0.8;
-    
-    //item的宽度+行间距 = 页码的宽度
-    NSInteger pageWidth = itemWidth + 50.0;
-    
-    //根据偏移量计算是第几页
-    NSInteger pageNum = (offSetX+pageWidth/2)/pageWidth;
-    
-    self.pageControl.currentPage = pageNum;
+- (void)setupCustomCell:(UICollectionViewCell *)cell forIndex:(NSInteger)index cycleScrollView:(SDCycleScrollView *)view {
+    BookCell *bookCell = (BookCell *)cell;
+    [bookCell configWithBook:self.dataSource[index]];
 }
 
 #pragma mark - lazy load -
 
-- (UICollectionView *)collectionView {
-    if (!_collectionView) {
-        BookViewLayout *layout = [[BookViewLayout alloc] init];
-        
-        _collectionView = [[UICollectionView alloc] initWithFrame:CGRectZero collectionViewLayout:layout];
-        _collectionView.delegate = self;
-        _collectionView.dataSource = self;
-        _collectionView.backgroundColor = [UIColor clearColor];
-        _collectionView.showsHorizontalScrollIndicator = NO;
-        
-        [_collectionView registerClass:[BookCell class] forCellWithReuseIdentifier:[BookCell reuseIdentifier]];
+- (SDCycleScrollView *)cycleView {
+    if (!_cycleView) {
+        _cycleView = [SDCycleScrollView cycleScrollViewWithFrame:CGRectZero delegate:self placeholderImage:nil];
+        _cycleView.backgroundColor = [UIColor whiteColor];
+        _cycleView.infiniteLoop = YES;
+        _cycleView.showPageControl = NO;
+        _cycleView.autoScroll = NO;
     }
-    return _collectionView;
+    return _cycleView;
 }
 
 - (EllipsePageControl *)pageControl {

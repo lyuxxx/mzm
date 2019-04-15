@@ -14,5 +14,6 @@ target 'mazimao' do
   pod 'CWLateralSlide'
   pod 'YBPopupMenu'
   pod 'UITextView+Placeholder'
+  pod 'SDCycleScrollView'
 
 end

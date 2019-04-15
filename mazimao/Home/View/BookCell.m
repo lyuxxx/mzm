@@ -28,7 +28,7 @@
             make.width.equalTo(158);
             make.height.equalTo(223);
             make.centerX.equalTo(0);
-            make.top.equalTo(50);
+            make.top.equalTo(100);
         }];
         
         self.nameLabel = [[UILabel alloc] init];
