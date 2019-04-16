@@ -11,6 +11,7 @@
 #import "ChaptersResponseModel.h"
 #import "ChapterInfoCell.h"
 #import "WriterViewController.h"
+#import "LoadingView.h"
 
 @interface NavigationItemCustomView: UIButton
 @property (nonatomic, assign) UIEdgeInsets alignmentRectInsetsOverride;
@@ -329,6 +330,7 @@
 }
 
 - (void)pullChapters {
+    [LoadingView showOnView:self.view];
     AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
     manager.requestSerializer = [AFJSONRequestSerializer serializer];
     manager.requestSerializer.timeoutInterval = 30.0;
@@ -344,6 +346,7 @@
     NSString *url = @"https://www.qingoo.cn/api/book/chapterlist";
     [manager GET:url parameters:paras progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
         ChaptersResponseModel *chaptersReponseModel = [ChaptersResponseModel yy_modelWithDictionary:responseObject];
+        [LoadingView hide];
         [self.dataSource removeAllObjects];
         [self.dataSource addObjectsFromArray:chaptersReponseModel.model.data];
         [self.tableView reloadData];
@@ -353,7 +356,7 @@
         }
         
     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
-        
+        [LoadingView hide];
     }];
 }
 
