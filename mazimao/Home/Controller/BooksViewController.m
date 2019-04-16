@@ -161,57 +161,42 @@
 }
 
 - (void)pullUserInfo {
-    AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
-    manager.requestSerializer = [AFJSONRequestSerializer serializer];
-    manager.requestSerializer.timeoutInterval = 30.0;
-    manager.responseSerializer = [AFJSONResponseSerializer serializer];
-    
     NSDictionary *paras = @{
                             @"token": [[NSUserDefaults standardUserDefaults] stringForKey:@"token"]
                             };
-    
-    NSString *url = @"https://www.qingoo.cn/api/user/get";
-    [manager GET:url parameters:paras progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
-        UserInfoResponseModel *responseModel = [UserInfoResponseModel yy_modelWithDictionary:responseObject];
+    DefaultServerRequest *request = [[DefaultServerRequest alloc] initWithType:URITypeUserInfo paras:paras];
+    weakifySelf
+    [request startWithSuccess:^(YBNetworkResponse * _Nonnull response) {
+        strongifySelf
+        UserInfoResponseModel *responseModel = [UserInfoResponseModel yy_modelWithDictionary:response.responseObject];
         self.user = responseModel.model.data;
-    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+    } failure:^(YBNetworkResponse * _Nonnull response) {
         
     }];
 }
 
 - (void)pullData {
     
-    AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
-    manager.requestSerializer = [AFJSONRequestSerializer serializer];
-    manager.requestSerializer.timeoutInterval = 30.0;
-    manager.responseSerializer = [AFJSONResponseSerializer serializer];
-    
     NSDictionary *paras = @{
                             @"token": [[NSUserDefaults standardUserDefaults] stringForKey:@"token"],
-                            @"source": @"mazimao"
                             };
-    
-    NSString *url = @"https://www.qingoo.cn/api/book/list";
-    [manager GET:url parameters:paras progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
-        BooksResponseModel *booksResponse = [BooksResponseModel yy_modelWithDictionary:responseObject];
-        [self.dataSource removeAllObjects];
-        [self.dataSource addObjectsFromArray:booksResponse.model.data];
-        NSMutableArray *tmp = [NSMutableArray arrayWithCapacity:self.dataSource.count];
-        for (NSInteger i = 0; i < self.dataSource.count; i++) {
-            [tmp addObject:@""];
-        }
-        self.cycleView.imageURLStringsGroup = tmp;
-        [self setupPageControl];
-    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
-        
-    }];
+    DefaultServerRequest *request = [[DefaultServerRequest alloc] initWithYype:URITypeBookList paras:paras delegate:self];
+    [request start];
     
 }
 
 #pragma mark - YBResponseDelegate -
 
 - (void)request:(__kindof YBBaseRequest *)request successWithResponse:(YBNetworkResponse *)response {
-    
+    BooksResponseModel *booksResponse = [BooksResponseModel yy_modelWithDictionary:response.responseObject];
+    [self.dataSource removeAllObjects];
+    [self.dataSource addObjectsFromArray:booksResponse.model.data];
+    NSMutableArray *tmp = [NSMutableArray arrayWithCapacity:self.dataSource.count];
+    for (NSInteger i = 0; i < self.dataSource.count; i++) {
+        [tmp addObject:@""];
+    }
+    self.cycleView.imageURLStringsGroup = tmp;
+    [self setupPageControl];
 }
 
 - (void)request:(__kindof YBBaseRequest *)request failureWithResponse:(YBNetworkResponse *)response {

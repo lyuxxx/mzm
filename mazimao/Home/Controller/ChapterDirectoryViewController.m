@@ -331,53 +331,29 @@
 
 - (void)pullChapters {
     [LoadingView showOnView:self.view];
-    AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
-    manager.requestSerializer = [AFJSONRequestSerializer serializer];
-    manager.requestSerializer.timeoutInterval = 30.0;
-    manager.responseSerializer = [AFJSONResponseSerializer serializer];
     
     NSDictionary *paras = @{
                             @"token": [[NSUserDefaults standardUserDefaults] stringForKey:@"token"],
-                            @"source": @"mazimao",
                             @"id": self.book.bookid,
                             @"cpage": @"1"
                             };
     
-    NSString *url = @"https://www.qingoo.cn/api/book/chapterlist";
-    [manager GET:url parameters:paras progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
-        ChaptersResponseModel *chaptersReponseModel = [ChaptersResponseModel yy_modelWithDictionary:responseObject];
-        [LoadingView hide];
-        [self.dataSource removeAllObjects];
-        [self.dataSource addObjectsFromArray:chaptersReponseModel.model.data];
-        [self.tableView reloadData];
-        
-        for (NSInteger i = 0; i < self.dataSource.count; i++) {
-            [self pullChapterContentWithChapterInfo:self.dataSource[i]];
-        }
-        
-    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
-        [LoadingView hide];
-    }];
+    DefaultServerRequest *request = [[DefaultServerRequest alloc] initWithYype:URITypeChapterList paras:paras delegate:self];
+    [request start];
 }
 
 - (void)pullChapterContentWithChapterInfo:(ChapterInfo *)info {
     
-    AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
-    manager.requestSerializer = [AFJSONRequestSerializer serializer];
-    manager.requestSerializer.timeoutInterval = 30.0;
-    manager.responseSerializer = [AFJSONResponseSerializer serializer];
-    
     NSDictionary *paras = @{
                             @"token": [[NSUserDefaults standardUserDefaults] stringForKey:@"token"],
-                            @"source": @"mazimao",
                             @"id": info.chapterid
                             };
     
-    NSString *url = @"https://www.qingoo.cn/api/chapter/getchapter";
-    [manager GET:url parameters:paras progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
-        ChapterInfo *output = [ChapterInfo yy_modelWithDictionary:[(NSDictionary *)responseObject objectForKey:@"model"]];
+    DefaultServerRequest *request = [[DefaultServerRequest alloc] initWithType:URITypeChapterContent paras:paras];
+    [request startWithSuccess:^(YBNetworkResponse * _Nonnull response) {
+        ChapterInfo *output = [ChapterInfo yy_modelWithDictionary:[(NSDictionary *)response.responseObject objectForKey:@"model"]];
         info.content = output.content;
-    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+    } failure:^(YBNetworkResponse * _Nonnull response) {
         
     }];
 }
@@ -411,6 +387,24 @@
     
     [self.infoMenuDataSource removeAllObjects];
     self.infoMenuDataSource = arr;
+}
+
+#pragma mark - YBResponseDelegate -
+
+- (void)request:(__kindof YBBaseRequest *)request successWithResponse:(YBNetworkResponse *)response {
+    ChaptersResponseModel *chaptersReponseModel = [ChaptersResponseModel yy_modelWithDictionary:response.responseObject];
+    [LoadingView hide];
+    [self.dataSource removeAllObjects];
+    [self.dataSource addObjectsFromArray:chaptersReponseModel.model.data];
+    [self.tableView reloadData];
+    
+    for (NSInteger i = 0; i < self.dataSource.count; i++) {
+        [self pullChapterContentWithChapterInfo:self.dataSource[i]];
+    }
+}
+
+- (void)request:(__kindof YBBaseRequest *)request failureWithResponse:(YBNetworkResponse *)response {
+    [LoadingView hide];
 }
 
 #pragma mark - YBPopupMenuDelegate -

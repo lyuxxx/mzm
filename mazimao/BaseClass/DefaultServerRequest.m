@@ -10,13 +10,17 @@
 
 @implementation DefaultServerRequest
 
-- (instancetype)initWithParas:(NSDictionary *)paras delegate:(id<YBResponseDelegate>)delegate {
-    self = [super init];
-    if (self) {
-        self = [self init];
-        self.requestParameter = paras;
-        self.delegate = delegate;
-    }
+- (instancetype)initWithType:(URIType)type paras:(NSDictionary *)paras {
+    self = [self init];
+    self.requestURI = [URIManager getURIWithType:type];
+    self.requestMethod = [URIManager getRequestMethodWithType:type];
+    self.requestParameter = paras;
+    return self;
+}
+
+- (instancetype)initWithYype:(URIType)type paras:(NSDictionary *)paras delegate:(id<YBResponseDelegate>)delegate {
+    self = [self initWithType:type paras:paras];
+    self.delegate = delegate;
     return self;
 }
 
