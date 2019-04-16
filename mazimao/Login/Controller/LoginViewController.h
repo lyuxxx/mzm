@@ -11,7 +11,7 @@
 NS_ASSUME_NONNULL_BEGIN
 
 @interface LoginViewController : BaseViewController
-
+- (void)autoLoginWithResult:(void(^)(BOOL))result;
 @end
 
 NS_ASSUME_NONNULL_END

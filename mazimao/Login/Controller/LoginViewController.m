@@ -131,6 +131,8 @@
             LoginResponseModel *loginResponse = [LoginResponseModel yy_modelWithDictionary:dic];
             if (loginResponse.code == 0) {
                 [[NSUserDefaults standardUserDefaults] setObject:loginResponse.model.token forKey:@"token"];
+                [[NSUserDefaults standardUserDefaults] setObject:self.usernameField.text forKey:@"username"];
+                [[NSUserDefaults standardUserDefaults] setObject:self.passwordField.text forKey:@"password"];
                 [[NSUserDefaults standardUserDefaults] synchronize];
                 dispatch_async(dispatch_get_main_queue(), ^{
                     BooksViewController *bookVC = [[BooksViewController alloc] init];
@@ -142,6 +144,44 @@
                     self.tipLabel.text = loginResponse.message;
                 });
             }
+        }
+        
+    }] resume];
+}
+
+- (void)autoLoginWithResult:(void (^)(BOOL))result {
+    NSMutableURLRequest *urlRequest = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:@"https://www.qingoo.cn/api/rl/logindo"] cachePolicy:NSURLRequestReloadIgnoringCacheData timeoutInterval:3];
+    [urlRequest setHTTPMethod:@"POST"];
+    [urlRequest setValue:@"application/x-www-form-urlencoded; charset=UTF-8" forHTTPHeaderField:@"Content-Type"];
+    [urlRequest setHTTPBody:[[NSString stringWithFormat:@"name=%@&password=%@&source=mazimao",[[NSUserDefaults standardUserDefaults] stringForKey:@"username"],[[NSUserDefaults standardUserDefaults] stringForKey:@"password"]] dataUsingEncoding:NSUTF8StringEncoding]];
+    NSURLSession *session = [NSURLSession sharedSession];
+    [[session dataTaskWithRequest:urlRequest completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
+        NSInteger statusCode = ((NSHTTPURLResponse *)response).statusCode;
+        if (statusCode == 0) {
+            statusCode = error.code;
+        }
+        
+        if (data) {
+            NSError *inerror;
+            NSDictionary *dic = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingAllowFragments error:&inerror];
+            LoginResponseModel *loginResponse = [LoginResponseModel yy_modelWithDictionary:dic];
+            if (loginResponse.code == 0) {
+                [[NSUserDefaults standardUserDefaults] setObject:loginResponse.model.token forKey:@"token"];
+                [[NSUserDefaults standardUserDefaults] synchronize];
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    BooksViewController *bookVC = [[BooksViewController alloc] init];
+                    NavigationController *navc = [[NavigationController alloc] initWithRootViewController:bookVC];
+                    [UIApplication sharedApplication].delegate.window.rootViewController = navc;
+                    result(YES);
+                });
+            } else {
+                result(NO);
+//                dispatch_async(dispatch_get_main_queue(), ^{
+//                    self.tipLabel.text = loginResponse.message;
+//                });
+            }
+        } else {
+            result(NO);
         }
         
     }] resume];

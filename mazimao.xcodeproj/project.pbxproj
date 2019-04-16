@@ -11,6 +11,7 @@
 		32304C02225F26B700DB602C /* ChapterDirectoryViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 32304C01225F26B700DB602C /* ChapterDirectoryViewController.m */; };
 		32304C08225F340300DB602C /* UserInfoResponseModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 32304C07225F340300DB602C /* UserInfoResponseModel.m */; };
 		323EE7DB226497380013589D /* RecycleBinViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 323EE7DA226497380013589D /* RecycleBinViewController.m */; };
+		323EE7DF226576C20013589D /* LaunchManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 323EE7DE226576C20013589D /* LaunchManager.m */; };
 		3262461C225F511400558868 /* ChapterInfoCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 3262461B225F511400558868 /* ChapterInfoCell.m */; };
 		3262461F2260764600558868 /* WriterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3262461E2260764600558868 /* WriterViewController.m */; };
 		326246222260805B00558868 /* WriterCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 326246212260805B00558868 /* WriterCell.m */; };
@@ -73,6 +74,8 @@
 		32304C07225F340300DB602C /* UserInfoResponseModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = UserInfoResponseModel.m; sourceTree = "<group>"; };
 		323EE7D9226497380013589D /* RecycleBinViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RecycleBinViewController.h; sourceTree = "<group>"; };
 		323EE7DA226497380013589D /* RecycleBinViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = RecycleBinViewController.m; sourceTree = "<group>"; };
+		323EE7DD226576C20013589D /* LaunchManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LaunchManager.h; sourceTree = "<group>"; };
+		323EE7DE226576C20013589D /* LaunchManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = LaunchManager.m; sourceTree = "<group>"; };
 		3262461A225F511400558868 /* ChapterInfoCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ChapterInfoCell.h; sourceTree = "<group>"; };
 		3262461B225F511400558868 /* ChapterInfoCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ChapterInfoCell.m; sourceTree = "<group>"; };
 		3262461D2260764600558868 /* WriterViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WriterViewController.h; sourceTree = "<group>"; };
@@ -194,6 +197,15 @@
 				32304BFE225F212D00DB602C /* LoadingView.m */,
 			);
 			path = LoadingView;
+			sourceTree = "<group>";
+		};
+		323EE7DC226576910013589D /* Launch */ = {
+			isa = PBXGroup;
+			children = (
+				323EE7DD226576C20013589D /* LaunchManager.h */,
+				323EE7DE226576C20013589D /* LaunchManager.m */,
+			);
+			path = Launch;
 			sourceTree = "<group>";
 		};
 		3279F7B1225F48A700518B7B /* NullSafe */ = {
@@ -392,8 +404,9 @@
 			isa = PBXGroup;
 			children = (
 				3283F52A225ED30900D0931F /* Libraries */,
-				3283F529225DFF0A00D0931F /* Home */,
+				323EE7DC226576910013589D /* Launch */,
 				3283F528225DFF0200D0931F /* Login */,
+				3283F529225DFF0A00D0931F /* Home */,
 				3293F98E225DFE05004F5872 /* BaseClass */,
 				3293F8ED225B5361004F5872 /* AppDelegate.h */,
 				3293F8EE225B5361004F5872 /* AppDelegate.m */,
@@ -581,6 +594,7 @@
 				3283F566225ED39E00D0931F /* UIGestureRecognizer+YYAdd.m in Sources */,
 				3283F58E225ED7D700D0931F /* LoginViewController.m in Sources */,
 				3283F574225ED39E00D0931F /* NSNotificationCenter+YYAdd.m in Sources */,
+				323EE7DF226576C20013589D /* LaunchManager.m in Sources */,
 				3283F56C225ED39E00D0931F /* NSDate+YYAdd.m in Sources */,
 				3283F569225ED39E00D0931F /* UIScreen+YYAdd.m in Sources */,
 				3283F5A5225F1D5C00D0931F /* DownloadBooksViewController.m in Sources */,
