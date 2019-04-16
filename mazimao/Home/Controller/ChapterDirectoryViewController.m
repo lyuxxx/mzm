@@ -28,11 +28,14 @@
 
 @end
 
-@interface ChapterDirectoryViewController () <UITableViewDelegate, UITableViewDataSource, YBPopupMenuDelegate, ChapterInfoCellDelegate>
+@interface ChapterDirectoryViewController () <UITableViewDelegate, UITableViewDataSource, YBPopupMenuDelegate, ChapterInfoCellDelegate, DZNEmptyDataSetSource, DZNEmptyDataSetDelegate>
 
 @property (nonatomic, strong) UITableView *tableView;
 @property (nonatomic, strong) NSMutableArray<ChapterInfo *> *dataSource;
 @property (nonatomic, strong) NSMutableArray<ChapterInfo *> *selectedDatas;
+
+@property (nonatomic, strong) NSArray *moreMenuTitles;
+@property (nonatomic, strong) NSArray *moreMenuIcons;
 
 @property (nonatomic, strong) UIButton *syncBtn;
 @property (nonatomic, strong) UIButton *moreBtn;
@@ -43,9 +46,41 @@
 
 @property (nonatomic, strong) NSMutableArray<NSAttributedString *> *infoMenuDataSource;
 
+///是否正序排列
+@property (nonatomic, assign) BOOL isPositive;
+
 @end
 
 @implementation ChapterDirectoryViewController
+
+#pragma mark - setter -
+
+- (void)setIsPositive:(BOOL)isPositive {
+    _isPositive = isPositive;
+    if (isPositive) {
+        _moreMenuTitles = @[
+                                NSLocalizedString(@"编辑章节", nil),
+                                NSLocalizedString(@"章节倒序", nil),
+                                NSLocalizedString(@"回收站", nil)
+                                ];
+        _moreMenuIcons = @[
+                           @"catalog_icon_editor",
+                           @"catalog_icon_positive_sequence",
+                           @"catalog_icon_recycle bin"
+                           ];
+    } else {
+        _moreMenuTitles = @[
+                            NSLocalizedString(@"编辑章节", nil),
+                            NSLocalizedString(@"章节正序", nil),
+                            NSLocalizedString(@"回收站", nil)
+                            ];
+        _moreMenuIcons = @[
+                           @"catalog_icon_editor",
+                           @"catalog_icon_positive_sequence",
+                           @"catalog_icon_recycle bin"
+                           ];
+    }
+}
 
 #pragma mark - life cycle -
 
@@ -86,6 +121,8 @@
         make.height.equalTo(0.5);
         make.left.top.right.equalTo(botView);
     }];
+    
+    self.isPositive = NO;///默认为倒序
 }
 
 - (void)setupBarButton {
@@ -164,17 +201,7 @@
 
 - (void)btnClick:(UIButton *)sender {
     if (sender == self.moreBtn) {
-        NSArray *titles = @[
-                            NSLocalizedString(@"编辑章节", nil),
-                            NSLocalizedString(@"章节正序", nil),
-                            NSLocalizedString(@"回收站", nil)
-                            ];
-        NSArray *icons = @[
-                           @"catalog_icon_editor",
-                           @"catalog_icon_positive_sequence",
-                           @"catalog_icon_recycle bin"
-                           ];
-        [YBPopupMenu showRelyOnView:self.moreBtn titles:titles icons:icons menuWidth:126 delegate:self];
+        [YBPopupMenu showRelyOnView:self.moreBtn titles:_moreMenuTitles icons:_moreMenuIcons menuWidth:126 delegate:self];
     }
     if (sender == self.cancelBtn) {
         [self.selectedDatas removeAllObjects];
@@ -401,7 +428,13 @@
         [self showDeleteButton];
         self.navigationItem.title = NSLocalizedString(@"编辑章节", nil);
     }
-    if (index == 2) {
+    if (index == 1) {//章节正序倒序
+        if (self.dataSource.count == 0) {
+            return;
+        }
+        self.isPositive = !self.isPositive;
+    }
+    if (index == 2) {//回收站
         UIViewController *binVC = [[NSClassFromString(@"RecycleBinViewController") alloc] init];
         [self.navigationController pushViewController:binVC animated:YES];
     }
@@ -513,6 +546,32 @@
     }
 }
 
+#pragma mark - DZNEmptyDataSetSource -
+
+- (NSAttributedString *)titleForEmptyDataSet:(UIScrollView *)scrollView {
+    return [[NSAttributedString alloc] initWithString:NSLocalizedString(@"暂无内容", nil) attributes:@{NSForegroundColorAttributeName:[UIColor colorWithHexString:@"919191"],NSFontAttributeName:[UIFont systemFontOfSize:14]}];
+}
+
+- (UIImage *)imageForEmptyDataSet:(UIScrollView *)scrollView {
+    return [UIImage imageNamed:@"default_page_icon_kong"];
+}
+
+- (CGFloat)verticalOffsetForEmptyDataSet:(UIScrollView *)scrollView {
+    return - 50;
+}
+
+#pragma mark - DZNEmptyDataSetDelegate -
+
+- (BOOL)emptyDataSetShouldAllowScroll:(UIScrollView *)scrollView {
+    return NO;
+}
+
+- (void)emptyDataSetWillAppear:(UIScrollView *)scrollView {
+    [UIView animateWithDuration:0.25 animations:^{
+        scrollView.contentOffset = CGPointZero;
+    }];
+}
+
 #pragma mark - lazy load -
 
 - (UITableView *)tableView {
@@ -520,6 +579,8 @@
         _tableView = [[UITableView alloc] init];
         _tableView.delegate = self;
         _tableView.dataSource = self;
+        _tableView.emptyDataSetSource = self;
+        _tableView.emptyDataSetDelegate = self;
         _tableView.tableFooterView = [UIView new];
 //        _tableView.separatorInset = UIEdgeInsetsMake(0, 0, 0, 0);
         [_tableView registerClass:[ChapterInfoCell class] forCellReuseIdentifier:[ChapterInfoCell reuseIdentifier]];
