@@ -15,5 +15,6 @@ target 'mazimao' do
   pod 'YBPopupMenu'
   pod 'UITextView+Placeholder'
   pod 'SDCycleScrollView'
+  pod 'YYCache'
 
 end

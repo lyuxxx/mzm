@@ -12,6 +12,10 @@
 		32304C08225F340300DB602C /* UserInfoResponseModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 32304C07225F340300DB602C /* UserInfoResponseModel.m */; };
 		323EE7DB226497380013589D /* RecycleBinViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 323EE7DA226497380013589D /* RecycleBinViewController.m */; };
 		323EE7DF226576C20013589D /* LaunchManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 323EE7DE226576C20013589D /* LaunchManager.m */; };
+		325149D62265C5AC00A80FBE /* YBNetworkResponse.m in Sources */ = {isa = PBXBuildFile; fileRef = 325149CB2265C5AC00A80FBE /* YBNetworkResponse.m */; };
+		325149D72265C5AC00A80FBE /* YBNetworkCache.m in Sources */ = {isa = PBXBuildFile; fileRef = 325149D02265C5AC00A80FBE /* YBNetworkCache.m */; };
+		325149D82265C5AC00A80FBE /* YBNetworkManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 325149D22265C5AC00A80FBE /* YBNetworkManager.m */; };
+		325149D92265C5AC00A80FBE /* YBBaseRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 325149D52265C5AC00A80FBE /* YBBaseRequest.m */; };
 		3262461C225F511400558868 /* ChapterInfoCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 3262461B225F511400558868 /* ChapterInfoCell.m */; };
 		3262461F2260764600558868 /* WriterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3262461E2260764600558868 /* WriterViewController.m */; };
 		326246222260805B00558868 /* WriterCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 326246212260805B00558868 /* WriterCell.m */; };
@@ -76,6 +80,17 @@
 		323EE7DA226497380013589D /* RecycleBinViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = RecycleBinViewController.m; sourceTree = "<group>"; };
 		323EE7DD226576C20013589D /* LaunchManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LaunchManager.h; sourceTree = "<group>"; };
 		323EE7DE226576C20013589D /* LaunchManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = LaunchManager.m; sourceTree = "<group>"; };
+		325149C82265C5AC00A80FBE /* YBBaseRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YBBaseRequest.h; sourceTree = "<group>"; };
+		325149C92265C5AC00A80FBE /* YBNetworkDefine.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YBNetworkDefine.h; sourceTree = "<group>"; };
+		325149CB2265C5AC00A80FBE /* YBNetworkResponse.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YBNetworkResponse.m; sourceTree = "<group>"; };
+		325149CC2265C5AC00A80FBE /* YBNetworkResponse.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YBNetworkResponse.h; sourceTree = "<group>"; };
+		325149CE2265C5AC00A80FBE /* YBNetworkCache+Internal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "YBNetworkCache+Internal.h"; sourceTree = "<group>"; };
+		325149CF2265C5AC00A80FBE /* YBNetworkCache.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YBNetworkCache.h; sourceTree = "<group>"; };
+		325149D02265C5AC00A80FBE /* YBNetworkCache.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YBNetworkCache.m; sourceTree = "<group>"; };
+		325149D22265C5AC00A80FBE /* YBNetworkManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YBNetworkManager.m; sourceTree = "<group>"; };
+		325149D32265C5AC00A80FBE /* YBBaseRequest+Internal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "YBBaseRequest+Internal.h"; sourceTree = "<group>"; };
+		325149D42265C5AC00A80FBE /* YBNetworkManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YBNetworkManager.h; sourceTree = "<group>"; };
+		325149D52265C5AC00A80FBE /* YBBaseRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YBBaseRequest.m; sourceTree = "<group>"; };
 		3262461A225F511400558868 /* ChapterInfoCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ChapterInfoCell.h; sourceTree = "<group>"; };
 		3262461B225F511400558868 /* ChapterInfoCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ChapterInfoCell.m; sourceTree = "<group>"; };
 		3262461D2260764600558868 /* WriterViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WriterViewController.h; sourceTree = "<group>"; };
@@ -208,6 +223,48 @@
 			path = Launch;
 			sourceTree = "<group>";
 		};
+		325149C72265C5AC00A80FBE /* YBNetwork */ = {
+			isa = PBXGroup;
+			children = (
+				325149C92265C5AC00A80FBE /* YBNetworkDefine.h */,
+				325149C82265C5AC00A80FBE /* YBBaseRequest.h */,
+				325149D52265C5AC00A80FBE /* YBBaseRequest.m */,
+				325149CA2265C5AC00A80FBE /* Response */,
+				325149CD2265C5AC00A80FBE /* Cache */,
+				325149D12265C5AC00A80FBE /* Manger */,
+			);
+			path = YBNetwork;
+			sourceTree = "<group>";
+		};
+		325149CA2265C5AC00A80FBE /* Response */ = {
+			isa = PBXGroup;
+			children = (
+				325149CC2265C5AC00A80FBE /* YBNetworkResponse.h */,
+				325149CB2265C5AC00A80FBE /* YBNetworkResponse.m */,
+			);
+			path = Response;
+			sourceTree = "<group>";
+		};
+		325149CD2265C5AC00A80FBE /* Cache */ = {
+			isa = PBXGroup;
+			children = (
+				325149CE2265C5AC00A80FBE /* YBNetworkCache+Internal.h */,
+				325149CF2265C5AC00A80FBE /* YBNetworkCache.h */,
+				325149D02265C5AC00A80FBE /* YBNetworkCache.m */,
+			);
+			path = Cache;
+			sourceTree = "<group>";
+		};
+		325149D12265C5AC00A80FBE /* Manger */ = {
+			isa = PBXGroup;
+			children = (
+				325149D32265C5AC00A80FBE /* YBBaseRequest+Internal.h */,
+				325149D42265C5AC00A80FBE /* YBNetworkManager.h */,
+				325149D22265C5AC00A80FBE /* YBNetworkManager.m */,
+			);
+			path = Manger;
+			sourceTree = "<group>";
+		};
 		3279F7B1225F48A700518B7B /* NullSafe */ = {
 			isa = PBXGroup;
 			children = (
@@ -238,6 +295,7 @@
 		3283F52A225ED30900D0931F /* Libraries */ = {
 			isa = PBXGroup;
 			children = (
+				325149C72265C5AC00A80FBE /* YBNetwork */,
 				3279F7B1225F48A700518B7B /* NullSafe */,
 				32304BFC225F210300DB602C /* LoadingView */,
 				3283F57B225ED3F700D0931F /* EllipsePageControl */,
@@ -548,6 +606,7 @@
 			files = (
 				3293F991225DFE25004F5872 /* NavigationController.m in Sources */,
 				3283F570225ED39E00D0931F /* UIImage+YYAdd.m in Sources */,
+				325149D82265C5AC00A80FBE /* YBNetworkManager.m in Sources */,
 				32304BFF225F212D00DB602C /* LoadingView.m in Sources */,
 				323EE7DB226497380013589D /* RecycleBinViewController.m in Sources */,
 				3293F994225DFE36004F5872 /* BaseViewController.m in Sources */,
@@ -580,10 +639,13 @@
 				3283F57A225ED39E00D0931F /* UIScrollView+YYAdd.m in Sources */,
 				3283F577225ED39E00D0931F /* UITextField+YYAdd.m in Sources */,
 				3283F59E225F171200D0931F /* SettingViewController.m in Sources */,
+				325149D72265C5AC00A80FBE /* YBNetworkCache.m in Sources */,
+				325149D62265C5AC00A80FBE /* YBNetworkResponse.m in Sources */,
 				3283F573225ED39E00D0931F /* YYCGUtilities.m in Sources */,
 				3283F575225ED39E00D0931F /* NSNumber+YYAdd.m in Sources */,
 				3283F571225ED39E00D0931F /* UIApplication+YYAdd.m in Sources */,
 				3283F572225ED39E00D0931F /* NSObject+YYAddForKVO.m in Sources */,
+				325149D92265C5AC00A80FBE /* YBBaseRequest.m in Sources */,
 				32304C02225F26B700DB602C /* ChapterDirectoryViewController.m in Sources */,
 				3283F581225ED44A00D0931F /* Const.m in Sources */,
 				3283F57E225ED40500D0931F /* EllipsePageControl.m in Sources */,
