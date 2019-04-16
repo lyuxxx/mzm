@@ -10,6 +10,7 @@
 #import "LoginResponseModel.h"
 #import "BooksViewController.h"
 #import "NavigationController.h"
+#import "LoginRequest.h"
 
 @interface LoginViewController () <UITextFieldDelegate>
 @property (nonatomic, strong) UITextField *usernameField;
@@ -17,6 +18,7 @@
 @property (nonatomic, strong) UIButton *securityBtn;
 @property (nonatomic, strong) UILabel *tipLabel;
 @property (nonatomic, strong) UIButton *loginBtn;
+@property (nonatomic, copy) LoginResult loginResult;
 @end
 
 @implementation LoginViewController
@@ -114,77 +116,29 @@
 }
 
 - (void)login {
-    NSMutableURLRequest *urlRequest = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:@"https://www.qingoo.cn/api/rl/logindo"] cachePolicy:NSURLRequestReloadIgnoringCacheData timeoutInterval:30];
-    [urlRequest setHTTPMethod:@"POST"];
-    [urlRequest setValue:@"application/x-www-form-urlencoded; charset=UTF-8" forHTTPHeaderField:@"Content-Type"];
-    [urlRequest setHTTPBody:[[NSString stringWithFormat:@"name=%@&password=%@&source=mazimao",self.usernameField.text,self.passwordField.text] dataUsingEncoding:NSUTF8StringEncoding]];
-    NSURLSession *session = [NSURLSession sharedSession];
-    [[session dataTaskWithRequest:urlRequest completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
-        NSInteger statusCode = ((NSHTTPURLResponse *)response).statusCode;
-        if (statusCode == 0) {
-            statusCode = error.code;
-        }
-        
-        if (data) {
-            NSError *inerror;
-            NSDictionary *dic = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingAllowFragments error:&inerror];
-            LoginResponseModel *loginResponse = [LoginResponseModel yy_modelWithDictionary:dic];
-            if (loginResponse.code == 0) {
-                [[NSUserDefaults standardUserDefaults] setObject:loginResponse.model.token forKey:@"token"];
-                [[NSUserDefaults standardUserDefaults] setObject:self.usernameField.text forKey:@"username"];
-                [[NSUserDefaults standardUserDefaults] setObject:self.passwordField.text forKey:@"password"];
-                [[NSUserDefaults standardUserDefaults] synchronize];
-                dispatch_async(dispatch_get_main_queue(), ^{
-                    BooksViewController *bookVC = [[BooksViewController alloc] init];
-                    NavigationController *navc = [[NavigationController alloc] initWithRootViewController:bookVC];
-                    [UIApplication sharedApplication].delegate.window.rootViewController = navc;
-                });
-            } else {
-                dispatch_async(dispatch_get_main_queue(), ^{
-                    self.tipLabel.text = loginResponse.message;
-                });
-            }
-        }
-        
-    }] resume];
+    LoginRequest *request = [LoginRequest new];
+    request.requestURI = [URIManager getURIWithType:URITypeLogin];
+    request.requestMethod = [URIManager getRequestMethodWithType:URITypeLogin];
+    request.requestParameter = @{
+                                 @"name": self.usernameField.text,
+                                 @"password": self.passwordField.text
+                                 };
+    request.delegate = self;
+    [request start];
 }
 
-- (void)autoLoginWithResult:(void (^)(BOOL))result {
-    NSMutableURLRequest *urlRequest = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:@"https://www.qingoo.cn/api/rl/logindo"] cachePolicy:NSURLRequestReloadIgnoringCacheData timeoutInterval:3];
-    [urlRequest setHTTPMethod:@"POST"];
-    [urlRequest setValue:@"application/x-www-form-urlencoded; charset=UTF-8" forHTTPHeaderField:@"Content-Type"];
-    [urlRequest setHTTPBody:[[NSString stringWithFormat:@"name=%@&password=%@&source=mazimao",[[NSUserDefaults standardUserDefaults] stringForKey:@"username"],[[NSUserDefaults standardUserDefaults] stringForKey:@"password"]] dataUsingEncoding:NSUTF8StringEncoding]];
-    NSURLSession *session = [NSURLSession sharedSession];
-    [[session dataTaskWithRequest:urlRequest completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
-        NSInteger statusCode = ((NSHTTPURLResponse *)response).statusCode;
-        if (statusCode == 0) {
-            statusCode = error.code;
-        }
-        
-        if (data) {
-            NSError *inerror;
-            NSDictionary *dic = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingAllowFragments error:&inerror];
-            LoginResponseModel *loginResponse = [LoginResponseModel yy_modelWithDictionary:dic];
-            if (loginResponse.code == 0) {
-                [[NSUserDefaults standardUserDefaults] setObject:loginResponse.model.token forKey:@"token"];
-                [[NSUserDefaults standardUserDefaults] synchronize];
-                dispatch_async(dispatch_get_main_queue(), ^{
-                    BooksViewController *bookVC = [[BooksViewController alloc] init];
-                    NavigationController *navc = [[NavigationController alloc] initWithRootViewController:bookVC];
-                    [UIApplication sharedApplication].delegate.window.rootViewController = navc;
-                    result(YES);
-                });
-            } else {
-                result(NO);
-//                dispatch_async(dispatch_get_main_queue(), ^{
-//                    self.tipLabel.text = loginResponse.message;
-//                });
-            }
-        } else {
-            result(NO);
-        }
-        
-    }] resume];
+- (void)autoLoginWithResult:(LoginResult)result {
+    self.loginResult = result;
+    
+    LoginRequest *request = [LoginRequest new];
+    request.requestURI = [URIManager getURIWithType:URITypeLogin];
+    request.requestMethod = [URIManager getRequestMethodWithType:URITypeLogin];
+    request.requestParameter = @{
+                                 @"name": [[NSUserDefaults standardUserDefaults] stringForKey:@"username"],
+                                 @"password": [[NSUserDefaults standardUserDefaults] stringForKey:@"password"]
+                                 };
+    request.delegate = self;
+    [request start];
 }
 
 - (BOOL)getButtonEnableByCurrentTF:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string tfArr:(NSArray *)tfArr;{
@@ -206,6 +160,38 @@
         }
     }
     return YES;
+}
+
+#pragma mark - YBResponseDelegate -
+
+- (void)request:(__kindof YBBaseRequest *)request successWithResponse:(YBNetworkResponse *)response {
+    LoginResponseModel *loginResponse = [LoginResponseModel yy_modelWithDictionary:response.responseObject];
+    if (loginResponse.code == 0) {
+        [[NSUserDefaults standardUserDefaults] setObject:loginResponse.model.token forKey:@"token"];
+        [[NSUserDefaults standardUserDefaults] setObject:self.usernameField.text forKey:@"username"];
+        [[NSUserDefaults standardUserDefaults] setObject:self.passwordField.text forKey:@"password"];
+        [[NSUserDefaults standardUserDefaults] synchronize];
+        BooksViewController *bookVC = [[BooksViewController alloc] init];
+        NavigationController *navc = [[NavigationController alloc] initWithRootViewController:bookVC];
+        [UIApplication sharedApplication].delegate.window.rootViewController = navc;
+        if (self.loginResult) {
+            self.loginResult(YES);
+            self.loginResult = nil;
+        }
+    } else {
+        if (self.loginResult) {
+            self.loginResult(NO);
+            self.loginResult = nil;
+        }
+        self.tipLabel.text = loginResponse.message;
+    }
+}
+
+- (void)request:(__kindof YBBaseRequest *)request failureWithResponse:(YBNetworkResponse *)response {
+    if (self.loginResult) {
+        self.loginResult(NO);
+        self.loginResult = nil;
+    }
 }
 
 #pragma mark - UITextFieldDelegate -

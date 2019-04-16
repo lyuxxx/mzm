@@ -208,6 +208,16 @@
     
 }
 
+#pragma mark - YBResponseDelegate -
+
+- (void)request:(__kindof YBBaseRequest *)request successWithResponse:(YBNetworkResponse *)response {
+    
+}
+
+- (void)request:(__kindof YBBaseRequest *)request failureWithResponse:(YBNetworkResponse *)response {
+    
+}
+
 #pragma mark - SDCycleScrollViewDelegate -
 
 - (void)cycleScrollView:(SDCycleScrollView *)cycleScrollView didSelectItemAtIndex:(NSInteger)index {

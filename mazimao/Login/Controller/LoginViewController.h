@@ -8,10 +8,12 @@
 
 #import "BaseViewController.h"
 
+typedef void(^LoginResult)(BOOL result);
+
 NS_ASSUME_NONNULL_BEGIN
 
 @interface LoginViewController : BaseViewController
-- (void)autoLoginWithResult:(void(^)(BOOL))result;
+- (void)autoLoginWithResult:(LoginResult)result;
 @end
 
 NS_ASSUME_NONNULL_END

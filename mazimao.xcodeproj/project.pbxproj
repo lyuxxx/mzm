@@ -16,6 +16,9 @@
 		325149D72265C5AC00A80FBE /* YBNetworkCache.m in Sources */ = {isa = PBXBuildFile; fileRef = 325149D02265C5AC00A80FBE /* YBNetworkCache.m */; };
 		325149D82265C5AC00A80FBE /* YBNetworkManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 325149D22265C5AC00A80FBE /* YBNetworkManager.m */; };
 		325149D92265C5AC00A80FBE /* YBBaseRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 325149D52265C5AC00A80FBE /* YBBaseRequest.m */; };
+		325149DC2265C6B900A80FBE /* DefaultServerRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 325149DB2265C6B900A80FBE /* DefaultServerRequest.m */; };
+		325149E02265C85600A80FBE /* URIManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 325149DF2265C85600A80FBE /* URIManager.m */; };
+		325149E32265CD2100A80FBE /* LoginRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 325149E22265CD2100A80FBE /* LoginRequest.m */; };
 		3262461C225F511400558868 /* ChapterInfoCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 3262461B225F511400558868 /* ChapterInfoCell.m */; };
 		3262461F2260764600558868 /* WriterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3262461E2260764600558868 /* WriterViewController.m */; };
 		326246222260805B00558868 /* WriterCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 326246212260805B00558868 /* WriterCell.m */; };
@@ -91,6 +94,12 @@
 		325149D32265C5AC00A80FBE /* YBBaseRequest+Internal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "YBBaseRequest+Internal.h"; sourceTree = "<group>"; };
 		325149D42265C5AC00A80FBE /* YBNetworkManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YBNetworkManager.h; sourceTree = "<group>"; };
 		325149D52265C5AC00A80FBE /* YBBaseRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YBBaseRequest.m; sourceTree = "<group>"; };
+		325149DA2265C6B900A80FBE /* DefaultServerRequest.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DefaultServerRequest.h; sourceTree = "<group>"; };
+		325149DB2265C6B900A80FBE /* DefaultServerRequest.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DefaultServerRequest.m; sourceTree = "<group>"; };
+		325149DE2265C85600A80FBE /* URIManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = URIManager.h; sourceTree = "<group>"; };
+		325149DF2265C85600A80FBE /* URIManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = URIManager.m; sourceTree = "<group>"; };
+		325149E12265CD2100A80FBE /* LoginRequest.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LoginRequest.h; sourceTree = "<group>"; };
+		325149E22265CD2100A80FBE /* LoginRequest.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = LoginRequest.m; sourceTree = "<group>"; };
 		3262461A225F511400558868 /* ChapterInfoCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ChapterInfoCell.h; sourceTree = "<group>"; };
 		3262461B225F511400558868 /* ChapterInfoCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ChapterInfoCell.m; sourceTree = "<group>"; };
 		3262461D2260764600558868 /* WriterViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WriterViewController.h; sourceTree = "<group>"; };
@@ -378,6 +387,8 @@
 			children = (
 				3283F586225ED58200D0931F /* LoginResponseModel.h */,
 				3283F587225ED58200D0931F /* LoginResponseModel.m */,
+				325149E12265CD2100A80FBE /* LoginRequest.h */,
+				325149E22265CD2100A80FBE /* LoginRequest.m */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -488,6 +499,10 @@
 				3293F993225DFE36004F5872 /* BaseViewController.m */,
 				3293F995225DFE46004F5872 /* BaseModel.h */,
 				3293F996225DFE46004F5872 /* BaseModel.m */,
+				325149DA2265C6B900A80FBE /* DefaultServerRequest.h */,
+				325149DB2265C6B900A80FBE /* DefaultServerRequest.m */,
+				325149DE2265C85600A80FBE /* URIManager.h */,
+				325149DF2265C85600A80FBE /* URIManager.m */,
 			);
 			path = BaseClass;
 			sourceTree = "<group>";
@@ -609,6 +624,7 @@
 				325149D82265C5AC00A80FBE /* YBNetworkManager.m in Sources */,
 				32304BFF225F212D00DB602C /* LoadingView.m in Sources */,
 				323EE7DB226497380013589D /* RecycleBinViewController.m in Sources */,
+				325149DC2265C6B900A80FBE /* DefaultServerRequest.m in Sources */,
 				3293F994225DFE36004F5872 /* BaseViewController.m in Sources */,
 				3283F56E225ED39E00D0931F /* ReplaceMe.m in Sources */,
 				3283F564225ED39E00D0931F /* UIColor+YYAdd.m in Sources */,
@@ -620,6 +636,7 @@
 				3279F7B0225F463500518B7B /* ChaptersResponseModel.m in Sources */,
 				3293F8FD225B5361004F5872 /* main.m in Sources */,
 				3283F56F225ED39E00D0931F /* NSString+YYAdd.m in Sources */,
+				325149E32265CD2100A80FBE /* LoginRequest.m in Sources */,
 				3283F562225ED39E00D0931F /* UITableView+YYAdd.m in Sources */,
 				3262461C225F511400558868 /* ChapterInfoCell.m in Sources */,
 				3283F56B225ED39E00D0931F /* NSObject+YYAdd.m in Sources */,
@@ -629,6 +646,7 @@
 				3283F579225ED39E00D0931F /* NSTimer+YYAdd.m in Sources */,
 				3283F578225ED39E00D0931F /* NSKeyedUnarchiver+YYAdd.m in Sources */,
 				3283F56D225ED39E00D0931F /* UIFont+YYAdd.m in Sources */,
+				325149E02265C85600A80FBE /* URIManager.m in Sources */,
 				32304C08225F340300DB602C /* UserInfoResponseModel.m in Sources */,
 				3293F8EF225B5361004F5872 /* AppDelegate.m in Sources */,
 				3283F591225EE22F00D0931F /* BooksViewController.m in Sources */,
