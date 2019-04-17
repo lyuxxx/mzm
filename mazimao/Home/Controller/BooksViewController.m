@@ -164,7 +164,7 @@
     NSDictionary *paras = @{
                             @"token": [[NSUserDefaults standardUserDefaults] stringForKey:@"token"]
                             };
-    DefaultServerRequest *request = [[DefaultServerRequest alloc] initWithType:URITypeUserInfo paras:paras];
+    DefaultRequest *request = [[DefaultRequest alloc] initWithType:URITypeUserInfo paras:paras];
     weakifySelf
     [request startWithSuccess:^(YBNetworkResponse * _Nonnull response) {
         strongifySelf
@@ -180,7 +180,7 @@
     NSDictionary *paras = @{
                             @"token": [[NSUserDefaults standardUserDefaults] stringForKey:@"token"],
                             };
-    DefaultServerRequest *request = [[DefaultServerRequest alloc] initWithYype:URITypeBookList paras:paras delegate:self];
+    DefaultRequest *request = [[DefaultRequest alloc] initWithYype:URITypeBookList paras:paras delegate:self];
     [request start];
     
 }

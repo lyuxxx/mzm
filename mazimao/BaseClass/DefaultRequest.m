@@ -1,14 +1,14 @@
 //
-//  DefaultServerRequest.m
+//  DefaultRequest.m
 //  mazimao
 //
 //  Created by wuhan006 on 2019/4/16.
 //  Copyright © 2019 intelligent. All rights reserved.
 //
 
-#import "DefaultServerRequest.h"
+#import "DefaultRequest.h"
 
-@implementation DefaultServerRequest
+@implementation DefaultRequest
 
 - (instancetype)initWithType:(URIType)type paras:(NSDictionary *)paras {
     self = [self init];

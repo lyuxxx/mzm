@@ -6,11 +6,11 @@
 //  Copyright © 2019 intelligent. All rights reserved.
 //
 
-#import "DefaultServerRequest.h"
+#import "DefaultRequest.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface LoginRequest : DefaultServerRequest
+@interface LoginRequest : DefaultRequest
 
 @end
 

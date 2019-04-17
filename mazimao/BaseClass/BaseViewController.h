@@ -7,7 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "DefaultServerRequest.h"
+#import "DefaultRequest.h"
 #import "URIManager.h"
 
 NS_ASSUME_NONNULL_BEGIN

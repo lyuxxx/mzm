@@ -338,7 +338,7 @@
                             @"cpage": @"1"
                             };
     
-    DefaultServerRequest *request = [[DefaultServerRequest alloc] initWithYype:URITypeChapterList paras:paras delegate:self];
+    DefaultRequest *request = [[DefaultRequest alloc] initWithYype:URITypeChapterList paras:paras delegate:self];
     [request start];
 }
 
@@ -349,7 +349,7 @@
                             @"id": info.chapterid
                             };
     
-    DefaultServerRequest *request = [[DefaultServerRequest alloc] initWithType:URITypeChapterContent paras:paras];
+    DefaultRequest *request = [[DefaultRequest alloc] initWithType:URITypeChapterContent paras:paras];
     [request startWithSuccess:^(YBNetworkResponse * _Nonnull response) {
         ChapterInfo *output = [ChapterInfo yy_modelWithDictionary:[(NSDictionary *)response.responseObject objectForKey:@"model"]];
         info.content = output.content;
