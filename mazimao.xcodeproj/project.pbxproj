@@ -387,8 +387,6 @@
 			children = (
 				3283F586225ED58200D0931F /* LoginResponseModel.h */,
 				3283F587225ED58200D0931F /* LoginResponseModel.m */,
-				325149E12265CD2100A80FBE /* LoginRequest.h */,
-				325149E22265CD2100A80FBE /* LoginRequest.m */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -472,6 +470,7 @@
 		3293F8EC225B5361004F5872 /* mazimao */ = {
 			isa = PBXGroup;
 			children = (
+				32A04B6A2268239A00A2ED58 /* Network */,
 				3283F52A225ED30900D0931F /* Libraries */,
 				323EE7DC226576910013589D /* Launch */,
 				3283F528225DFF0200D0931F /* Login */,
@@ -499,12 +498,21 @@
 				3293F993225DFE36004F5872 /* BaseViewController.m */,
 				3293F995225DFE46004F5872 /* BaseModel.h */,
 				3293F996225DFE46004F5872 /* BaseModel.m */,
-				325149DA2265C6B900A80FBE /* DefaultRequest.h */,
-				325149DB2265C6B900A80FBE /* DefaultRequest.m */,
-				325149DE2265C85600A80FBE /* URIManager.h */,
-				325149DF2265C85600A80FBE /* URIManager.m */,
 			);
 			path = BaseClass;
+			sourceTree = "<group>";
+		};
+		32A04B6A2268239A00A2ED58 /* Network */ = {
+			isa = PBXGroup;
+			children = (
+				325149DE2265C85600A80FBE /* URIManager.h */,
+				325149DF2265C85600A80FBE /* URIManager.m */,
+				325149DA2265C6B900A80FBE /* DefaultRequest.h */,
+				325149DB2265C6B900A80FBE /* DefaultRequest.m */,
+				325149E12265CD2100A80FBE /* LoginRequest.h */,
+				325149E22265CD2100A80FBE /* LoginRequest.m */,
+			);
+			path = Network;
 			sourceTree = "<group>";
 		};
 		682314ED8FC6B6EFB32D2F50 /* Pods */ = {
