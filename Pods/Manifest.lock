@@ -19,9 +19,9 @@ PODS:
   - Masonry (1.1.0)
   - SDCycleScrollView (1.80):
     - SDWebImage (>= 5.0.0)
-  - SDWebImage (5.0.0):
-    - SDWebImage/Core (= 5.0.0)
-  - SDWebImage/Core (5.0.0)
+  - SDWebImage (5.0.1):
+    - SDWebImage/Core (= 5.0.1)
+  - SDWebImage/Core (5.0.1)
   - "UITextView+Placeholder (1.2.1)"
   - YBPopupMenu (1.1.2)
   - YYCache (1.0.4)
@@ -58,7 +58,7 @@ SPEC CHECKSUMS:
   DZNEmptyDataSet: 9525833b9e68ac21c30253e1d3d7076cc828eaa7
   Masonry: 678fab65091a9290e40e2832a55e7ab731aad201
   SDCycleScrollView: b3c9a5ed840c771c4938978174c7c9d9feefeb96
-  SDWebImage: 5de80a0302de9e377e62f47d2fa1304efff0e55f
+  SDWebImage: 27dd2c9ea07a2252f94557c9fbb6105ee94b74c9
   "UITextView+Placeholder": 0c3efd97f37ea64bde7f34cc6e90fe02e87b3909
   YBPopupMenu: 6efb286385d95ba5f97c58b8464ec873645e8764
   YYCache: 8105b6638f5e849296c71f331ff83891a4942952
