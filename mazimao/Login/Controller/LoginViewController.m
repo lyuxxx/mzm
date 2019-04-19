@@ -128,6 +128,13 @@
 }
 
 - (void)autoLoginWithResult:(LoginResult)result {
+	
+	//没有记录过用户登录信息，无法自动登录
+	if (![[NSUserDefaults standardUserDefaults] stringForKey:@"username"] || ![[NSUserDefaults standardUserDefaults] stringForKey:@"password"]) {
+		result(NO);
+		return;
+	}
+	
     self.loginResult = result;
     
     LoginRequest *request = [LoginRequest new];
