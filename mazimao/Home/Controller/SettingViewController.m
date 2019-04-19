@@ -73,8 +73,13 @@
         [cancelAction setValue:[UIColor colorWithHexString:@"222222"] forKey:@"titleTextColor"];
         [alertController addAction:cancelAction];
         [alertController addAction:defaultAction];
-        
-        [self presentViewController:alertController animated:YES completion:nil];
+		
+		weakifySelf
+		dispatch_async(dispatch_get_main_queue(), ^{
+			strongifySelf
+			[self presentViewController:alertController animated:YES completion:nil];
+		});
+		
     }
 }
 
