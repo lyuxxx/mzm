@@ -12,9 +12,13 @@
 typedef NS_ENUM(NSUInteger, URIType) {
     URITypeLogin,
     URITypeUserInfo,
+	URITypeGetBookList,
     URITypeBookList,
     URITypeChapterList,
     URITypeChapterContent,
+	URITypeCheckContext,
+	URITypePublishChapter,
+	URITypeUpdateChapter,
 };
 
 NS_ASSUME_NONNULL_BEGIN

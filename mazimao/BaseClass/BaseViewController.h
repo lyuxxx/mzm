@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import "DefaultRequest.h"
+#import "OtherRequest.h"
 #import "URIManager.h"
 
 NS_ASSUME_NONNULL_BEGIN

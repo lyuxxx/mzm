@@ -20,8 +20,11 @@
             break;
         case URITypeUserInfo:
             uri = @"/api/user/get";
-            break;
-        case URITypeBookList:
+			break;
+		case URITypeGetBookList:
+			uri = @"/v2/books/get_books_list";
+			break;
+		case URITypeBookList:
             uri = @"/api/book/list";
             break;
         case URITypeChapterList:
@@ -30,6 +33,15 @@
         case URITypeChapterContent:
             uri = @"/api/chapter/getchapter";
             break;
+		case URITypeCheckContext:
+			uri = @"/api/chapter/checkContext";
+			break;
+		case URITypePublishChapter:
+			uri = @"/api/chapter/createdo";
+			break;
+		case URITypeUpdateChapter:
+			uri = @"/api/chapter/update";
+			break;
         default:
             break;
     }
@@ -39,9 +51,12 @@
 + (YBRequestMethod)getRequestMethodWithType:(URIType)type {
     YBRequestMethod method = YBRequestMethodGET;
     switch (type) {
-        case URITypeLogin:
-            method = YBRequestMethodPOST;
-            break;
+		case URITypeLogin:
+		case URITypeCheckContext:
+		case URITypePublishChapter:
+		case URITypeUpdateChapter:
+			method = YBRequestMethodPOST;
+			break;
             
         default:
             break;
