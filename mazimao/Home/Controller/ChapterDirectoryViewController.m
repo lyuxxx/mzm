@@ -93,11 +93,13 @@
 #pragma mark - private func -
 
 - (void)setupUI {
+	self.view.backgroundColor = [UIColor whiteColor];
     self.navigationItem.title = NSLocalizedString(@"章节目录", nil);
     [self setupBarButton];
     [self.view addSubview:self.tableView];
     [self.tableView makeConstraints:^(MASConstraintMaker *make) {
-        make.edges.equalTo(self.view);
+		make.top.equalTo(140);
+		make.left.right.bottom.equalTo(self.view);
     }];
     
     UIView *botView = [[UIView alloc] init];
@@ -301,6 +303,7 @@
 
 - (void)showDeleteButton {
     [self.tableView updateConstraints:^(MASConstraintMaker *make) {
+		make.top.equalTo(0);
         make.bottom.equalTo(self.view).offset(-49 - kBottomHeight);
     }];
     [self updateConstraints];
@@ -309,6 +312,7 @@
 - (void)hideDeleteButton {
     [self.deleteBtn setTitle:NSLocalizedString(@"删除", nil) forState:UIControlStateNormal];
     [self.tableView updateConstraints:^(MASConstraintMaker *make) {
+		make.top.equalTo(140);
         make.bottom.equalTo(self.view.bottom);
     }];
     
