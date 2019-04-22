@@ -23,6 +23,8 @@
     self = [super initWithFrame:frame];
     if (self) {
         self.coverImgV = [[UIImageView alloc] init];
+		self.coverImgV.layer.cornerRadius = 5;
+		self.coverImgV.layer.masksToBounds = YES;
         [self.contentView addSubview:self.coverImgV];
         [self.coverImgV makeConstraints:^(MASConstraintMaker *make) {
             make.width.equalTo(158);
