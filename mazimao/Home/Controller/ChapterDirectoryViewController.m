@@ -29,6 +29,22 @@
 
 @end
 
+@interface CreateChapterButton : UIButton
+
+@end
+
+@implementation CreateChapterButton
+
+- (CGRect)imageRectForContentRect:(CGRect)contentRect {
+	return CGRectMake(8.0 / 96.0 * contentRect.size.width, 10.0 / 36.0 * contentRect.size.height, 16.0 / 96.0 * contentRect.size.width, 16.0 / 36.0 * contentRect.size.height);
+}
+
+- (CGRect)titleRectForContentRect:(CGRect)contentRect {
+	return CGRectMake(30.0 / 96.0 * contentRect.size.width, 8.0 / 36.0 * contentRect.size.height, 58.0 / 96.0 * contentRect.size.width, 20.0 / 36.0 * contentRect.size.height);
+}
+
+@end
+
 @interface ChapterDirectoryViewController () <UITableViewDelegate, UITableViewDataSource, YBPopupMenuDelegate, ChapterInfoCellDelegate, DZNEmptyDataSetSource, DZNEmptyDataSetDelegate>
 
 @property (nonatomic, strong) UITableView *tableView;
@@ -44,6 +60,12 @@
 @property (nonatomic, strong) UIButton *allBtn;
 @property (nonatomic, strong) UIButton *cancelBtn;
 @property (nonatomic, strong) UIButton *deleteBtn;
+
+@property (nonatomic, strong) UIView *topView;
+@property (nonatomic, strong) UILabel *nameLabel;
+@property (nonatomic, strong) UILabel *chapterCountLabel;
+@property (nonatomic, strong) UILabel *wordCountLabel;
+@property (nonatomic, strong) CreateChapterButton *createButton;
 
 @property (nonatomic, strong) NSMutableArray<NSAttributedString *> *infoMenuDataSource;
 
@@ -93,6 +115,52 @@
 #pragma mark - private func -
 
 - (void)setupUI {
+	
+	self.topView = [[UIView alloc] init];
+	self.topView.backgroundColor = [UIColor colorWithHexString:@"f5f5f5"];
+	[self.view addSubview:self.topView];
+	[self.topView makeConstraints:^(MASConstraintMaker *make) {
+		make.top.left.right.equalTo(0);
+		make.height.equalTo(100);
+	}];
+	
+	UIView *containerView = [[UIView alloc] init];
+	containerView.backgroundColor = [UIColor whiteColor];
+	[self.topView addSubview:containerView];
+	[containerView makeConstraints:^(MASConstraintMaker *make) {
+		make.width.equalTo(self.topView);
+		make.center.equalTo(self.topView);
+		make.height.equalTo(90);
+	}];
+	
+	[containerView addSubview:self.nameLabel];
+	[self.nameLabel makeConstraints:^(MASConstraintMaker *make) {
+		make.left.equalTo(16);
+		make.top.equalTo(10);
+		make.height.equalTo(25);
+	}];
+	
+	[containerView addSubview:self.chapterCountLabel];
+	[self.chapterCountLabel makeConstraints:^(MASConstraintMaker *make) {
+		make.left.equalTo(16);
+		make.top.equalTo(self.nameLabel.bottom).offset(8);
+		make.height.equalTo(20);
+	}];
+	
+	[containerView addSubview:self.wordCountLabel];
+	[self.wordCountLabel makeConstraints:^(MASConstraintMaker *make) {
+		make.top.height.equalTo(self.chapterCountLabel);
+		make.left.equalTo(self.chapterCountLabel.right).offset(16);
+	}];
+	
+	[containerView addSubview:self.createButton];
+	[self.createButton makeConstraints:^(MASConstraintMaker *make) {
+		make.centerY.equalTo(containerView);
+		make.right.equalTo(-16);
+		make.width.equalTo(96);
+		make.height.equalTo(36);
+	}];
+	
 	self.view.backgroundColor = [UIColor whiteColor];
     self.navigationItem.title = NSLocalizedString(@"章节目录", nil);
     [self setupBarButton];
@@ -126,6 +194,7 @@
     }];
     
     self.isPositive = NO;///默认为倒序
+	self.nameLabel.text = self.book.name;
 }
 
 - (void)setupBarButton {
@@ -240,6 +309,10 @@
         [self deleteSelectedIndexPath:self.tableView.indexPathsForSelectedRows];
         
     }
+	
+	if (sender == self.createButton) {
+		
+	}
 }
 
 - (void)showDeleteAlertWithResult:(void(^)(BOOL))result {
@@ -302,6 +375,9 @@
 }
 
 - (void)showDeleteButton {
+	[self.topView updateConstraints:^(MASConstraintMaker *make) {
+		make.top.equalTo(-100);
+	}];
     [self.tableView updateConstraints:^(MASConstraintMaker *make) {
 		make.top.equalTo(0);
         make.bottom.equalTo(self.view).offset(-49 - kBottomHeight);
@@ -310,9 +386,12 @@
 }
 
 - (void)hideDeleteButton {
+	[self.topView updateConstraints:^(MASConstraintMaker *make) {
+		make.top.equalTo(0);
+	}];
     [self.deleteBtn setTitle:NSLocalizedString(@"删除", nil) forState:UIControlStateNormal];
     [self.tableView updateConstraints:^(MASConstraintMaker *make) {
-		make.top.equalTo(140);
+		make.top.equalTo(100);
         make.bottom.equalTo(self.view.bottom);
     }];
     
@@ -616,6 +695,48 @@
         [_deleteBtn setTitle:NSLocalizedString(@"删除", nil) forState:UIControlStateNormal];
     }
     return _deleteBtn;
+}
+
+- (UILabel *)nameLabel {
+	if (!_nameLabel) {
+		_nameLabel = [[UILabel alloc] init];
+		_nameLabel.font = [UIFont systemFontOfSize:18];
+		_nameLabel.textColor = [UIColor colorWithHexString:@"222222"];
+	}
+	return _nameLabel;
+}
+
+- (UILabel *)chapterCountLabel {
+	if (!_chapterCountLabel) {
+		_chapterCountLabel = [[UILabel alloc] init];
+		_chapterCountLabel.font = [UIFont systemFontOfSize:14];
+		_chapterCountLabel.textColor = [UIColor colorWithHexString:@"919191"];
+	}
+	return _chapterCountLabel;
+}
+
+- (UILabel *)wordCountLabel {
+	if (!_wordCountLabel) {
+		_wordCountLabel = [[UILabel alloc] init];
+		_wordCountLabel.font = [UIFont systemFontOfSize:14];
+		_wordCountLabel.textColor = [UIColor colorWithHexString:@"919191"];
+	}
+	return _wordCountLabel;
+}
+
+- (CreateChapterButton *)createButton {
+	if (!_createButton) {
+		_createButton = [CreateChapterButton buttonWithType:UIButtonTypeCustom];
+		[_createButton setImage:[UIImage imageNamed:@"catalog_icon_new_section"] forState:UIControlStateNormal];
+		[_createButton setTitle:NSLocalizedString(@"新建章节", nil) forState:UIControlStateNormal];
+		[_createButton setTitleColor:[UIColor colorWithHexString:@"222222"] forState:UIControlStateNormal];
+		_createButton.titleLabel.font = [UIFont systemFontOfSize:14];
+		_createButton.backgroundColor = [UIColor colorWithHexString:@"ffd450"];
+		_createButton.layer.cornerRadius = 3;
+		_createButton.layer.masksToBounds = YES;
+		[_createButton addTarget:self action:@selector(btnClick:) forControlEvents:UIControlEventTouchUpInside];
+	}
+	return _createButton;
 }
 
 @end
