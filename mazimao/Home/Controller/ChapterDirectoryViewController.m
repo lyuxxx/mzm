@@ -430,6 +430,8 @@
             return;
         }
         self.isPositive = !self.isPositive;
+		self.dataSource = [NSMutableArray arrayWithArray:[[self.dataSource reverseObjectEnumerator] allObjects]];
+		[self.tableView reloadData];
     }
     if (index == 2) {//回收站
         UIViewController *binVC = [[NSClassFromString(@"RecycleBinViewController") alloc] init];
