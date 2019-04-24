@@ -16,10 +16,12 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic , copy) NSString              * name;
 @property (nonatomic , assign) NSInteger              sn;
 @property (nonatomic , copy) NSString              * content;
+///disable:已下架 enable:已上架
 @property (nonatomic , copy) NSString              * status;
 @property (nonatomic , copy) NSString              *create_time;
 @property (nonatomic , copy) NSString              *update_time;
 @property (nonatomic , assign) NSInteger              word_count;
+///notcheck:待审核 notpass:未过审 pass:已过审
 @property (nonatomic , copy) NSString              * checkStatus;
 @property (nonatomic , copy) NSString              * checkMessage;
 @property (nonatomic , copy) NSString              * authorTalk;
