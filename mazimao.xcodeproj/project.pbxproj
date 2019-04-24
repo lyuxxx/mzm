@@ -69,6 +69,7 @@
 		3293F994225DFE36004F5872 /* BaseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3293F993225DFE36004F5872 /* BaseViewController.m */; };
 		3293F997225DFE46004F5872 /* BaseModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 3293F996225DFE46004F5872 /* BaseModel.m */; };
 		32CA371A226D9EB4007E11A5 /* OtherRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 32CA3719226D9EB4007E11A5 /* OtherRequest.m */; };
+		32CA371E226FFB19007E11A5 /* LocalBook.m in Sources */ = {isa = PBXBuildFile; fileRef = 32CA371D226FFB19007E11A5 /* LocalBook.m */; };
 		32DB37C12269CEBC00E012C6 /* NSDictionary+NilSafe.m in Sources */ = {isa = PBXBuildFile; fileRef = 32DB37C02269CEBC00E012C6 /* NSDictionary+NilSafe.m */; };
 		EA3C35D84F13B110A728AA2A /* libPods-mazimao.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6EE28A7DF3B5100B68D59160 /* libPods-mazimao.a */; };
 /* End PBXBuildFile section */
@@ -202,6 +203,8 @@
 		3293F996225DFE46004F5872 /* BaseModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BaseModel.m; sourceTree = "<group>"; };
 		32CA3718226D9EB4007E11A5 /* OtherRequest.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = OtherRequest.h; sourceTree = "<group>"; };
 		32CA3719226D9EB4007E11A5 /* OtherRequest.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = OtherRequest.m; sourceTree = "<group>"; };
+		32CA371C226FFB19007E11A5 /* LocalBook.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LocalBook.h; sourceTree = "<group>"; };
+		32CA371D226FFB19007E11A5 /* LocalBook.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = LocalBook.m; sourceTree = "<group>"; };
 		32DB37BF2269CEBC00E012C6 /* NSDictionary+NilSafe.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSDictionary+NilSafe.h"; sourceTree = "<group>"; };
 		32DB37C02269CEBC00E012C6 /* NSDictionary+NilSafe.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSDictionary+NilSafe.m"; sourceTree = "<group>"; };
 		6EE28A7DF3B5100B68D59160 /* libPods-mazimao.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-mazimao.a"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -478,6 +481,7 @@
 		3293F8EC225B5361004F5872 /* mazimao */ = {
 			isa = PBXGroup;
 			children = (
+				32CA371B226FFAF7007E11A5 /* Sync */,
 				32A04B6A2268239A00A2ED58 /* Network */,
 				3283F52A225ED30900D0931F /* Libraries */,
 				323EE7DC226576910013589D /* Launch */,
@@ -523,6 +527,15 @@
 				325149E22265CD2100A80FBE /* LoginRequest.m */,
 			);
 			path = Network;
+			sourceTree = "<group>";
+		};
+		32CA371B226FFAF7007E11A5 /* Sync */ = {
+			isa = PBXGroup;
+			children = (
+				32CA371C226FFB19007E11A5 /* LocalBook.h */,
+				32CA371D226FFB19007E11A5 /* LocalBook.m */,
+			);
+			path = Sync;
 			sourceTree = "<group>";
 		};
 		682314ED8FC6B6EFB32D2F50 /* Pods */ = {
@@ -671,6 +684,7 @@
 				3293F8EF225B5361004F5872 /* AppDelegate.m in Sources */,
 				3283F591225EE22F00D0931F /* BooksViewController.m in Sources */,
 				326246222260805B00558868 /* WriterCell.m in Sources */,
+				32CA371E226FFB19007E11A5 /* LocalBook.m in Sources */,
 				3283F563225ED39E00D0931F /* UIDevice+YYAdd.m in Sources */,
 				3262461F2260764600558868 /* WriterViewController.m in Sources */,
 				3283F598225EE83000D0931F /* BookViewLayout.m in Sources */,

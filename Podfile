@@ -16,5 +16,7 @@ target 'mazimao' do
   pod 'UITextView+Placeholder'
   pod 'SDCycleScrollView'
   pod 'YYCache'
+  pod 'FMDB/SQLCipher'
+  pod 'LKDBHelper'
 
 end
