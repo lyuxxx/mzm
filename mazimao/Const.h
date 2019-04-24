@@ -10,3 +10,4 @@
 #import <UIKit/UIKit.h>
 
 UIKIT_EXTERN NSString *const LoginViewControllerAutoLoginNotification;
+UIKIT_EXTERN NSString *const MZMMd5SaltKey;

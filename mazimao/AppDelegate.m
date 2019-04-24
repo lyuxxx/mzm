@@ -8,6 +8,7 @@
 
 #import "AppDelegate.h"
 #import "NavigationController.h"
+#import "WBAFNetworkingLogger.h"
 
 @interface AppDelegate ()
 
@@ -27,6 +28,11 @@
     
     self.window.rootViewController = navc;
     [self.window makeKeyAndVisible];
+	
+#ifdef DEBUG
+	[[WBAFNetworkingLogger sharedLogger] startLogging];
+	[[WBAFNetworkingLogger sharedLogger] setLevel:WBLoggerLevelDebug];
+#endif
     
     return YES;
 }

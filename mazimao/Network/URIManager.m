@@ -15,32 +15,43 @@
     NSString *uri = nil;
     
     switch (type) {
-        case URITypeLogin:
+        case URITypeQgLogin:
             uri = @"/api/rl/logindo";
             break;
-        case URITypeUserInfo:
+        case URITypeQgUserInfo:
             uri = @"/api/user/get";
 			break;
-		case URITypeGetBookList:
-			uri = @"/v2/books/get_books_list";
+		case URITypeQgBookList:
+			uri = @"/api/book/list";
 			break;
-		case URITypeBookList:
-            uri = @"/api/book/list";
-            break;
-        case URITypeChapterList:
-            uri = @"/api/book/chapterlist";
-            break;
-        case URITypeChapterContent:
-            uri = @"/api/chapter/getchapter";
-            break;
-		case URITypeCheckContext:
+		case URITypeQgChapterList:
+			uri = @"/api/book/chapterlist";
+			break;
+		case URITypeQgChapterContent:
+			uri = @"/api/chapter/getchapter";
+			break;
+		case URITypeQgCheckContext:
 			uri = @"/api/chapter/checkContext";
 			break;
-		case URITypePublishChapter:
+		case URITypeQgPublishChapter:
 			uri = @"/api/chapter/createdo";
 			break;
-		case URITypeUpdateChapter:
+		case URITypeQgUpdateChapter:
 			uri = @"/api/chapter/update";
+			break;
+		
+			
+		case URITypeMzmBookList:
+			uri = @"/v2/books/get_books_list";
+			break;
+		case URITypeMzmUpdateBookList:
+			uri = @"/v2/books/update_books_list";
+			break;
+        case URITypeMzmChapterList:
+            uri = @"/v2/chapters/get_chapters_list_app";
+            break;
+		case URITypeMzmUpdateChapterList:
+			uri = @"/v2/chapters/update_chapters_list";
 			break;
         default:
             break;
@@ -51,10 +62,12 @@
 + (YBRequestMethod)getRequestMethodWithType:(URIType)type {
     YBRequestMethod method = YBRequestMethodGET;
     switch (type) {
-		case URITypeLogin:
-		case URITypeCheckContext:
-		case URITypePublishChapter:
-		case URITypeUpdateChapter:
+		case URITypeQgLogin:
+		case URITypeQgCheckContext:
+		case URITypeQgPublishChapter:
+		case URITypeQgUpdateChapter:
+		case URITypeMzmUpdateBookList:
+		case URITypeMzmUpdateChapterList:
 			method = YBRequestMethodPOST;
 			break;
             

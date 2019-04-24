@@ -8,11 +8,12 @@
 
 #import "BaseViewController.h"
 #import "LoginResponseModel.h"
+#import "UserInfoResponseModel.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
 @interface BooksViewController : BaseViewController
-
+@property (nonatomic, strong) User *user;
 @end
 
 NS_ASSUME_NONNULL_END

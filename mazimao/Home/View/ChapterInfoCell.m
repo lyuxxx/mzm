@@ -60,18 +60,18 @@
         make.centerY.equalTo(self.timeLabel);
     }];
     
-    [self.contentView addSubview:self.infoBtn];
-    [self.infoBtn makeConstraints:^(MASConstraintMaker *make) {
-        make.right.equalTo(-16);
-        make.width.height.equalTo(20);
-        make.centerY.equalTo(0);
-    }];
+//    [self.contentView addSubview:self.infoBtn];
+//    [self.infoBtn makeConstraints:^(MASConstraintMaker *make) {
+//        make.right.equalTo(-16);
+//        make.width.height.equalTo(20);
+//        make.centerY.equalTo(0);
+//    }];
 }
 
-- (void)configWithChapterInfo:(ChapterInfo *)chapterInfo {
+- (void)configWithChapterInfo:(MzmChapter *)chapterInfo {
     self.nameLabel.text = chapterInfo.name;
-    self.timeLabel.text = chapterInfo.update_time;
-    self.wordCountLabel.text = [NSString stringWithFormat:@"%ld字",chapterInfo.word_count];
+    self.timeLabel.text = [NSString stringWithFormat:@"%.0f",chapterInfo.updatets];
+    self.wordCountLabel.text = [NSString stringWithFormat:@"%ld字",chapterInfo.wordscount];
 }
 
 - (void)btnClick:(UIButton *)sender {

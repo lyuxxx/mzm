@@ -7,12 +7,12 @@
 //
 
 #import "BaseViewController.h"
-#import "BooksResponseModel.h"
+#import "MzmBook.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
 @interface ChapterDirectoryViewController : BaseViewController
-@property (nonatomic, strong) Book *book;
+@property (nonatomic, strong) MzmBook *book;
 @end
 
 NS_ASSUME_NONNULL_END

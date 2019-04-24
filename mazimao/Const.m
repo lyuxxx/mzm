@@ -9,3 +9,4 @@
 #import "Const.h"
 
 NSString *const LoginViewControllerAutoLoginNotification = @"LoginViewControllerAutoLoginNotification";
+NSString *const MZMMd5SaltKey = @"1qaz@WSX3edc!@#$123";

@@ -11,6 +11,7 @@
 #import "BooksViewController.h"
 #import "NavigationController.h"
 #import "LoginRequest.h"
+#import "UserInfoResponseModel.h"
 
 @interface LoginViewController () <UITextFieldDelegate>
 @property (nonatomic, strong) UITextField *usernameField;
@@ -117,8 +118,8 @@
 
 - (void)login {
     LoginRequest *request = [LoginRequest new];
-    request.requestURI = [URIManager getURIWithType:URITypeLogin];
-    request.requestMethod = [URIManager getRequestMethodWithType:URITypeLogin];
+    request.requestURI = [URIManager getURIWithType:URITypeQgLogin];
+    request.requestMethod = [URIManager getRequestMethodWithType:URITypeQgLogin];
     request.requestParameter = @{
                                  @"name": self.usernameField.text,
                                  @"password": self.passwordField.text
@@ -138,8 +139,8 @@
     self.loginResult = result;
     
     LoginRequest *request = [LoginRequest new];
-    request.requestURI = [URIManager getURIWithType:URITypeLogin];
-    request.requestMethod = [URIManager getRequestMethodWithType:URITypeLogin];
+    request.requestURI = [URIManager getURIWithType:URITypeQgLogin];
+    request.requestMethod = [URIManager getRequestMethodWithType:URITypeQgLogin];
     request.requestParameter = @{
                                  @"name": [[NSUserDefaults standardUserDefaults] stringForKey:@"username"],
                                  @"password": [[NSUserDefaults standardUserDefaults] stringForKey:@"password"]
@@ -178,9 +179,32 @@
         [[NSUserDefaults standardUserDefaults] setObject:self.usernameField.text forKey:@"username"];
         [[NSUserDefaults standardUserDefaults] setObject:self.passwordField.text forKey:@"password"];
         [[NSUserDefaults standardUserDefaults] synchronize];
-        BooksViewController *bookVC = [[BooksViewController alloc] init];
-        NavigationController *navc = [[NavigationController alloc] initWithRootViewController:bookVC];
-        [UIApplication sharedApplication].delegate.window.rootViewController = navc;
+		NSDictionary *paras = @{
+								@"token": [[NSUserDefaults standardUserDefaults] stringForKey:@"token"]
+								};
+		
+		QGRequest *request = [[QGRequest alloc] initWithType:URITypeQgUserInfo paras:paras];
+		[request startWithSuccess:^(YBNetworkResponse * _Nonnull response) {
+			UserInfoResponseModel *responseModel = [UserInfoResponseModel yy_modelWithDictionary:response.responseObject];
+			BooksViewController *bookVC = [[BooksViewController alloc] init];
+			bookVC.user = responseModel.model.data;
+			[[NSUserDefaults standardUserDefaults] setObject:responseModel.model.data.userid forKey:@"account_id"];
+			[[NSUserDefaults standardUserDefaults] synchronize];
+			NavigationController *navc = [[NavigationController alloc] initWithRootViewController:bookVC];
+			
+			if (self.loginResult) {
+				self.loginResult(YES);
+				self.loginResult = nil;
+			}
+			
+			[UIApplication sharedApplication].delegate.window.rootViewController = navc;
+		} failure:^(YBNetworkResponse * _Nonnull response) {
+			if (self.loginResult) {
+				self.loginResult(NO);
+				self.loginResult = nil;
+			}
+		}];
+		
         if (self.loginResult) {
             self.loginResult(YES);
             self.loginResult = nil;

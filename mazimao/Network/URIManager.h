@@ -10,15 +10,21 @@
 #import "YBBaseRequest.h"
 
 typedef NS_ENUM(NSUInteger, URIType) {
-    URITypeLogin,
-    URITypeUserInfo,
-	URITypeGetBookList,
-    URITypeBookList,
-    URITypeChapterList,
-    URITypeChapterContent,
-	URITypeCheckContext,
-	URITypePublishChapter,
-	URITypeUpdateChapter,
+    URITypeQgLogin,
+    URITypeQgUserInfo,
+	URITypeQgBookList,
+	URITypeQgChapterList,
+	URITypeQgChapterContent,
+	URITypeQgCheckContext,
+	URITypeQgPublishChapter,
+	URITypeQgUpdateChapter,
+	
+	
+	URITypeMzmBookList,
+	URITypeMzmUpdateBookList,
+    URITypeMzmChapterList,
+	URITypeMzmUpdateChapterList,
+	
 };
 
 NS_ASSUME_NONNULL_BEGIN

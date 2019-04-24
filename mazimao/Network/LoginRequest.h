@@ -6,11 +6,11 @@
 //  Copyright © 2019 intelligent. All rights reserved.
 //
 
-#import "DefaultRequest.h"
+#import "QGRequest.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface LoginRequest : DefaultRequest
+@interface LoginRequest : QGRequest
 
 @end
 

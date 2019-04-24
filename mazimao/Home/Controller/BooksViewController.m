@@ -13,9 +13,9 @@
 #import "ProfileViewController.h"
 #import "LoadingView.h"
 #import "ChapterDirectoryViewController.h"
-#import "UserInfoResponseModel.h"
 #import <UIButton+WebCache.h>
 #import <SDCycleScrollView.h>
+#import "MzmBook.h"
 
 @interface BooksViewController () <SDCycleScrollViewDelegate>
 @property (nonatomic, strong) UIButton *profileBtn;
@@ -25,19 +25,12 @@
 @property (nonatomic, strong) EllipsePageControl *pageControl;
 @property (nonatomic, strong) UIButton *enterBtn;
 
-@property (nonatomic, strong) NSMutableArray<Book *> *dataSource;
-
-@property (nonatomic, strong) User *user;
+@property (nonatomic, strong) NSMutableArray<MzmBook *> *dataSource;
 @end
 
 @implementation BooksViewController
 
 #pragma mark - setter -
-
-- (void)setUser:(User *)user {
-    _user = user;
-    [self.profileBtn sd_setImageWithURL:[NSURL URLWithString:_user.image] forState:UIControlStateNormal];
-}
 
 #pragma mark - life cycle -
 
@@ -46,11 +39,12 @@
     
     [self setupUI];
     [self registerGesture];
-    [self pullUserInfo];
+	[self.profileBtn sd_setImageWithURL:[NSURL URLWithString:_user.image] forState:UIControlStateNormal];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
-    [self pullData];
+	[super viewWillAppear:animated];
+	[self pullMzmBooks];
 }
 
 - (void)viewDidLayoutSubviews {
@@ -160,37 +154,23 @@
     }
 }
 
-- (void)pullUserInfo {
-    NSDictionary *paras = @{
-                            @"token": [[NSUserDefaults standardUserDefaults] stringForKey:@"token"]
-                            };
-    DefaultRequest *request = [[DefaultRequest alloc] initWithType:URITypeUserInfo paras:paras];
-    weakifySelf
-    [request startWithSuccess:^(YBNetworkResponse * _Nonnull response) {
-        strongifySelf
-        UserInfoResponseModel *responseModel = [UserInfoResponseModel yy_modelWithDictionary:response.responseObject];
-        self.user = responseModel.model.data;
-    } failure:^(YBNetworkResponse * _Nonnull response) {
-        
-    }];
-}
-
-- (void)pullData {
-    
-    NSDictionary *paras = @{
-                            @"token": [[NSUserDefaults standardUserDefaults] stringForKey:@"token"],
-                            };
-    DefaultRequest *request = [[DefaultRequest alloc] initWithYype:URITypeBookList paras:paras delegate:self];
-    [request start];
-    
+- (void)pullMzmBooks {
+	NSString *ts = [NSString stringWithFormat:@"%.0f",[[NSDate date] timeIntervalSince1970] * 1000];
+	NSDictionary *paras = @{
+							@"account_id": self.user.userid,
+							@"request_ts": ts,
+							@"supdatets": @"1"
+							};
+	MZMRequest *request = [[MZMRequest alloc] initWithYype:URITypeMzmBookList paras:paras delegate:self];
+	[request start];
 }
 
 #pragma mark - YBResponseDelegate -
 
 - (void)request:(__kindof YBBaseRequest *)request successWithResponse:(YBNetworkResponse *)response {
-    BooksResponseModel *booksResponse = [BooksResponseModel yy_modelWithDictionary:response.responseObject];
+    MzmBooksResponse *booksResponse = [MzmBooksResponse yy_modelWithDictionary:response.responseObject];
     [self.dataSource removeAllObjects];
-    [self.dataSource addObjectsFromArray:booksResponse.model.data];
+    [self.dataSource addObjectsFromArray:booksResponse.books];
     NSMutableArray *tmp = [NSMutableArray arrayWithCapacity:self.dataSource.count];
     for (NSInteger i = 0; i < self.dataSource.count; i++) {
         [tmp addObject:@""];
@@ -272,7 +252,7 @@
     return _enterBtn;
 }
 
-- (NSMutableArray<Book *> *)dataSource {
+- (NSMutableArray<MzmBook *> *)dataSource {
     if (!_dataSource) {
         _dataSource = [NSMutableArray array];
     }

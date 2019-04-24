@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		321F5B4C22700C9300EB7FED /* WBAFNetworkingLogger.m in Sources */ = {isa = PBXBuildFile; fileRef = 321F5B4B22700C9300EB7FED /* WBAFNetworkingLogger.m */; };
+		321F5B53227058C000EB7FED /* QGRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 321F5B52227058C000EB7FED /* QGRequest.m */; };
 		32304BFF225F212D00DB602C /* LoadingView.m in Sources */ = {isa = PBXBuildFile; fileRef = 32304BFE225F212D00DB602C /* LoadingView.m */; };
 		32304C02225F26B700DB602C /* ChapterDirectoryViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 32304C01225F26B700DB602C /* ChapterDirectoryViewController.m */; };
 		32304C08225F340300DB602C /* UserInfoResponseModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 32304C07225F340300DB602C /* UserInfoResponseModel.m */; };
@@ -16,7 +18,6 @@
 		325149D72265C5AC00A80FBE /* YBNetworkCache.m in Sources */ = {isa = PBXBuildFile; fileRef = 325149D02265C5AC00A80FBE /* YBNetworkCache.m */; };
 		325149D82265C5AC00A80FBE /* YBNetworkManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 325149D22265C5AC00A80FBE /* YBNetworkManager.m */; };
 		325149D92265C5AC00A80FBE /* YBBaseRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 325149D52265C5AC00A80FBE /* YBBaseRequest.m */; };
-		325149DC2265C6B900A80FBE /* DefaultRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 325149DB2265C6B900A80FBE /* DefaultRequest.m */; };
 		325149E02265C85600A80FBE /* URIManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 325149DF2265C85600A80FBE /* URIManager.m */; };
 		325149E32265CD2100A80FBE /* LoginRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 325149E22265CD2100A80FBE /* LoginRequest.m */; };
 		3262461C225F511400558868 /* ChapterInfoCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 3262461B225F511400558868 /* ChapterInfoCell.m */; };
@@ -68,14 +69,18 @@
 		3293F991225DFE25004F5872 /* NavigationController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3293F990225DFE25004F5872 /* NavigationController.m */; };
 		3293F994225DFE36004F5872 /* BaseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3293F993225DFE36004F5872 /* BaseViewController.m */; };
 		3293F997225DFE46004F5872 /* BaseModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 3293F996225DFE46004F5872 /* BaseModel.m */; };
-		32CA371A226D9EB4007E11A5 /* OtherRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 32CA3719226D9EB4007E11A5 /* OtherRequest.m */; };
-		32CA371E226FFB19007E11A5 /* LocalBook.m in Sources */ = {isa = PBXBuildFile; fileRef = 32CA371D226FFB19007E11A5 /* LocalBook.m */; };
+		32CA371A226D9EB4007E11A5 /* MZMRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 32CA3719226D9EB4007E11A5 /* MZMRequest.m */; };
+		32CA371E226FFB19007E11A5 /* MzmBook.m in Sources */ = {isa = PBXBuildFile; fileRef = 32CA371D226FFB19007E11A5 /* MzmBook.m */; };
 		32DB37C12269CEBC00E012C6 /* NSDictionary+NilSafe.m in Sources */ = {isa = PBXBuildFile; fileRef = 32DB37C02269CEBC00E012C6 /* NSDictionary+NilSafe.m */; };
 		EA3C35D84F13B110A728AA2A /* libPods-mazimao.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6EE28A7DF3B5100B68D59160 /* libPods-mazimao.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		0B2E7B3F3EEC85B60B3E8B9E /* Pods-mazimao.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-mazimao.debug.xcconfig"; path = "Target Support Files/Pods-mazimao/Pods-mazimao.debug.xcconfig"; sourceTree = "<group>"; };
+		321F5B4A22700C9300EB7FED /* WBAFNetworkingLogger.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WBAFNetworkingLogger.h; sourceTree = "<group>"; };
+		321F5B4B22700C9300EB7FED /* WBAFNetworkingLogger.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WBAFNetworkingLogger.m; sourceTree = "<group>"; };
+		321F5B51227058C000EB7FED /* QGRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QGRequest.h; sourceTree = "<group>"; };
+		321F5B52227058C000EB7FED /* QGRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QGRequest.m; sourceTree = "<group>"; };
 		32304BFD225F212D00DB602C /* LoadingView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LoadingView.h; sourceTree = "<group>"; };
 		32304BFE225F212D00DB602C /* LoadingView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = LoadingView.m; sourceTree = "<group>"; };
 		32304C00225F26B700DB602C /* ChapterDirectoryViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ChapterDirectoryViewController.h; sourceTree = "<group>"; };
@@ -97,8 +102,6 @@
 		325149D32265C5AC00A80FBE /* YBBaseRequest+Internal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "YBBaseRequest+Internal.h"; sourceTree = "<group>"; };
 		325149D42265C5AC00A80FBE /* YBNetworkManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YBNetworkManager.h; sourceTree = "<group>"; };
 		325149D52265C5AC00A80FBE /* YBBaseRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YBBaseRequest.m; sourceTree = "<group>"; };
-		325149DA2265C6B900A80FBE /* DefaultRequest.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DefaultRequest.h; sourceTree = "<group>"; };
-		325149DB2265C6B900A80FBE /* DefaultRequest.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DefaultRequest.m; sourceTree = "<group>"; };
 		325149DE2265C85600A80FBE /* URIManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = URIManager.h; sourceTree = "<group>"; };
 		325149DF2265C85600A80FBE /* URIManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = URIManager.m; sourceTree = "<group>"; };
 		325149E12265CD2100A80FBE /* LoginRequest.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LoginRequest.h; sourceTree = "<group>"; };
@@ -201,10 +204,10 @@
 		3293F993225DFE36004F5872 /* BaseViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BaseViewController.m; sourceTree = "<group>"; };
 		3293F995225DFE46004F5872 /* BaseModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BaseModel.h; sourceTree = "<group>"; };
 		3293F996225DFE46004F5872 /* BaseModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BaseModel.m; sourceTree = "<group>"; };
-		32CA3718226D9EB4007E11A5 /* OtherRequest.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = OtherRequest.h; sourceTree = "<group>"; };
-		32CA3719226D9EB4007E11A5 /* OtherRequest.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = OtherRequest.m; sourceTree = "<group>"; };
-		32CA371C226FFB19007E11A5 /* LocalBook.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LocalBook.h; sourceTree = "<group>"; };
-		32CA371D226FFB19007E11A5 /* LocalBook.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = LocalBook.m; sourceTree = "<group>"; };
+		32CA3718226D9EB4007E11A5 /* MZMRequest.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MZMRequest.h; sourceTree = "<group>"; };
+		32CA3719226D9EB4007E11A5 /* MZMRequest.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MZMRequest.m; sourceTree = "<group>"; };
+		32CA371C226FFB19007E11A5 /* MzmBook.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MzmBook.h; sourceTree = "<group>"; };
+		32CA371D226FFB19007E11A5 /* MzmBook.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MzmBook.m; sourceTree = "<group>"; };
 		32DB37BF2269CEBC00E012C6 /* NSDictionary+NilSafe.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSDictionary+NilSafe.h"; sourceTree = "<group>"; };
 		32DB37C02269CEBC00E012C6 /* NSDictionary+NilSafe.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSDictionary+NilSafe.m"; sourceTree = "<group>"; };
 		6EE28A7DF3B5100B68D59160 /* libPods-mazimao.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-mazimao.a"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -223,6 +226,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		321F5B4922700C8600EB7FED /* WBAFNetworkingLogger */ = {
+			isa = PBXGroup;
+			children = (
+				321F5B4A22700C9300EB7FED /* WBAFNetworkingLogger.h */,
+				321F5B4B22700C9300EB7FED /* WBAFNetworkingLogger.m */,
+			);
+			path = WBAFNetworkingLogger;
+			sourceTree = "<group>";
+		};
 		32304BFC225F210300DB602C /* LoadingView */ = {
 			isa = PBXGroup;
 			children = (
@@ -315,6 +327,7 @@
 		3283F52A225ED30900D0931F /* Libraries */ = {
 			isa = PBXGroup;
 			children = (
+				321F5B4922700C8600EB7FED /* WBAFNetworkingLogger */,
 				325149C72265C5AC00A80FBE /* YBNetwork */,
 				3279F7B1225F48A700518B7B /* NullSafe */,
 				32304BFC225F210300DB602C /* LoadingView */,
@@ -519,10 +532,10 @@
 			children = (
 				325149DE2265C85600A80FBE /* URIManager.h */,
 				325149DF2265C85600A80FBE /* URIManager.m */,
-				325149DA2265C6B900A80FBE /* DefaultRequest.h */,
-				325149DB2265C6B900A80FBE /* DefaultRequest.m */,
-				32CA3718226D9EB4007E11A5 /* OtherRequest.h */,
-				32CA3719226D9EB4007E11A5 /* OtherRequest.m */,
+				321F5B51227058C000EB7FED /* QGRequest.h */,
+				321F5B52227058C000EB7FED /* QGRequest.m */,
+				32CA3718226D9EB4007E11A5 /* MZMRequest.h */,
+				32CA3719226D9EB4007E11A5 /* MZMRequest.m */,
 				325149E12265CD2100A80FBE /* LoginRequest.h */,
 				325149E22265CD2100A80FBE /* LoginRequest.m */,
 			);
@@ -532,8 +545,8 @@
 		32CA371B226FFAF7007E11A5 /* Sync */ = {
 			isa = PBXGroup;
 			children = (
-				32CA371C226FFB19007E11A5 /* LocalBook.h */,
-				32CA371D226FFB19007E11A5 /* LocalBook.m */,
+				32CA371C226FFB19007E11A5 /* MzmBook.h */,
+				32CA371D226FFB19007E11A5 /* MzmBook.m */,
 			);
 			path = Sync;
 			sourceTree = "<group>";
@@ -655,7 +668,6 @@
 				325149D82265C5AC00A80FBE /* YBNetworkManager.m in Sources */,
 				32304BFF225F212D00DB602C /* LoadingView.m in Sources */,
 				323EE7DB226497380013589D /* RecycleBinViewController.m in Sources */,
-				325149DC2265C6B900A80FBE /* DefaultRequest.m in Sources */,
 				3293F994225DFE36004F5872 /* BaseViewController.m in Sources */,
 				3283F56E225ED39E00D0931F /* ReplaceMe.m in Sources */,
 				3283F564225ED39E00D0931F /* UIColor+YYAdd.m in Sources */,
@@ -677,15 +689,16 @@
 				3293F997225DFE46004F5872 /* BaseModel.m in Sources */,
 				3283F579225ED39E00D0931F /* NSTimer+YYAdd.m in Sources */,
 				3283F578225ED39E00D0931F /* NSKeyedUnarchiver+YYAdd.m in Sources */,
-				32CA371A226D9EB4007E11A5 /* OtherRequest.m in Sources */,
+				32CA371A226D9EB4007E11A5 /* MZMRequest.m in Sources */,
 				3283F56D225ED39E00D0931F /* UIFont+YYAdd.m in Sources */,
 				325149E02265C85600A80FBE /* URIManager.m in Sources */,
 				32304C08225F340300DB602C /* UserInfoResponseModel.m in Sources */,
 				3293F8EF225B5361004F5872 /* AppDelegate.m in Sources */,
 				3283F591225EE22F00D0931F /* BooksViewController.m in Sources */,
 				326246222260805B00558868 /* WriterCell.m in Sources */,
-				32CA371E226FFB19007E11A5 /* LocalBook.m in Sources */,
+				32CA371E226FFB19007E11A5 /* MzmBook.m in Sources */,
 				3283F563225ED39E00D0931F /* UIDevice+YYAdd.m in Sources */,
+				321F5B4C22700C9300EB7FED /* WBAFNetworkingLogger.m in Sources */,
 				3262461F2260764600558868 /* WriterViewController.m in Sources */,
 				3283F598225EE83000D0931F /* BookViewLayout.m in Sources */,
 				3283F57A225ED39E00D0931F /* UIScrollView+YYAdd.m in Sources */,
@@ -694,6 +707,7 @@
 				325149D72265C5AC00A80FBE /* YBNetworkCache.m in Sources */,
 				325149D62265C5AC00A80FBE /* YBNetworkResponse.m in Sources */,
 				3283F573225ED39E00D0931F /* YYCGUtilities.m in Sources */,
+				321F5B53227058C000EB7FED /* QGRequest.m in Sources */,
 				3283F575225ED39E00D0931F /* NSNumber+YYAdd.m in Sources */,
 				3283F571225ED39E00D0931F /* UIApplication+YYAdd.m in Sources */,
 				3283F572225ED39E00D0931F /* NSObject+YYAddForKVO.m in Sources */,

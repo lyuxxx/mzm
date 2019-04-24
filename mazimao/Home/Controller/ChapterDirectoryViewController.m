@@ -48,8 +48,8 @@
 @interface ChapterDirectoryViewController () <UITableViewDelegate, UITableViewDataSource, YBPopupMenuDelegate, ChapterInfoCellDelegate, DZNEmptyDataSetSource, DZNEmptyDataSetDelegate>
 
 @property (nonatomic, strong) UITableView *tableView;
-@property (nonatomic, strong) NSMutableArray<ChapterInfo *> *dataSource;
-@property (nonatomic, strong) NSMutableArray<ChapterInfo *> *selectedDatas;
+@property (nonatomic, strong) NSMutableArray<MzmChapter *> *dataSource;
+@property (nonatomic, strong) NSMutableArray<MzmChapter *> *selectedDatas;
 
 @property (nonatomic, strong) NSArray *moreMenuTitles;
 @property (nonatomic, strong) NSArray *moreMenuIcons;
@@ -166,7 +166,7 @@
     [self setupBarButton];
     [self.view addSubview:self.tableView];
     [self.tableView makeConstraints:^(MASConstraintMaker *make) {
-		make.top.equalTo(140);
+		make.top.equalTo(100);
 		make.left.right.bottom.equalTo(self.view);
     }];
     
@@ -286,7 +286,7 @@
         sender.selected = !sender.selected;
         if (sender.selected) {//全选
             for (NSInteger i = 0; i < self.dataSource.count; i++) {
-                ChapterInfo *item = self.dataSource[i];
+                MzmChapter *item = self.dataSource[i];
                 if (![self.selectedDatas containsObject:item]) {
                     [self.selectedDatas addObject:item];
                 }
@@ -294,7 +294,7 @@
             }
         } else {//取消全选
             for (NSInteger i = 0; i < self.dataSource.count; i++) {
-                ChapterInfo *item = self.dataSource[i];
+                MzmChapter *item = self.dataSource[i];
                 if ([self.selectedDatas containsObject:item]) {
                     [self.selectedDatas removeObject:item];
                 }
@@ -412,33 +412,47 @@
     }];
 }
 
-- (void)pullChapters {
-    [LoadingView showOnView:self.view];
-    
-    NSDictionary *paras = @{
-                            @"token": [[NSUserDefaults standardUserDefaults] stringForKey:@"token"],
-                            @"id": self.book.bookid,
-                            @"cpage": @"1"
-                            };
-    
-    DefaultRequest *request = [[DefaultRequest alloc] initWithYype:URITypeChapterList paras:paras delegate:self];
-    [request start];
-}
+//- (void)pullChapters {
+//    [LoadingView showOnView:self.view];
+//
+//    NSDictionary *paras = @{
+//                            @"token": [[NSUserDefaults standardUserDefaults] stringForKey:@"token"],
+//                            @"id": self.book.bookid,
+//                            @"cpage": @"1"
+//                            };
+//
+//    QGRequest *request = [[QGRequest alloc] initWithYype:URITypeChapterList paras:paras delegate:self];
+//    [request start];
+//}
+//
+//- (void)pullChapterContentWithChapterInfo:(ChapterInfo *)info {
+//
+//    NSDictionary *paras = @{
+//                            @"token": [[NSUserDefaults standardUserDefaults] stringForKey:@"token"],
+//                            @"id": info.chapterid
+//                            };
+//
+//    QGRequest *request = [[QGRequest alloc] initWithType:URITypeQgChapterContent paras:paras];
+//    [request startWithSuccess:^(YBNetworkResponse * _Nonnull response) {
+//        ChapterInfo *output = [ChapterInfo yy_modelWithDictionary:[(NSDictionary *)response.responseObject objectForKey:@"model"]];
+//        info.content = output.content;
+//    } failure:^(YBNetworkResponse * _Nonnull response) {
+//
+//    }];
+//}
 
-- (void)pullChapterContentWithChapterInfo:(ChapterInfo *)info {
-    
-    NSDictionary *paras = @{
-                            @"token": [[NSUserDefaults standardUserDefaults] stringForKey:@"token"],
-                            @"id": info.chapterid
-                            };
-    
-    DefaultRequest *request = [[DefaultRequest alloc] initWithType:URITypeChapterContent paras:paras];
-    [request startWithSuccess:^(YBNetworkResponse * _Nonnull response) {
-        ChapterInfo *output = [ChapterInfo yy_modelWithDictionary:[(NSDictionary *)response.responseObject objectForKey:@"model"]];
-        info.content = output.content;
-    } failure:^(YBNetworkResponse * _Nonnull response) {
-        
-    }];
+- (void)pullChapters {
+	[LoadingView showOnView:self.view];
+	NSDictionary *paras = @{
+							@"account_id": [[NSUserDefaults standardUserDefaults] stringForKey:@"account_id"],
+							@"request_ts": [NSString stringWithFormat:@"%.0f",[[NSDate date] timeIntervalSince1970] * 1000],
+							@"supdatets": @"1",
+							@"book_id": self.book._id,
+							@"page": @"1",
+							@"page_size": @"50"
+							};
+	MZMRequest *request = [[MZMRequest alloc] initWithYype:URITypeMzmChapterList paras:paras delegate:self];
+	[request start];
 }
 
 - (void)generateInfoMenuDataSourceWithChapterInfo:(ChapterInfo *)chapterInfo {
@@ -475,19 +489,19 @@
 #pragma mark - YBResponseDelegate -
 
 - (void)request:(__kindof YBBaseRequest *)request successWithResponse:(YBNetworkResponse *)response {
-    ChaptersResponseModel *chaptersReponseModel = [ChaptersResponseModel yy_modelWithDictionary:response.responseObject];
+    MzmChaptersResponse *chaptersReponseModel = [MzmChaptersResponse yy_modelWithDictionary:response.responseObject];
     [LoadingView hide];
     [self.dataSource removeAllObjects];
-    [self.dataSource addObjectsFromArray:chaptersReponseModel.model.data];
+    [self.dataSource addObjectsFromArray:chaptersReponseModel.data.chapters];
+	self.tableView.emptyDataSetSource = self;
+	self.tableView.emptyDataSetDelegate = self;
     [self.tableView reloadData];
-    
-    for (NSInteger i = 0; i < self.dataSource.count; i++) {
-        [self pullChapterContentWithChapterInfo:self.dataSource[i]];
-    }
 }
 
 - (void)request:(__kindof YBBaseRequest *)request failureWithResponse:(YBNetworkResponse *)response {
     [LoadingView hide];
+	self.tableView.emptyDataSetSource = self;
+	self.tableView.emptyDataSetDelegate = self;
 }
 
 #pragma mark - YBPopupMenuDelegate -
@@ -540,7 +554,8 @@
 
 - (void)chapterInfoCell:(ChapterInfoCell *)cell didClickInfoBtn:(UIButton *)sender {
     NSIndexPath *indexPath = [self. tableView indexPathForCell:cell];
-    [self generateInfoMenuDataSourceWithChapterInfo:self.dataSource[indexPath.row]];
+	//todo:生成数据源
+//    [self generateInfoMenuDataSourceWithChapterInfo:self.dataSource[indexPath.row]];
     [YBPopupMenu showRelyOnView:sender titles:@[@"",@"",@"",@"",@""] icons:nil menuWidth:235 otherSettings:^(YBPopupMenu *popupMenu) {
         popupMenu.delegate = self;
         popupMenu.showMaskView = NO;
@@ -575,7 +590,7 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     if (tableView.isEditing) {
-        ChapterInfo *item = self.dataSource[indexPath.row];
+        MzmChapter *item = self.dataSource[indexPath.row];
         if (![self.selectedDatas containsObject:item]) {
             [self.selectedDatas addObject:item];
         }
@@ -589,7 +604,7 @@
 
 - (void)tableView:(UITableView *)tableView didDeselectRowAtIndexPath:(NSIndexPath *)indexPath {
     if (tableView.isEditing) {
-        ChapterInfo *item = self.dataSource[indexPath.row];
+        MzmChapter *item = self.dataSource[indexPath.row];
         if ([self.selectedDatas containsObject:item]) {
             [self.selectedDatas removeObject:item];
         }
@@ -600,7 +615,7 @@
 - (NSArray<UITableViewRowAction *> *)tableView:(UITableView *)tableView editActionsForRowAtIndexPath:(NSIndexPath *)indexPath {
     UITableViewRowAction *deleteAction = [UITableViewRowAction rowActionWithStyle:UITableViewRowActionStyleDestructive title:NSLocalizedString(@"删除", nil) handler:^(UITableViewRowAction * _Nonnull action, NSIndexPath * _Nonnull indexPath) {
         [tableView setEditing:NO animated:YES];
-        ChapterInfo *item = self.dataSource[indexPath.row];
+        MzmChapter *item = self.dataSource[indexPath.row];
         if (![self.selectedDatas containsObject:item]) {
             [self.selectedDatas addObject:item];
         }
@@ -620,7 +635,7 @@
 - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
     //只要实现这个方法，就实现了默认滑动删除
     if (editingStyle == UITableViewCellEditingStyleDelete) {
-        ChapterInfo *item = self.dataSource[indexPath.row];
+        MzmChapter *item = self.dataSource[indexPath.row];
         if (![self.selectedDatas containsObject:item]) {
             [self.selectedDatas addObject:item];
         }
@@ -661,8 +676,6 @@
         _tableView = [[UITableView alloc] init];
         _tableView.delegate = self;
         _tableView.dataSource = self;
-        _tableView.emptyDataSetSource = self;
-        _tableView.emptyDataSetDelegate = self;
         _tableView.tableFooterView = [UIView new];
 //        _tableView.separatorInset = UIEdgeInsetsMake(0, 0, 0, 0);
         [_tableView registerClass:[ChapterInfoCell class] forCellReuseIdentifier:[ChapterInfoCell reuseIdentifier]];
@@ -670,14 +683,14 @@
     return _tableView;
 }
 
-- (NSMutableArray<ChapterInfo *> *)dataSource {
+- (NSMutableArray<MzmChapter *> *)dataSource {
     if (!_dataSource) {
         _dataSource = [NSMutableArray array];
     }
     return _dataSource;
 }
 
-- (NSMutableArray<ChapterInfo *> *)selectedDatas {
+- (NSMutableArray<MzmChapter *> *)selectedDatas {
     if (!_selectedDatas) {
         _selectedDatas = [NSMutableArray array];
     }

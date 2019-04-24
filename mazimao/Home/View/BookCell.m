@@ -34,17 +34,20 @@
         }];
         
         self.nameLabel = [[UILabel alloc] init];
+		self.nameLabel.textAlignment = NSTextAlignmentCenter;
+		self.nameLabel.numberOfLines = 0;
         [self.contentView addSubview:self.nameLabel];
         [self.nameLabel makeConstraints:^(MASConstraintMaker *make) {
             make.centerX.equalTo(0);
             make.top.equalTo(self.coverImgV.bottom).offset(36);
+			make.width.lessThanOrEqualTo(kScreenWidth);
         }];
     }
     return self;
 }
 
-- (void)configWithBook:(Book *)book {
-    [self.coverImgV sd_setImageWithURL:[NSURL URLWithString:book.image] placeholderImage:[UIImage imageNamed:@"default_cover"]];
+- (void)configWithBook:(MzmBook *)book {
+    [self.coverImgV sd_setImageWithURL:[NSURL URLWithString:book.hRowKey] placeholderImage:[UIImage imageNamed:@"default_cover"]];
     self.nameLabel.text = book.name;
 }
 

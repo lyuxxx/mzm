@@ -7,13 +7,13 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "BooksResponseModel.h"
+#import "MzmBook.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
 @interface BookCell : UICollectionViewCell
 
-- (void)configWithBook:(Book *)book;
+- (void)configWithBook:(MzmBook *)book;
 + (NSString *)reuseIdentifier;
 
 @end

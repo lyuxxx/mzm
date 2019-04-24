@@ -20,6 +20,7 @@
 #import "NSObject+YYModel.h"
 #import <AFNetworking.h>
 #import "UIScrollView+EmptyDataSet.h"
+#import "Const.h"
 
 //定义了一个__weak的self_weak_变量
 #define weakifySelf  \

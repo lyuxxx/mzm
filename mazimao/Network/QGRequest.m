@@ -1,14 +1,14 @@
 //
-//  DefaultRequest.m
+//  QGRequest.m
 //  mazimao
 //
 //  Created by wuhan006 on 2019/4/16.
 //  Copyright © 2019 intelligent. All rights reserved.
 //
 
-#import "DefaultRequest.h"
+#import "QGRequest.h"
 
-@implementation DefaultRequest
+@implementation QGRequest
 
 - (instancetype)initWithType:(URIType)type paras:(NSDictionary *)paras {
     self = [self init];

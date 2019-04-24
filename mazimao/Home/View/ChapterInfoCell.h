@@ -7,13 +7,13 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "ChaptersResponseModel.h"
+#import "MzmBook.h"
 
 @class ChapterInfoCell;
 
 @protocol ChapterInfoCellDelegate <NSObject>
 
-- (void)chapterInfoCell:(ChapterInfoCell *)cell didClickInfoBtn:(UIButton *_Nonnull)sender;
+- (void)chapterInfoCell:(ChapterInfoCell *_Nullable)cell didClickInfoBtn:(UIButton *_Nonnull)sender;
 
 @end
 
@@ -24,7 +24,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, weak) id<ChapterInfoCellDelegate> delegate;
 
 + (NSString *)reuseIdentifier;
-- (void)configWithChapterInfo:(ChapterInfo *)chapterInfo;
+- (void)configWithChapterInfo:(MzmChapter *)chapterInfo;
 
 @end
 
