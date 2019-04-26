@@ -47,7 +47,7 @@
 }
 
 - (void)configWithBook:(MzmBook *)book {
-    [self.coverImgV sd_setImageWithURL:[NSURL URLWithString:book.hRowKey] placeholderImage:[UIImage imageNamed:@"default_cover"]];
+    [self.coverImgV sd_setImageWithURL:[NSURL URLWithString:book.cover] placeholderImage:[UIImage imageNamed:@"default_cover"]];
     self.nameLabel.text = book.name;
 }
 

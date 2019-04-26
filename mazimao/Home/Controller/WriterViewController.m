@@ -33,7 +33,7 @@
 @property (nonatomic, strong) UIButton *publishBtn;
 @property (nonatomic, strong) UIButton *syncBtn;
 
-@property (nonatomic, strong) UILabel *nameLabel;
+@property (nonatomic, strong) UITextField *nameField;
 
 @property (nonatomic, strong) UITextView *textView;
 
@@ -62,16 +62,17 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    [self.view addSubview:self.nameLabel];
-    [self.nameLabel makeConstraints:^(MASConstraintMaker *make) {
+    [self.view addSubview:self.nameField];
+    [self.nameField makeConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo(24);
+		make.right.equalTo(-24);
         make.top.equalTo(16);
         make.height.equalTo(25);
     }];
     
     [self.view addSubview:self.textView];
     [self.textView makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.nameLabel.bottom).offset(12);
+        make.top.equalTo(self.nameField.bottom).offset(12);
         make.left.equalTo(24);
         make.right.equalTo(-24);
         make.bottom.equalTo(-kBottomHeight);
@@ -81,17 +82,62 @@
     [self configInputAccessory];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillChangeFrame:) name:UIKeyboardWillChangeFrameNotification object:nil];
     
-    self.nameLabel.text = self.chapter.name;
+    self.nameField.text = self.chapter.name;
     self.textView.text = self.chapter.txt;
+}
+
+- (void)viewWillAppear:(BOOL)animated {
+	[super viewWillAppear:animated];
+	if ([self.nameField.text isNotBlank]) {
+		[self.textView becomeFirstResponder];
+	} else {
+		[self.nameField becomeFirstResponder];
+	}
+}
+
+- (void)viewDidAppear:(BOOL)animated {
+	[super viewDidAppear:animated];
+	if ([self.navigationController respondsToSelector:@selector(interactivePopGestureRecognizer)]) {
+		self.navigationController.interactivePopGestureRecognizer.enabled = NO;
+	}
+}
+
+- (void)viewWillDisappear:(BOOL)animated {
+	[super viewWillDisappear:animated];
+	if ([self.navigationController respondsToSelector:@selector(interactivePopGestureRecognizer)]) {
+		self.navigationController.interactivePopGestureRecognizer.enabled = YES;
+	}
 }
 
 - (void)btnClick:(UIButton *)sender {
     if (sender == self.keyboardBtn) {
         [self.textView resignFirstResponder];
+		[self.nameField resignFirstResponder];
     }
 }
 
+- (void)pop {
+	[self.navigationController popViewControllerAnimated:YES];
+}
+
 - (void)configBarButton {
+	
+	//https://juejin.im/post/5a52d4316fb9a01c9657f93d 解决leftItem偏移
+	CGFloat offset = 25;
+	NavigationItemCustomView *backBtn = [NavigationItemCustomView buttonWithType:UIButtonTypeCustom];
+	[backBtn setImage:[UIImage imageNamed:@"set_icon_back"] forState:UIControlStateNormal];
+	[backBtn addTarget:self action:@selector(pop) forControlEvents:UIControlEventTouchUpInside];
+	UIBarButtonItem *backItem = [[UIBarButtonItem alloc] initWithCustomView:backBtn];
+	
+	backBtn.alignmentRectInsetsOverride = UIEdgeInsetsMake(0, offset, 0, -offset);
+	backBtn.translatesAutoresizingMaskIntoConstraints = NO;
+	[backBtn.widthAnchor constraintEqualToConstant:44].active = YES;
+	[backBtn.heightAnchor constraintEqualToConstant:44].active = YES;
+	
+	UIBarButtonItem *spaceItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFixedSpace target:nil action:nil];
+	spaceItem.width = -offset;
+	
+	self.navigationItem.leftBarButtonItems = @[spaceItem, backItem];
     
     self.publishBtn = [UIButton buttonWithType:UIButtonTypeCustom];
     self.publishBtn.adjustsImageWhenHighlighted = NO;
@@ -141,6 +187,9 @@
 }
 
 - (void)keyboardWillChangeFrame:(NSNotification *)notification {
+	if ([self.nameField isFirstResponder]) {
+		return;
+	}
     NSDictionary *userInfo = notification.userInfo;
     double duration = [userInfo[UIKeyboardAnimationDurationUserInfoKey] doubleValue];
     
@@ -189,13 +238,15 @@
 
 #pragma mark - lazy load -
 
-- (UILabel *)nameLabel {
-    if (!_nameLabel) {
-        _nameLabel = [[UILabel alloc] init];
-        _nameLabel.font = [UIFont systemFontOfSize:18];
-        _nameLabel.textColor = [UIColor colorWithHexString:@"222222"];
-    }
-    return _nameLabel;
+- (UITextField *)nameField {
+	if (!_nameField) {
+		_nameField = [[UITextField alloc] init];
+		_nameField.textColor = [UIColor colorWithHexString:@"222222"];
+		_nameField.font = [UIFont systemFontOfSize:18];
+		_nameField.tintColor = [UIColor colorWithHexString:@"ffc627"];
+		_nameField.inputAccessoryView = [UIView new];
+	}
+	return _nameField;
 }
 
 - (UITextView *)textView {

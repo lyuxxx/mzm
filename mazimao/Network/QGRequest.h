@@ -14,7 +14,7 @@ NS_ASSUME_NONNULL_BEGIN
 @interface QGRequest : YBBaseRequest
 
 - (instancetype)initWithType:(URIType)type paras:(NSDictionary *)paras ;
-- (instancetype)initWithYype:(URIType)type paras:(NSDictionary *)paras  delegate:(id<YBResponseDelegate>)delegate;
+- (instancetype)initWithType:(URIType)type paras:(NSDictionary *)paras  delegate:(id<YBResponseDelegate>)delegate;
 
 @end
 

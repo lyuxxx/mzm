@@ -18,6 +18,6 @@ target 'mazimao' do
   pod 'YYCache'
   pod 'FMDB/SQLCipher'
   pod 'LKDBHelper'
-  pod 'HYBUnicodeReadable'
+  #pod 'HYBUnicodeReadable'
 
 end

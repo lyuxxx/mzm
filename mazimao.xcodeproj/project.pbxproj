@@ -72,6 +72,7 @@
 		32CA371A226D9EB4007E11A5 /* MZMRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 32CA3719226D9EB4007E11A5 /* MZMRequest.m */; };
 		32CA371E226FFB19007E11A5 /* MzmBook.m in Sources */ = {isa = PBXBuildFile; fileRef = 32CA371D226FFB19007E11A5 /* MzmBook.m */; };
 		32DB37C12269CEBC00E012C6 /* NSDictionary+NilSafe.m in Sources */ = {isa = PBXBuildFile; fileRef = 32DB37C02269CEBC00E012C6 /* NSDictionary+NilSafe.m */; };
+		32E0E173227164A7004CB095 /* SyncManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 32E0E172227164A7004CB095 /* SyncManager.m */; };
 		EA3C35D84F13B110A728AA2A /* libPods-mazimao.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6EE28A7DF3B5100B68D59160 /* libPods-mazimao.a */; };
 /* End PBXBuildFile section */
 
@@ -210,6 +211,8 @@
 		32CA371D226FFB19007E11A5 /* MzmBook.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MzmBook.m; sourceTree = "<group>"; };
 		32DB37BF2269CEBC00E012C6 /* NSDictionary+NilSafe.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSDictionary+NilSafe.h"; sourceTree = "<group>"; };
 		32DB37C02269CEBC00E012C6 /* NSDictionary+NilSafe.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSDictionary+NilSafe.m"; sourceTree = "<group>"; };
+		32E0E171227164A7004CB095 /* SyncManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SyncManager.h; sourceTree = "<group>"; };
+		32E0E172227164A7004CB095 /* SyncManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SyncManager.m; sourceTree = "<group>"; };
 		6EE28A7DF3B5100B68D59160 /* libPods-mazimao.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-mazimao.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		EE4F57E353FC1C41382C69DE /* Pods-mazimao.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-mazimao.release.xcconfig"; path = "Target Support Files/Pods-mazimao/Pods-mazimao.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -547,6 +550,8 @@
 			children = (
 				32CA371C226FFB19007E11A5 /* MzmBook.h */,
 				32CA371D226FFB19007E11A5 /* MzmBook.m */,
+				32E0E171227164A7004CB095 /* SyncManager.h */,
+				32E0E172227164A7004CB095 /* SyncManager.m */,
 			);
 			path = Sync;
 			sourceTree = "<group>";
@@ -663,6 +668,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				32E0E173227164A7004CB095 /* SyncManager.m in Sources */,
 				3293F991225DFE25004F5872 /* NavigationController.m in Sources */,
 				3283F570225ED39E00D0931F /* UIImage+YYAdd.m in Sources */,
 				325149D82265C5AC00A80FBE /* YBNetworkManager.m in Sources */,

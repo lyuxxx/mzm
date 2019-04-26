@@ -13,6 +13,10 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+@interface NavigationItemCustomView: UIButton
+@property (nonatomic, assign) UIEdgeInsets alignmentRectInsetsOverride;
+@end
+
 @interface BaseViewController : UIViewController <YBResponseDelegate>
 
 @end

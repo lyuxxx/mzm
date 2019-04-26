@@ -11,7 +11,10 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface MzmBook : NSObject
+@class MzmBookUpdateResult;
+@class MzmChapterUpdateResult;
+
+@interface MzmBook : NSObject <YYModel>
 @property (nonatomic , copy) NSString              * _id;
 @property (nonatomic , copy) NSString              * accountId;
 @property (nonatomic , copy) NSString              * box;
@@ -21,9 +24,28 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic , copy) NSString              * qingguoid;
 @property (nonatomic , copy) NSString              * qingguostatus;
 @property (nonatomic , assign) double              screatets;
+///"":正常 "del":回收站 "delforever":彻底删除
 @property (nonatomic , copy) NSString              * status;
 @property (nonatomic , assign) double              supdatets;
 @property (nonatomic , assign) double              updatets;
+
+@property (nonatomic, copy) NSString *phonenumber;
+@property (nonatomic, assign) NSInteger chaptercount;
+@property (nonatomic, assign) NSInteger delchaptercount;
+@property (nonatomic, assign) NSInteger async;
+@property (nonatomic, assign) NSInteger wordscount;
+
+@property (nonatomic, copy) NSString *cover;
+
++ (NSString *)getNewestSupdatets;
++ (void)updateWithBooks:(NSArray<MzmBook *> *)books;
++ (NSString *)getNotSyncBookJsonString;
++ (void)updateTimestampWith:(MzmBookUpdateResult *)result;
++ (NSArray<MzmBook *> *)selectAllBook;
+
++ (NSMutableArray *)selectBookWithWhere:(id)where orderBy:(NSString *)orderBy;
++ (void)dropAllBook;
+
 @end
 
 @interface MzmChapter : NSObject
@@ -48,8 +70,25 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, copy) NSString *content;
 ///不带格式的内容，手机端默认使用这个
 @property (nonatomic, copy) NSString *txt;
-@property (nonatomic, copy) NSString *sn;
-@property (nonatomic, assign) NSInteger publish_ts;
+@property (nonatomic, assign) NSInteger sn;
+@property (nonatomic, assign) double publish_ts;
+
+@property (nonatomic, assign) BOOL async;
+
+@property (nonatomic, assign) BOOL isEnabled;
+@property (nonatomic, copy) NSString *checkStatus;
+@property (nonatomic, copy) NSString *checkMessage;
+@property (nonatomic, copy) NSString *authorTalk;
+
++ (NSString *)getNewestSupdatetsWithBookid:(NSString *)bookid;
++ (void)updateWithChapters:(NSArray<MzmChapter *> *)chapters;
++ (NSString *)getNotSyncChapterJsonStringWithBookid:(NSString *)bookid;
++ (void)updateTimestampWith:(MzmChapterUpdateResult *)result;
++ (NSArray<MzmChapter *> *)selectChaptersWithBookid:(NSString *)bookid;
+
++ (NSMutableArray *)selectChapterWithWhere:(id)where orderBy:(NSString *)orderBy;
++ (void)dropAllChapterWithBookid:(NSString *)bookid;
+
 @end
 
 @interface MzmBooksResponse : NSObject <YYModel>
@@ -58,6 +97,18 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, assign) double time;
 @property (nonatomic, copy) NSString *data;
 @property (nonatomic, strong) NSArray<MzmBook *> *books;
+@end
+
+@interface MzmBookUpdateResult : NSObject <YYModel>
+@property (nonatomic, strong) NSArray<NSString *> *update_ids;
+@property (nonatomic, assign) double update_ts;
+@end
+
+@interface MzmBookUpdateResponse : NSObject
+@property (nonatomic, copy) NSString *code;
+@property (nonatomic, copy) NSString *msg;
+@property (nonatomic, assign) double time;
+@property (nonatomic, strong) MzmBookUpdateResult *data;
 @end
 
 @interface MzmChaptersPage : NSObject <YYModel>
@@ -73,6 +124,18 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, copy) NSString *msg;
 @property (nonatomic, assign) double time;
 @property (nonatomic, strong) MzmChaptersPage *data;
+@end
+
+@interface MzmChapterUpdateResult : NSObject <YYModel>
+@property (nonatomic, strong) NSArray<NSString *> *update_ids;
+@property (nonatomic, assign) double update_ts;
+@end
+
+@interface MzmChapterUpdateResponse : NSObject
+@property (nonatomic, copy) NSString *code;
+@property (nonatomic, copy) NSString *msg;
+@property (nonatomic, assign) double time;
+@property (nonatomic, strong) MzmChapterUpdateResult *data;
 @end
 
 NS_ASSUME_NONNULL_END

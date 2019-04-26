@@ -18,7 +18,7 @@
     return self;
 }
 
-- (instancetype)initWithYype:(URIType)type paras:(NSDictionary *)paras delegate:(id<YBResponseDelegate>)delegate {
+- (instancetype)initWithType:(URIType)type paras:(NSDictionary *)paras delegate:(id<YBResponseDelegate>)delegate {
     self = [self initWithType:type paras:paras];
     self.delegate = delegate;
     return self;

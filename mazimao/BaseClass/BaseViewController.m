@@ -8,6 +8,18 @@
 
 #import "BaseViewController.h"
 
+@implementation NavigationItemCustomView
+
+- (UIEdgeInsets)alignmentRectInsets {
+	if (UIEdgeInsetsEqualToEdgeInsets(self.alignmentRectInsetsOverride, UIEdgeInsetsZero)) {
+		return super.alignmentRectInsets;
+	} else {
+		return self.alignmentRectInsetsOverride;
+	}
+}
+
+@end
+
 @interface BaseViewController () <UIGestureRecognizerDelegate>
 
 @end

@@ -16,8 +16,10 @@
 #import <UIButton+WebCache.h>
 #import <SDCycleScrollView.h>
 #import "MzmBook.h"
+#import "SyncManager.h"
+#import "BooksResponseModel.h"
 
-@interface BooksViewController () <SDCycleScrollViewDelegate>
+@interface BooksViewController () <SDCycleScrollViewDelegate, SyncManagerDelegate>
 @property (nonatomic, strong) UIButton *profileBtn;
 @property (nonatomic, strong) UIButton *downloadedBtn;
 @property (nonatomic, strong) UIButton *syncBtn;
@@ -26,6 +28,7 @@
 @property (nonatomic, strong) UIButton *enterBtn;
 
 @property (nonatomic, strong) NSMutableArray<MzmBook *> *dataSource;
+@property (nonatomic, strong) NSMutableArray<Book *> *qgBooks;
 @end
 
 @implementation BooksViewController
@@ -155,28 +158,55 @@
 }
 
 - (void)pullMzmBooks {
-	NSString *ts = [NSString stringWithFormat:@"%.0f",[[NSDate date] timeIntervalSince1970] * 1000];
+	SyncManager *manager = [SyncManager shared];
+	manager.delegate = self;
+	[manager syncBooks];
+}
+
+- (void)pullQGBooks {
 	NSDictionary *paras = @{
-							@"account_id": self.user.userid,
-							@"request_ts": ts,
-							@"supdatets": @"1"
+							@"token": [[NSUserDefaults standardUserDefaults] stringForKey:@"token"]
 							};
-	MZMRequest *request = [[MZMRequest alloc] initWithYype:URITypeMzmBookList paras:paras delegate:self];
+	QGRequest *request = [[QGRequest alloc] initWithType:URITypeQgBookList paras:paras delegate:self];
 	[request start];
+}
+
+#pragma mark - SyncManagerDelegate -
+
+- (void)syncManager:(SyncManager *)manager syncBooksWithResult:(BOOL)result {
+	[self pullQGBooks];
 }
 
 #pragma mark - YBResponseDelegate -
 
 - (void)request:(__kindof YBBaseRequest *)request successWithResponse:(YBNetworkResponse *)response {
-    MzmBooksResponse *booksResponse = [MzmBooksResponse yy_modelWithDictionary:response.responseObject];
-    [self.dataSource removeAllObjects];
-    [self.dataSource addObjectsFromArray:booksResponse.books];
-    NSMutableArray *tmp = [NSMutableArray arrayWithCapacity:self.dataSource.count];
-    for (NSInteger i = 0; i < self.dataSource.count; i++) {
-        [tmp addObject:@""];
-    }
-    self.cycleView.imageURLStringsGroup = tmp;
-    [self setupPageControl];
+    BooksResponseModel *booksResponse = [BooksResponseModel yy_modelWithDictionary:response.responseObject];
+	[self.qgBooks removeAllObjects];
+	[self.qgBooks addObjectsFromArray:booksResponse.model.data];
+	
+	NSArray *books = [MzmBook selectAllBook];
+	
+	//将封面图给MZMBook
+	for (NSInteger i = 0; i < self.qgBooks.count; i++) {
+		Book *qgBook = self.qgBooks[i];
+		for (NSInteger j = 0; j < books.count; j++) {
+			MzmBook *mzmBook = books[j];
+			if ([qgBook.bookid isEqualToString:mzmBook.qingguoid]) {
+				mzmBook.cover = qgBook.image;
+			}
+		}
+	}
+	
+	[MzmBook updateWithBooks:books];
+	
+	[self.dataSource removeAllObjects];
+	[self.dataSource addObjectsFromArray:books];
+	NSMutableArray *tmp = [NSMutableArray arrayWithCapacity:self.dataSource.count];
+	for (NSInteger i = 0; i < self.dataSource.count; i++) {
+		[tmp addObject:@""];
+	}
+	self.cycleView.imageURLStringsGroup = tmp;
+	[self setupPageControl];
 }
 
 - (void)request:(__kindof YBBaseRequest *)request failureWithResponse:(YBNetworkResponse *)response {
@@ -257,6 +287,13 @@
         _dataSource = [NSMutableArray array];
     }
     return _dataSource;
+}
+
+- (NSMutableArray<Book *> *)qgBooks {
+	if (!_qgBooks) {
+		_qgBooks = [NSMutableArray array];
+	}
+	return _qgBooks;
 }
 
 @end

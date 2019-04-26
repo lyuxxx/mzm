@@ -12,22 +12,7 @@
 #import "ChapterInfoCell.h"
 #import "WriterViewController.h"
 #import "LoadingView.h"
-
-@interface NavigationItemCustomView: UIButton
-@property (nonatomic, assign) UIEdgeInsets alignmentRectInsetsOverride;
-@end
-
-@implementation NavigationItemCustomView
-
-- (UIEdgeInsets)alignmentRectInsets {
-    if (UIEdgeInsetsEqualToEdgeInsets(self.alignmentRectInsetsOverride, UIEdgeInsetsZero)) {
-        return super.alignmentRectInsets;
-    } else {
-        return self.alignmentRectInsetsOverride;
-    }
-}
-
-@end
+#import "SyncManager.h"
 
 @interface CreateChapterButton : UIButton
 
@@ -45,7 +30,7 @@
 
 @end
 
-@interface ChapterDirectoryViewController () <UITableViewDelegate, UITableViewDataSource, YBPopupMenuDelegate, ChapterInfoCellDelegate, DZNEmptyDataSetSource, DZNEmptyDataSetDelegate>
+@interface ChapterDirectoryViewController () <UITableViewDelegate, UITableViewDataSource, YBPopupMenuDelegate, ChapterInfoCellDelegate, DZNEmptyDataSetSource, DZNEmptyDataSetDelegate, SyncManagerDelegate>
 
 @property (nonatomic, strong) UITableView *tableView;
 @property (nonatomic, strong) NSMutableArray<MzmChapter *> *dataSource;
@@ -443,19 +428,12 @@
 
 - (void)pullChapters {
 	[LoadingView showOnView:self.view];
-	NSDictionary *paras = @{
-							@"account_id": [[NSUserDefaults standardUserDefaults] stringForKey:@"account_id"],
-							@"request_ts": [NSString stringWithFormat:@"%.0f",[[NSDate date] timeIntervalSince1970] * 1000],
-							@"supdatets": @"1",
-							@"book_id": self.book._id,
-							@"page": @"1",
-							@"page_size": @"50"
-							};
-	MZMRequest *request = [[MZMRequest alloc] initWithYype:URITypeMzmChapterList paras:paras delegate:self];
-	[request start];
+	SyncManager *manager = [SyncManager shared];
+	manager.delegate = self;
+	[manager syncChaptersWithBookid:self.book._id];
 }
 
-- (void)generateInfoMenuDataSourceWithChapterInfo:(ChapterInfo *)chapterInfo {
+- (void)generateInfoMenuDataSourceWithChapterInfo:(MzmChapter *)chapterInfo {
     
     NSMutableArray *arr = [NSMutableArray arrayWithCapacity:5];
     
@@ -470,11 +448,11 @@
     
     NSMutableAttributedString *attr1 = [[NSMutableAttributedString alloc] initWithString:[NSString localizedStringWithFormat:NSLocalizedString(@"审核结果:%@", nil),chapterInfo.checkMessage] attributes:@{NSForegroundColorAttributeName:[UIColor colorWithHexString:@"5a5a5a"],NSFontAttributeName:[UIFont systemFontOfSize:14]}];
     
-    NSMutableAttributedString *attr2 = [[NSMutableAttributedString alloc] initWithString:[NSString localizedStringWithFormat:NSLocalizedString(@"本章字数:%ld", nil),chapterInfo.word_count] attributes:@{NSForegroundColorAttributeName:[UIColor colorWithHexString:@"5a5a5a"],NSFontAttributeName:[UIFont systemFontOfSize:14]}];
+    NSMutableAttributedString *attr2 = [[NSMutableAttributedString alloc] initWithString:[NSString localizedStringWithFormat:NSLocalizedString(@"本章字数:%ld", nil),chapterInfo.wordscount] attributes:@{NSForegroundColorAttributeName:[UIColor colorWithHexString:@"5a5a5a"],NSFontAttributeName:[UIFont systemFontOfSize:14]}];
     
     NSMutableAttributedString *attr3 = [[NSMutableAttributedString alloc] initWithString:[NSString localizedStringWithFormat:NSLocalizedString(@"上架状态:%@", nil),chapterInfo.status] attributes:@{NSForegroundColorAttributeName:[UIColor colorWithHexString:@"5a5a5a"],NSFontAttributeName:[UIFont systemFontOfSize:14]}];
     
-    NSMutableAttributedString *attr4 = [[NSMutableAttributedString alloc] initWithString:[NSString localizedStringWithFormat:NSLocalizedString(@"更新时间:%@", nil),chapterInfo.update_time] attributes:@{NSForegroundColorAttributeName:[UIColor colorWithHexString:@"5a5a5a"],NSFontAttributeName:[UIFont systemFontOfSize:14]}];
+    NSMutableAttributedString *attr4 = [[NSMutableAttributedString alloc] initWithString:[NSString localizedStringWithFormat:NSLocalizedString(@"更新时间:%@", nil),chapterInfo.updatets] attributes:@{NSForegroundColorAttributeName:[UIColor colorWithHexString:@"5a5a5a"],NSFontAttributeName:[UIFont systemFontOfSize:14]}];
     
     [arr addObject:attr0];
     [arr addObject:attr1];
@@ -486,22 +464,15 @@
     self.infoMenuDataSource = arr;
 }
 
-#pragma mark - YBResponseDelegate -
+#pragma mark - SyncManagerDelegate -
 
-- (void)request:(__kindof YBBaseRequest *)request successWithResponse:(YBNetworkResponse *)response {
-    MzmChaptersResponse *chaptersReponseModel = [MzmChaptersResponse yy_modelWithDictionary:response.responseObject];
-    [LoadingView hide];
-    [self.dataSource removeAllObjects];
-    [self.dataSource addObjectsFromArray:chaptersReponseModel.data.chapters];
+- (void)syncManager:(SyncManager *)manager syncChaptersWithResult:(BOOL)result {
+	[LoadingView hide];
+	[self.dataSource removeAllObjects];
+	[self.dataSource addObjectsFromArray:[MzmChapter selectChaptersWithBookid:self.book._id]];
 	self.tableView.emptyDataSetSource = self;
 	self.tableView.emptyDataSetDelegate = self;
-    [self.tableView reloadData];
-}
-
-- (void)request:(__kindof YBBaseRequest *)request failureWithResponse:(YBNetworkResponse *)response {
-    [LoadingView hide];
-	self.tableView.emptyDataSetSource = self;
-	self.tableView.emptyDataSetDelegate = self;
+	[self.tableView reloadData];
 }
 
 #pragma mark - YBPopupMenuDelegate -
@@ -554,8 +525,7 @@
 
 - (void)chapterInfoCell:(ChapterInfoCell *)cell didClickInfoBtn:(UIButton *)sender {
     NSIndexPath *indexPath = [self. tableView indexPathForCell:cell];
-	//todo:生成数据源
-//    [self generateInfoMenuDataSourceWithChapterInfo:self.dataSource[indexPath.row]];
+    [self generateInfoMenuDataSourceWithChapterInfo:self.dataSource[indexPath.row]];
     [YBPopupMenu showRelyOnView:sender titles:@[@"",@"",@"",@"",@""] icons:nil menuWidth:235 otherSettings:^(YBPopupMenu *popupMenu) {
         popupMenu.delegate = self;
         popupMenu.showMaskView = NO;

@@ -60,12 +60,12 @@
         make.centerY.equalTo(self.timeLabel);
     }];
     
-//    [self.contentView addSubview:self.infoBtn];
-//    [self.infoBtn makeConstraints:^(MASConstraintMaker *make) {
-//        make.right.equalTo(-16);
-//        make.width.height.equalTo(20);
-//        make.centerY.equalTo(0);
-//    }];
+    [self.contentView addSubview:self.infoBtn];
+    [self.infoBtn makeConstraints:^(MASConstraintMaker *make) {
+        make.right.equalTo(-16);
+        make.width.height.equalTo(20);
+        make.centerY.equalTo(0);
+    }];
 }
 
 - (void)configWithChapterInfo:(MzmChapter *)chapterInfo {
