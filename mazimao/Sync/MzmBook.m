@@ -104,7 +104,7 @@
 	return [[self getUsingLKDBHelper] search:[MzmBook class] where:nil orderBy:nil offset:0 count:0];
 }
 
-+ (NSMutableArray *)selectBookWithWhere:(id)where orderBy:(NSString *)orderBy {
++ (NSMutableArray<MzmBook *> *)selectBookWithWhere:(id)where orderBy:(NSString *)orderBy {
 	NSMutableArray *arr = [[self getUsingLKDBHelper] search:[MzmBook class] where:where orderBy:orderBy offset:0 count:0];
 	return arr;
 }
@@ -116,6 +116,53 @@
 @end
 
 @implementation MzmChapter
+
+- (instancetype)initWithQGChapter:(ChapterInfo *)qgchapter {
+	self = [super init];
+	if (self) {
+#warning todo:生成mzmid
+		self.qingguoid = qgchapter.chapterid;
+		self.name = qgchapter.name;
+		self.sn = qgchapter.sn;
+		self.txt = qgchapter.content;
+		self.shelfStatus = qgchapter.status;
+		self.createts = qgchapter.create_time;
+		self.updatets = qgchapter.update_time;
+		self.wordscount = qgchapter.word_count;
+		self.qingguostatus = qgchapter.checkStatus;
+		self.checkMessage = qgchapter.checkMessage;
+		self.authorTalk = qgchapter.authorTalk;
+	}
+	return self;
+}
+
+- (void)updateWithQGChapter:(ChapterInfo *)qgchapter {
+	if ([self.qingguoid isNotBlank]) {
+		if ([self.qingguoid isEqualToString:qgchapter.chapterid]) {
+			self.name = qgchapter.name;
+			self.sn = qgchapter.sn;
+			self.txt = qgchapter.content;
+			self.shelfStatus = qgchapter.status;
+			self.createts = qgchapter.create_time;
+			self.updatets = qgchapter.update_time;
+			self.wordscount = qgchapter.word_count;
+			self.qingguostatus = qgchapter.checkStatus;
+			self.checkMessage = qgchapter.checkMessage;
+			self.authorTalk = qgchapter.authorTalk;
+		}
+	} else if ([self.name isEqualToString:qgchapter.name]) {
+		self.qingguoid = qgchapter.chapterid;
+		self.sn = qgchapter.sn;
+		self.txt = qgchapter.content;
+		self.shelfStatus = qgchapter.status;
+		self.createts = qgchapter.create_time;
+		self.updatets = qgchapter.update_time;
+		self.wordscount = qgchapter.word_count;
+		self.qingguostatus = qgchapter.checkStatus;
+		self.checkMessage = qgchapter.checkMessage;
+		self.authorTalk = qgchapter.authorTalk;
+	}
+}
 
 + (LKDBHelper *)getUsingLKDBHelper {
 	static LKDBHelper *db;
@@ -240,6 +287,41 @@
 	}
 	NSLog(@"sqlString:%@",sql);
 	return sql;
+}
+
++ (NSInteger)getBiggestSNWithBookid:(NSString *)bookid {
+	MzmChapter *chapter = [[self getUsingLKDBHelper] searchSingle:[MzmChapter class] where:@{@"bookid":bookid} orderBy:@"sn desc"];
+	return chapter.sn;
+}
+
++ (NSArray<NSNumber *> *)getDiscontinuousSNWithBookid:(NSString *)bookid {
+	NSArray<MzmChapter *> *allChapters = [[self getUsingLKDBHelper] search:[MzmChapter class] where:@{@"bookid":bookid} orderBy:@"sn" offset:0 count:0];
+	NSMutableArray *output = [NSMutableArray array];
+	for (NSInteger i = 1; i <= [self getBiggestSNWithBookid:bookid]; i++) {
+		BOOL exist = NO;
+		for (NSInteger j = 0; j < allChapters.count; j++) {
+			NSInteger existSN = allChapters[j].sn;
+			if (i == existSN) {
+				exist = YES;
+				break;
+			}
+		}
+		if (!exist) {
+			[output addObject:[NSNumber numberWithInteger:i]];
+		} else {
+			continue;
+		}
+	}
+	return output;
+}
+
++ (NSArray<NSNumber *> *)getNeedCheckSNWithBookid:(NSString *)bookid {
+	NSArray<MzmChapter *> *chapters = [[self getUsingLKDBHelper] search:[MzmChapter class] where:@{@"qingguostatus": @[@"notcheck",@"notpass",@"pass"]} orderBy:@"sn" offset:0 count:0];
+	NSMutableArray *output = [NSMutableArray array];
+	for (MzmChapter *chapter in chapters) {
+		[output addObject:[NSNumber numberWithInteger:chapter.sn]];
+	}
+	return output;
 }
 
 @end

@@ -437,23 +437,69 @@
 - (void)generateInfoMenuDataSourceWithChapterInfo:(MzmChapter *)chapterInfo {
     
     NSMutableArray *arr = [NSMutableArray arrayWithCapacity:5];
+	
+	NSMutableAttributedString *attr0;
+	NSString *str;
+	NSString *midStr;
+	UIImage *image;
+	UIColor *midColor;
+	NSRange range = NSMakeRange(0, 0);
+	NSDictionary *attributes = @{NSForegroundColorAttributeName:[UIColor colorWithHexString:@"5a5a5a"],NSFontAttributeName:[UIFont systemFontOfSize:14]};
+	
+	if ([chapterInfo.qingguostatus isEqualToString:@"notcheck"]) {
+		
+		str = @"审核状态:审核中 ";
+		midStr = @"审核中";
+		image = [UIImage imageNamed:@"catalog_icon_in_review"];
+		midColor = [UIColor colorWithHexString:@"81a9dd"];
+		range = [str rangeOfString:midStr];
+		
+	} else if ([chapterInfo.qingguostatus isEqualToString:@"notpass"])  {
+		
+		str = @"审核状态:未过审 ";
+		midStr = @"未过审";
+		image = [UIImage imageNamed:@"catalog_icon_audit_failure"];
+		midColor = [UIColor colorWithHexString:@"f16768"];
+		range = [str rangeOfString:midStr];
+		
+	} else if ([chapterInfo.qingguostatus isEqualToString:@"pass"]) {
+		
+		str = @"审核状态:已过审 ";
+		midStr = @"已过审";
+		image = [UIImage imageNamed:@"catalog_icon_success"];
+		midColor = [UIColor colorWithHexString:@"97de9a"];
+		range = [str rangeOfString:midStr];
+		
+	}
+	
+	NSTextAttachment *attach = [[NSTextAttachment alloc] init];
+	attach.image = image;
+	attach.bounds = CGRectMake(0, 0, 14, 14);
+	NSAttributedString *attachStr = [NSAttributedString attributedStringWithAttachment:attach];
+	
+	attr0 = [[NSMutableAttributedString alloc] initWithString:str attributes:attributes];
+	[attr0 insertAttributedString:attachStr atIndex:[str length]];
+	[attr0 addAttribute:NSForegroundColorAttributeName value:midColor range:range];
+	
     
-    UIImage *image = [UIImage imageNamed:@"catalog_icon_audit_failure"];
-    NSTextAttachment *attach = [[NSTextAttachment alloc] init];
-    attach.image = image;
-    attach.bounds = CGRectMake(0, 0, 14, 14);
-    NSAttributedString *attachStr = [NSAttributedString attributedStringWithAttachment:attach];
+    NSMutableAttributedString *attr1 = [[NSMutableAttributedString alloc] initWithString:[NSString localizedStringWithFormat:NSLocalizedString(@"审核结果:%@", nil),chapterInfo.checkMessage] attributes:attributes];
     
-    NSMutableAttributedString *attr0 = [[NSMutableAttributedString alloc] initWithString:@"审核状态:未过审 "];
-    [attr0 insertAttributedString:attachStr atIndex:[@"审核状态:未过审 " length]];
+    NSMutableAttributedString *attr2 = [[NSMutableAttributedString alloc] initWithString:[NSString localizedStringWithFormat:NSLocalizedString(@"本章字数:%ld", nil),chapterInfo.wordscount] attributes:attributes];
+	
+	NSString *str3 = @"";
+	if ([chapterInfo.shelfStatus isEqualToString:@"disable"]) {
+		str3 = NSLocalizedString(@"已下架", nil);
+	} else if ([chapterInfo.shelfStatus isEqualToString:@"enable"]) {
+		str3 = NSLocalizedString(@"已上架", nil);
+	} else {
+		str3 = @"";
+	}
+    NSMutableAttributedString *attr3 = [[NSMutableAttributedString alloc] initWithString:[NSString localizedStringWithFormat:NSLocalizedString(@"上架状态:%@", nil),str3] attributes:attributes];
+	
+	NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+	formatter.dateFormat = @"yyyy-MM-dd HH:mm:ss";
     
-    NSMutableAttributedString *attr1 = [[NSMutableAttributedString alloc] initWithString:[NSString localizedStringWithFormat:NSLocalizedString(@"审核结果:%@", nil),chapterInfo.checkMessage] attributes:@{NSForegroundColorAttributeName:[UIColor colorWithHexString:@"5a5a5a"],NSFontAttributeName:[UIFont systemFontOfSize:14]}];
-    
-    NSMutableAttributedString *attr2 = [[NSMutableAttributedString alloc] initWithString:[NSString localizedStringWithFormat:NSLocalizedString(@"本章字数:%ld", nil),chapterInfo.wordscount] attributes:@{NSForegroundColorAttributeName:[UIColor colorWithHexString:@"5a5a5a"],NSFontAttributeName:[UIFont systemFontOfSize:14]}];
-    
-    NSMutableAttributedString *attr3 = [[NSMutableAttributedString alloc] initWithString:[NSString localizedStringWithFormat:NSLocalizedString(@"上架状态:%@", nil),chapterInfo.status] attributes:@{NSForegroundColorAttributeName:[UIColor colorWithHexString:@"5a5a5a"],NSFontAttributeName:[UIFont systemFontOfSize:14]}];
-    
-    NSMutableAttributedString *attr4 = [[NSMutableAttributedString alloc] initWithString:[NSString localizedStringWithFormat:NSLocalizedString(@"更新时间:%@", nil),chapterInfo.updatets] attributes:@{NSForegroundColorAttributeName:[UIColor colorWithHexString:@"5a5a5a"],NSFontAttributeName:[UIFont systemFontOfSize:14]}];
+    NSMutableAttributedString *attr4 = [[NSMutableAttributedString alloc] initWithString:[NSString localizedStringWithFormat:NSLocalizedString(@"更新时间:%@", nil),[formatter stringFromDate:[NSDate dateWithTimeIntervalSince1970:chapterInfo.updatets / 1000.0]]] attributes:attributes];
     
     [arr addObject:attr0];
     [arr addObject:attr1];

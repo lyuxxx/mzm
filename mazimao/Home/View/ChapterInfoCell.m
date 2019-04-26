@@ -76,6 +76,12 @@
 	self.timeLabel.text = [formatter stringFromDate:[NSDate dateWithTimeIntervalSince1970:chapterInfo.updatets / 1000.0]];
 	
 	self.wordCountLabel.text = [NSString localizedStringWithFormat:NSLocalizedString(@"%ld字", nil),chapterInfo.wordscount];
+	
+	if ([chapterInfo.qingguostatus isNotBlank]) {
+		self.infoBtn.hidden = NO;
+	} else {
+		self.infoBtn.hidden = YES;
+	}
 }
 
 - (void)btnClick:(UIButton *)sender {

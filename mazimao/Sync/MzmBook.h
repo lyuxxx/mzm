@@ -8,6 +8,7 @@
 
 #import <Foundation/Foundation.h>
 #import <LKDBHelper.h>
+#import "BooksResponseModel.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -43,7 +44,7 @@ NS_ASSUME_NONNULL_BEGIN
 + (void)updateTimestampWith:(MzmBookUpdateResult *)result;
 + (NSArray<MzmBook *> *)selectAllBook;
 
-+ (NSMutableArray *)selectBookWithWhere:(id)where orderBy:(NSString *)orderBy;
++ (NSMutableArray<MzmBook *> *)selectBookWithWhere:(id)where orderBy:(NSString *)orderBy;
 + (void)dropAllBook;
 
 @end
@@ -74,11 +75,13 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, assign) double publish_ts;
 
 @property (nonatomic, assign) BOOL async;
-
-@property (nonatomic, assign) BOOL isEnabled;
-@property (nonatomic, copy) NSString *checkStatus;
+///disable:已下架 enable:已上架
+@property (nonatomic, copy) NSString *shelfStatus;
 @property (nonatomic, copy) NSString *checkMessage;
 @property (nonatomic, copy) NSString *authorTalk;
+
+- (instancetype)initWithQGChapter:(ChapterInfo *)qgchapter;
+- (void)updateWithQGChapter:(ChapterInfo *)qgchapter;
 
 + (NSString *)getNewestSupdatetsWithBookid:(NSString *)bookid;
 + (void)updateWithChapters:(NSArray<MzmChapter *> *)chapters;
@@ -88,6 +91,10 @@ NS_ASSUME_NONNULL_BEGIN
 
 + (NSMutableArray *)selectChapterWithWhere:(id)where orderBy:(NSString *)orderBy;
 + (void)dropAllChapterWithBookid:(NSString *)bookid;
+
++ (NSInteger)getBiggestSNWithBookid:(NSString *)bookid;
++ (NSArray<NSNumber *> *)getDiscontinuousSNWithBookid:(NSString *)bookid;
++ (NSArray<NSNumber *> *)getNeedCheckSNWithBookid:(NSString *)bookid;
 
 @end
 
