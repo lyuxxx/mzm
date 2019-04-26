@@ -84,7 +84,7 @@ NS_ASSUME_NONNULL_BEGIN
 + (void)updateWithChapters:(NSArray<MzmChapter *> *)chapters;
 + (NSString *)getNotSyncChapterJsonStringWithBookid:(NSString *)bookid;
 + (void)updateTimestampWith:(MzmChapterUpdateResult *)result;
-+ (NSArray<MzmChapter *> *)selectChaptersWithBookid:(NSString *)bookid;
++ (NSArray<MzmChapter *> *)selectChaptersWithBookid:(NSString *)bookid status:(NSString *)status;
 
 + (NSMutableArray *)selectChapterWithWhere:(id)where orderBy:(NSString *)orderBy;
 + (void)dropAllChapterWithBookid:(NSString *)bookid;

@@ -469,7 +469,7 @@
 - (void)syncManager:(SyncManager *)manager syncChaptersWithResult:(BOOL)result {
 	[LoadingView hide];
 	[self.dataSource removeAllObjects];
-	[self.dataSource addObjectsFromArray:[MzmChapter selectChaptersWithBookid:self.book._id]];
+	[self.dataSource addObjectsFromArray:[MzmChapter selectChaptersWithBookid:self.book._id status:@""]];
 	self.tableView.emptyDataSetSource = self;
 	self.tableView.emptyDataSetDelegate = self;
 	[self.tableView reloadData];

@@ -206,10 +206,10 @@
 	}
 }
 
-+ (NSArray<MzmChapter *> *)selectChaptersWithBookid:(NSString *)bookid {
-	NSArray *arr = [self selectChapterWithWhere:@{@"bookid": bookid} orderBy:@"sn desc"];
++ (NSArray<MzmChapter *> *)selectChaptersWithBookid:(NSString *)bookid status:(NSString *)status {
+	NSArray *arr = [[self getUsingLKDBHelper] search:[MzmChapter class] withSQL:[self getSqlWithBookid:bookid status:status pageSize:0 pageIndex:0 keywords:nil],bookid];
 	NSLog(@"select bookid:%@ count:%ld",bookid,arr.count);
-	return arr;
+	return [[arr reverseObjectEnumerator] allObjects];
 }
 
 
@@ -220,6 +220,26 @@
 
 + (void)dropAllChapterWithBookid:(NSString *)bookid {
 	[[self getUsingLKDBHelper] deleteWithClass:[MzmChapter class] where:@{@"bookid":bookid}];
+}
+
++ (NSString *)getSqlWithBookid:(NSString *)bookid status:(NSString *)status pageSize:(NSInteger)pageSize pageIndex:(NSInteger)pageIndex keywords:(NSString *)keywords {
+	NSMutableString *sql = [[NSMutableString alloc] initWithString:@"select _id, qingguoid, qingguostatus, name, wordscount, createts, updatets, status, sn, box, (CASE WHEN qingguoid is null or qingguoid=\"\" THEN 1 ELSE 0 END) as ispublish from @t where bookid = ? "];
+	if ([status isEqualToString:@"del"]) {
+		[sql appendString:@"and status = \"del\" "];
+	} else {
+		[sql appendString:@"and status = \"\" "];
+	}
+	if (keywords) {
+		[sql appendString:[NSString stringWithFormat:@"and txt like \"%%%@%%\" ",keywords]];
+	}
+	[sql appendString:@"order by ispublish, sn, createts "];
+	
+	if (pageSize && pageIndex) {
+		pageIndex = (pageIndex - 1) * pageSize;
+		[sql appendString:[NSString stringWithFormat:@"limit %ld, %ld ",pageIndex,pageSize]];
+	}
+	NSLog(@"sqlString:%@",sql);
+	return sql;
 }
 
 @end
