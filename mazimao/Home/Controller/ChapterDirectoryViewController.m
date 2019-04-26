@@ -123,6 +123,7 @@
 		make.left.equalTo(16);
 		make.top.equalTo(10);
 		make.height.equalTo(25);
+		make.right.lessThanOrEqualTo(-16);
 	}];
 	
 	[containerView addSubview:self.chapterCountLabel];
@@ -473,6 +474,13 @@
 	self.tableView.emptyDataSetSource = self;
 	self.tableView.emptyDataSetDelegate = self;
 	[self.tableView reloadData];
+	
+	self.chapterCountLabel.text = [NSString localizedStringWithFormat:NSLocalizedString(@"共%ld章", nil),self.dataSource.count];
+	NSInteger wordsCount = 0;
+	for (MzmChapter *chapter in self.dataSource) {
+		wordsCount += chapter.wordscount;
+	}
+	self.wordCountLabel.text = [NSString localizedStringWithFormat:NSLocalizedString(@"累计字数:%ld字", nil),wordsCount];
 }
 
 #pragma mark - YBPopupMenuDelegate -

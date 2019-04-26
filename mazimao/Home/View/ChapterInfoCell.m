@@ -70,8 +70,12 @@
 
 - (void)configWithChapterInfo:(MzmChapter *)chapterInfo {
     self.nameLabel.text = chapterInfo.name;
-    self.timeLabel.text = [NSString stringWithFormat:@"%.0f",chapterInfo.updatets];
-    self.wordCountLabel.text = [NSString stringWithFormat:@"%ld字",chapterInfo.wordscount];
+	
+	NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+	formatter.dateFormat = @"yyyy-MM-dd HH:mm:ss";
+	self.timeLabel.text = [formatter stringFromDate:[NSDate dateWithTimeIntervalSince1970:chapterInfo.updatets / 1000.0]];
+	
+	self.wordCountLabel.text = [NSString localizedStringWithFormat:NSLocalizedString(@"%ld字", nil),chapterInfo.wordscount];
 }
 
 - (void)btnClick:(UIButton *)sender {
