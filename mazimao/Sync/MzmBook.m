@@ -7,6 +7,7 @@
 //
 
 #import "MzmBook.h"
+#import "BSONIdGenerator.h"
 
 @implementation MzmBook
 
@@ -84,9 +85,8 @@
 		return nil;
 	}
 	NSData *data = [books yy_modelToJSONData];
-	NSString *base64Str = [[[NSString alloc] initWithData:[data zlibDeflate] encoding:NSUTF8StringEncoding] base64EncodedString];
 	
-	return base64Str;
+	return [[data zlibDeflate] base64EncodedString];
 }
 
 + (void)updateTimestampWith:(MzmBookUpdateResult *)result {
@@ -120,7 +120,7 @@
 - (instancetype)initWithQGChapter:(ChapterInfo *)qgchapter {
 	self = [super init];
 	if (self) {
-#warning todo:生成mzmid
+		self._id = [BSONIdGenerator generate];
 		self.qingguoid = qgchapter.chapterid;
 		self.name = qgchapter.name;
 		self.sn = qgchapter.sn;
@@ -132,11 +132,12 @@
 		self.qingguostatus = qgchapter.checkStatus;
 		self.checkMessage = qgchapter.checkMessage;
 		self.authorTalk = qgchapter.authorTalk;
+		self.async = 0;
 	}
 	return self;
 }
 
-- (void)updateWithQGChapter:(ChapterInfo *)qgchapter {
+- (BOOL)updateWithQGChapter:(ChapterInfo *)qgchapter {
 	if ([self.qingguoid isNotBlank]) {
 		if ([self.qingguoid isEqualToString:qgchapter.chapterid]) {
 			self.name = qgchapter.name;
@@ -149,6 +150,8 @@
 			self.qingguostatus = qgchapter.checkStatus;
 			self.checkMessage = qgchapter.checkMessage;
 			self.authorTalk = qgchapter.authorTalk;
+			self.async = 0;
+			return YES;
 		}
 	} else if ([self.name isEqualToString:qgchapter.name]) {
 		self.qingguoid = qgchapter.chapterid;
@@ -161,7 +164,10 @@
 		self.qingguostatus = qgchapter.checkStatus;
 		self.checkMessage = qgchapter.checkMessage;
 		self.authorTalk = qgchapter.authorTalk;
+		self.async = 0;
+		return YES;
 	}
+	return NO;
 }
 
 + (LKDBHelper *)getUsingLKDBHelper {
@@ -209,6 +215,9 @@
 }
 
 + (void)updateWithChapters:(NSArray<MzmChapter *> *)chapters {
+	if (!chapters || chapters.count == 0) {
+		return;
+	}
 	for (MzmChapter *chapter in chapters) {
 		MzmChapter *tmp = [MzmChapter selectChapterWithId:chapter._id];
 		if (tmp) {//存在
@@ -224,7 +233,7 @@
 }
 
 + (MzmChapter *)selectChapterWithId:(NSString *)chapterid {
-	return [[self getUsingLKDBHelper] searchSingle:[MzmChapter class] where:[NSString stringWithFormat:@"_id = %@",chapterid] orderBy:nil];
+	return [[self getUsingLKDBHelper] searchSingle:[MzmChapter class] where:@{@"_id":chapterid} orderBy:nil];
 }
 
 + (MzmChapter *)selectNewestSupdatetsChapterWithBookid:(NSString *)bookid {
@@ -232,14 +241,13 @@
 }
 
 + (NSString *)getNotSyncChapterJsonStringWithBookid:(NSString *)bookid {
-	NSArray *chapters = [[self getUsingLKDBHelper] search:[MzmChapter class] where:[NSString stringWithFormat:@"bookid = %@ and async = 0",bookid] orderBy:nil offset:0 count:0];
+	NSArray *chapters = [[self getUsingLKDBHelper] search:[MzmChapter class] where:@{@"bookid":bookid, @"async": @0} orderBy:nil offset:0 count:0];
 	if (!chapters) {
 		return nil;
 	}
 	NSData *data = [chapters yy_modelToJSONData];
-	NSString *base64Str = [[[NSString alloc] initWithData:[data zlibDeflate] encoding:NSUTF8StringEncoding] base64EncodedString];
 	
-	return base64Str;
+	return [[data zlibDeflate] base64EncodedString];
 }
 
 + (void)updateTimestampWith:(MzmChapterUpdateResult *)result {
@@ -270,7 +278,8 @@
 }
 
 + (NSString *)getSqlWithBookid:(NSString *)bookid status:(NSString *)status pageSize:(NSInteger)pageSize pageIndex:(NSInteger)pageIndex keywords:(NSString *)keywords {
-	NSMutableString *sql = [[NSMutableString alloc] initWithString:@"select _id, qingguoid, qingguostatus, name, wordscount, createts, updatets, status, sn, box, (CASE WHEN qingguoid is null or qingguoid=\"\" THEN 1 ELSE 0 END) as ispublish from @t where bookid = ? "];
+//	NSMutableString *sql = [[NSMutableString alloc] initWithString:@"select _id, qingguoid, qingguostatus, name, wordscount, createts, updatets, status, sn, box, (CASE WHEN qingguoid is null or qingguoid=\"\" THEN 1 ELSE 0 END) as ispublish from @t where bookid = ? "];
+	NSMutableString *sql = [[NSMutableString alloc] initWithString:@"select * , (CASE WHEN qingguoid is null or qingguoid=\"\" THEN 1 ELSE 0 END) as ispublish from @t where bookid = ? "];
 	if ([status isEqualToString:@"del"]) {
 		[sql appendString:@"and status = \"del\" "];
 	} else {
@@ -316,11 +325,17 @@
 }
 
 + (NSArray<NSNumber *> *)getNeedCheckSNWithBookid:(NSString *)bookid {
-	NSArray<MzmChapter *> *chapters = [[self getUsingLKDBHelper] search:[MzmChapter class] where:@{@"qingguostatus": @[@"notcheck",@"notpass",@"pass"]} orderBy:@"sn" offset:0 count:0];
+	NSArray<MzmChapter *> *chapters = [[self getUsingLKDBHelper] search:[MzmChapter class] where:@{@"qingguostatus": @[@"notcheck",@"notpass",@"pass"],@"bookid":bookid} orderBy:@"sn" offset:0 count:0];
 	NSMutableArray *output = [NSMutableArray array];
 	for (MzmChapter *chapter in chapters) {
 		[output addObject:[NSNumber numberWithInteger:chapter.sn]];
 	}
+	return output;
+}
+
++ (NSArray<MzmChapter *> *)selectMZMChaptersWithBookid:(NSString *)bookid sn:(NSInteger)sn {
+	NSArray *output = nil;
+	output = [[self getUsingLKDBHelper] search:[self class] where:@{@"bookid": bookid, @"sn": [NSNumber numberWithInteger:sn]} orderBy:nil offset:0 count:0];
 	return output;
 }
 

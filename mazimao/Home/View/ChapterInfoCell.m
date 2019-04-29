@@ -66,6 +66,12 @@
         make.width.height.equalTo(20);
         make.centerY.equalTo(0);
     }];
+	
+	[self.contentView addSubview:self.statusLabel];
+	[self.statusLabel makeConstraints:^(MASConstraintMaker *make) {
+		make.centerY.equalTo(self.infoBtn);
+		make.right.equalTo(self.infoBtn.left).offset(-8);
+	}];
 }
 
 - (void)configWithChapterInfo:(MzmChapter *)chapterInfo {
@@ -77,10 +83,27 @@
 	
 	self.wordCountLabel.text = [NSString localizedStringWithFormat:NSLocalizedString(@"%ld字", nil),chapterInfo.wordscount];
 	
+	NSString *statusText = @"";
+	UIColor *statusColor;
+	if ([chapterInfo.qingguostatus isEqualToString:@"notcheck"]) {
+		statusText = NSLocalizedString(@"审核中", nil);
+		statusColor = [UIColor colorWithHexString:@"81a9dd"];
+	} else if ([chapterInfo.qingguostatus isEqualToString:@"notpass"]) {
+		statusText = NSLocalizedString(@"未过审", nil);
+		statusColor = [UIColor colorWithHexString:@"f16768"];
+	} else if ([chapterInfo.qingguostatus isEqualToString:@"pass"]) {
+		statusText = NSLocalizedString(@"已过审", nil);
+		statusColor = [UIColor colorWithHexString:@"97de9a"];
+	}
+	self.statusLabel.text = statusText;
+	self.statusLabel.textColor = statusColor;
+	
 	if ([chapterInfo.qingguostatus isNotBlank]) {
 		self.infoBtn.hidden = NO;
+		self.statusLabel.hidden = NO;
 	} else {
 		self.infoBtn.hidden = YES;
+		self.statusLabel.hidden = YES;
 	}
 }
 
@@ -162,6 +185,7 @@
     if (!_statusLabel) {
         _statusLabel = [[UILabel alloc] init];
         _statusLabel.font = [UIFont systemFontOfSize:14];
+		_statusLabel.textAlignment = NSTextAlignmentRight;
     }
     return _statusLabel;
 }

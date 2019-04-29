@@ -74,14 +74,15 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, assign) NSInteger sn;
 @property (nonatomic, assign) double publish_ts;
 
-@property (nonatomic, assign) BOOL async;
+@property (nonatomic, assign) NSInteger async;
 ///disable:已下架 enable:已上架
 @property (nonatomic, copy) NSString *shelfStatus;
 @property (nonatomic, copy) NSString *checkMessage;
 @property (nonatomic, copy) NSString *authorTalk;
 
 - (instancetype)initWithQGChapter:(ChapterInfo *)qgchapter;
-- (void)updateWithQGChapter:(ChapterInfo *)qgchapter;
+/// 返回值：是否找到匹配的章节
+- (BOOL)updateWithQGChapter:(ChapterInfo *)qgchapter;
 
 + (NSString *)getNewestSupdatetsWithBookid:(NSString *)bookid;
 + (void)updateWithChapters:(NSArray<MzmChapter *> *)chapters;
@@ -95,6 +96,7 @@ NS_ASSUME_NONNULL_BEGIN
 + (NSInteger)getBiggestSNWithBookid:(NSString *)bookid;
 + (NSArray<NSNumber *> *)getDiscontinuousSNWithBookid:(NSString *)bookid;
 + (NSArray<NSNumber *> *)getNeedCheckSNWithBookid:(NSString *)bookid;
++ (NSArray<MzmChapter *> *)selectMZMChaptersWithBookid:(NSString *)bookid sn:(NSInteger)sn;
 
 @end
 

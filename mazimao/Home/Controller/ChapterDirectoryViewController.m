@@ -484,7 +484,7 @@
     
     NSMutableAttributedString *attr1 = [[NSMutableAttributedString alloc] initWithString:[NSString localizedStringWithFormat:NSLocalizedString(@"审核结果:%@", nil),chapterInfo.checkMessage] attributes:attributes];
     
-    NSMutableAttributedString *attr2 = [[NSMutableAttributedString alloc] initWithString:[NSString localizedStringWithFormat:NSLocalizedString(@"本章字数:%ld", nil),chapterInfo.wordscount] attributes:attributes];
+    NSMutableAttributedString *attr2 = [[NSMutableAttributedString alloc] initWithString:[NSString localizedStringWithFormat:NSLocalizedString(@"本章字数:%ld字", nil),chapterInfo.wordscount] attributes:attributes];
 	
 	NSString *str3 = @"";
 	if ([chapterInfo.shelfStatus isEqualToString:@"disable"]) {
